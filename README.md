@@ -1,2 +1,1 @@
-# microservice-template
-microservice-template
+# courses service
