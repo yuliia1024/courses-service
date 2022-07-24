@@ -1,0 +1,8 @@
+{
+  "ext": "js,json,yaml",
+  "ignore": [
+    ".git",
+    "node_modules/*"
+  ],
+  "exec": "node index.js"
+}

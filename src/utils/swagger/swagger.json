@@ -1,0 +1,14 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Courses Service",
+    "description": "Courses service (Sombra promotion project)",
+    "version": "1.0.0"
+  },
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "paths": {},
+  "definitions": {}
+}

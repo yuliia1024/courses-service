@@ -1,0 +1,28 @@
+{
+  "all": true,
+  "reporter": [
+    "text",
+    "html",
+    "text-summary",
+    "lcov"
+  ],
+  "temp-dir": "./coverage",
+  "report-dir": "./coverage",
+  "include": [
+    "src/**"
+  ],
+  "exclude": [
+    "db/**",
+    "src/server.js",
+    "src/services/redis.service.js",
+    "src/validation/**",
+    "src/routes/**",
+    "src/utils/swagger/**",
+    "src/utils/circuit-breaker/**",
+  ],
+  "check-coverage": true,
+  "lines": 80,
+  "statements": 80,
+  "functions": 80,
+  "branches": 80
+}

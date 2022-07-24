@@ -1,0 +1,6 @@
+file: "./test/index.test"
+color: true
+diff: true
+recursive: false
+reporter: spec
+timeout: 5000
