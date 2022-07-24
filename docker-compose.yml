@@ -1,0 +1,14 @@
+version: '3.1'
+services:
+  db:
+    build:
+      context: .local/mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'root'
+      MYSQL_PASSWORD: 'root'
+      MYSQL_ROOT_PASSWORD: 'root'
+    ports:
+      - 3306:3306
+    volumes:
+      - ${DB_VOLUME}:/var/lib/mysql
