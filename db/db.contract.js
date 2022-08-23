@@ -12,10 +12,17 @@ const DB_CONTRACT = {
       property: 'updatedAt',
       column: 'updated_at',
     },
+    createdBy: {
+      property: 'createdBy',
+      column: 'created_by',
+    },
+    updatedBy: {
+      property: 'updatedBy',
+      column: 'updated_by',
+    },
   },
   refreshToken: {
     tableName: 'refresh-token',
-    npUserRefreshTokenReferenceName: 'np-user-refresh-token',
     userId: {
       property: 'userId',
       column: 'user_id',
@@ -33,8 +40,98 @@ const DB_CONTRACT = {
       column: 'access_token',
     },
   },
-  npUser: {
-    tableName: 'np-user',
+  adminUser: {
+    tableName: 'admin-user',
+    firstName: {
+      property: 'firstName',
+      column: 'first_name',
+    },
+    lastName: {
+      property: 'lastName',
+      column: 'last_name',
+    },
+    email: {
+      property: 'email',
+      column: 'email',
+    },
+    role: {
+      property: 'role',
+      column: 'role',
+    },
+    isActive: {
+      property: 'isActive',
+      column: 'is_active',
+    },
+    hashPassword: {
+      property: 'hashPassword',
+      column: 'hash_password',
+    },
+  },
+  studentUser: {
+    tableName: 'student-user',
+    firstName: {
+      property: 'firstName',
+      column: 'first_name',
+    },
+    lastName: {
+      property: 'lastName',
+      column: 'last_name',
+    },
+    email: {
+      property: 'email',
+      column: 'email',
+    },
+    phone: {
+      property: 'phone',
+      column: 'phone',
+    },
+    role: {
+      property: 'role',
+      column: 'role',
+    },
+    isActive: {
+      property: 'isActive',
+      column: 'is_active',
+    },
+    hashPassword: {
+      property: 'hashPassword',
+      column: 'hash_password',
+    },
+  },
+  instructorUser: {
+    tableName: 'instructor-user',
+    firstName: {
+      property: 'firstName',
+      column: 'first_name',
+    },
+    lastName: {
+      property: 'lastName',
+      column: 'last_name',
+    },
+    email: {
+      property: 'email',
+      column: 'email',
+    },
+    role: {
+      property: 'role',
+      column: 'role',
+    },
+    isActive: {
+      property: 'isActive',
+      column: 'is_active',
+    },
+    hashPassword: {
+      property: 'hashPassword',
+      column: 'hash_password',
+    },
+    generalInformation: {
+      property: 'generalInformation',
+      column: 'general_information',
+    },
+    academicStatus: {
+      property: 'academicStatus',
+      column: 'academic_status',
+    },
   },
 };
 

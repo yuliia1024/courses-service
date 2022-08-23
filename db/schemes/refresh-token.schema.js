@@ -4,7 +4,6 @@ const { DB_CONTRACT } = require('../db.contract');
 class RefreshTokenModel extends Sequelize.Model {}
 
 module.exports = sequelizeInstance => RefreshTokenModel.init({
-  // It is NOT a foreign key because it can be NP or Loop user ID from different tables
   [DB_CONTRACT.refreshToken.userId.property]: {
     type: Sequelize.UUID,
     primaryKey: true,

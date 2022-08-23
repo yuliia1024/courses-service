@@ -35,6 +35,11 @@ const HEADER_PARAMS = {
   contentType: 'content-type',
   contentLength: 'content-length',
 };
+const USER_ROLE = {
+  admin: 'admin',
+  instructor: 'instructor',
+  student: 'student',
+};
 const TOKEN_TYPES = {
   access: 'access',
   refresh: 'refresh',
@@ -48,16 +53,9 @@ const DB_REFERENTIAL_ACTIONS = {
 };
 const PATH_DB_SCHEMES = './db/schemes';
 
-const TOKEN_AUTH_REGEXP = /^(?:Bearer)\s([\w-]+?\.[\w-]+?\.[\w-]+?)$/;
-
-const DEFAULT_ERROR_MESSAGE = 'An error has occurred';
-
-const LANGUAGES = {
-  en: 'en', // English
-};
-
-const NAME_SPACES = {
-  errorNS: 'errorNS',
+const REGEX = {
+  email: /(?=^.{0,50}$)(^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$)/,
+  token: /^(?:Bearer)\s([\w-]+?\.[\w-]+?\.[\w-]+?)$/,
 };
 
 module.exports = {
@@ -65,10 +63,8 @@ module.exports = {
   HTTP_STATUS,
   HEADER_PARAMS,
   TOKEN_TYPES,
-  TOKEN_AUTH_REGEXP,
   DB_REFERENTIAL_ACTIONS,
   PATH_DB_SCHEMES,
-  DEFAULT_ERROR_MESSAGE,
-  LANGUAGES,
-  NAME_SPACES,
+  REGEX,
+  USER_ROLE,
 };

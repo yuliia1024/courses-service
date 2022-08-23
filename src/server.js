@@ -55,6 +55,5 @@ const startServer = () => {
 };
 
 module.exports = {
-  app,
   startServer,
 };

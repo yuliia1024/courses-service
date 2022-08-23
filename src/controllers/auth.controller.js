@@ -1,6 +1,6 @@
 const { SuccessResponse } = require('../custom-response');
 
-const testController = async (req, res) => {
+const testController = (req, res) => {
   new SuccessResponse(res).send();
 };
 

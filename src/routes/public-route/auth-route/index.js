@@ -4,7 +4,7 @@ const {
   testController,
 } = require('../../../controllers/auth.controller');
 
-router.post(
+router.get(
   '/',
   routerHandler(testController),
 );

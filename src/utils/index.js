@@ -1,5 +1,5 @@
 const { get, cloneDeep } = require('lodash');
-const { HEADER_PARAMS, TOKEN_AUTH_REGEXP, HTTP_STATUS } = require('../constants');
+const { HEADER_PARAMS, REGEX, HTTP_STATUS } = require('../constants');
 const { CustomError, BadRequestError } = require('../error-handler');
 
 const createCustomError = (err, customErrMessage = null) => {
@@ -39,7 +39,7 @@ const createHeader = header => {
 
 const getAccessTokenFromHeader = req => {
   const authorizationToken = req.get(HEADER_PARAMS.authorization);
-  const [, token] = TOKEN_AUTH_REGEXP.exec(authorizationToken) || [];
+  const [, token] = REGEX.token.exec(authorizationToken) || [];
 
   if (!token) throw new BadRequestError('Token is incorrect');
 

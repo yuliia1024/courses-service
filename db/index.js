@@ -1,6 +1,9 @@
 const Sequelize = require('sequelize');
 const { db } = require('../config');
 const refreshTokenInstance = require('./schemes/refresh-token.schema');
+const adminUserInstance = require('./schemes/admin-user.schema');
+const studentUserInstance = require('./schemes/student-user.schema');
+const instructorUserInstance = require('./schemes/instructor-user.schema');
 
 const sequelizeInstance = new Sequelize(
   db.name,
@@ -24,10 +27,16 @@ const sequelizeInstance = new Sequelize(
 );
 
 const refreshTokenModel = refreshTokenInstance(sequelizeInstance);
+const adminUserModel = adminUserInstance(sequelizeInstance);
+const studentUserModel = studentUserInstance(sequelizeInstance);
+const instructorUserModel = instructorUserInstance(sequelizeInstance);
 
 // IMPORTANT: The order is important. Make sure that the table that has foreign keys will be created after the main table
 const models = [
   refreshTokenModel,
+  adminUserModel,
+  studentUserModel,
+  instructorUserModel,
 ];
 
 if (process.env.NODE_ENV === 'test') {
@@ -35,7 +44,7 @@ if (process.env.NODE_ENV === 'test') {
 } else {
   sequelizeInstance.authenticate()
     .then(() => {
-      console.info(`Successfully connected to the database ${db.name}`);
+      console.info(`Successfully connected to the database '${db.name}'`);
     });
 }
 
@@ -49,4 +58,7 @@ const createTables = async () => {
 module.exports = {
   createTables,
   refreshTokenModel,
+  adminUserModel,
+  studentUserModel,
+  instructorUserModel,
 };

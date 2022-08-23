@@ -1,4 +1,5 @@
 const { omit } = require('lodash');
+const { server } = require('../../config');
 const { CustomError } = require('./custom.error');
 const { HTTP_STATUS } = require('../constants');
 const { ForbiddenError } = require('./errors/forbidden.error');
@@ -36,8 +37,7 @@ const errorHandler = (req, res, errObject) => {
 
   const responseMetadata = {
     stack: logMetadata.stack,
-    // TODO add:
-    // origin: serviceName,
+    origin: server.prefix,
   };
 
   console.error(

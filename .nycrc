@@ -18,7 +18,7 @@
     "src/validation/**",
     "src/routes/**",
     "src/utils/swagger/**",
-    "src/utils/circuit-breaker/**",
+    "src/utils/circuit-breaker/**"
   ],
   "check-coverage": true,
   "lines": 80,
