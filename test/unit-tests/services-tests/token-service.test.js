@@ -25,7 +25,6 @@ const createCustomErrorStub = sinon.stub();
 const assignLastLoginStub = sinon.stub();
 
 const userIdMock = 'userId_mock';
-const companyIdMock = 'companyId_mock';
 const usersIdsArrayMock = [
   '157c9cb9-9498-4010-8cd3-26fe2bdf4d47',
   '19527ee1-b460-4b55-8fd2-676c162b7301',
