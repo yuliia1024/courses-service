@@ -12,11 +12,13 @@
     "src/**"
   ],
   "exclude": [
-    "db/**",
+    "src/db/**",
     "src/server.js",
     "src/services/redis.service.js",
     "src/validation/**",
     "src/routes/**",
+    "src/custom-response",
+    "src/error-handler",
     "src/utils/swagger/**",
     "src/utils/circuit-breaker/**"
   ],

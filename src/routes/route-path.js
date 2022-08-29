@@ -1,7 +1,12 @@
 const ROUTE = {
   public: 'public',
-  auth: {
-    root: 'auth',
+  user: {
+    root: 'user',
+  },
+  token: {
+    root: 'token',
+    refresh: 'refresh',
+    decline: 'decline',
   },
 };
 

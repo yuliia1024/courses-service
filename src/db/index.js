@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const { db } = require('../config');
+const { db } = require('../../config');
 const refreshTokenInstance = require('./schemes/refresh-token.schema');
 const adminUserInstance = require('./schemes/admin-user.schema');
 const studentUserInstance = require('./schemes/student-user.schema');

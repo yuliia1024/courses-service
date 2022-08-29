@@ -1,79 +1,63 @@
 const Sequelize = require('sequelize');
 const { DB_CONTRACT } = require('../db.contract');
-const { REGEX, USER_ROLE } = require('../../src/constants');
+const { REGEX, USER_ROLE } = require('../../constants');
 
-class InstructorUserModel extends Sequelize.Model {}
+class AdminUserModel extends Sequelize.Model {}
 
-module.exports = sequelizeInstance => InstructorUserModel.init({
+module.exports = sequelizeInstance => AdminUserModel.init({
   [DB_CONTRACT.common.id.property]: {
     type: Sequelize.UUID,
     primaryKey: true,
     field: DB_CONTRACT.common.id.column,
   },
-  [DB_CONTRACT.instructorUser.firstName.property]: {
+  [DB_CONTRACT.adminUser.firstName.property]: {
     type: Sequelize.STRING(100),
     allowNull: false,
-    field: DB_CONTRACT.instructorUser.firstName.column,
+    field: DB_CONTRACT.adminUser.firstName.column,
     validate: {
       notEmpty: true,
     },
   },
-  [DB_CONTRACT.instructorUser.lastName.property]: {
+  [DB_CONTRACT.adminUser.lastName.property]: {
     type: Sequelize.STRING(100),
     allowNull: false,
-    field: DB_CONTRACT.instructorUser.lastName.column,
+    field: DB_CONTRACT.adminUser.lastName.column,
     validate: {
       notEmpty: true,
     },
   },
-  [DB_CONTRACT.instructorUser.email.property]: {
+  [DB_CONTRACT.adminUser.email.property]: {
     type: Sequelize.STRING(50),
     allowNull: false,
     uniq: true,
-    field: DB_CONTRACT.instructorUser.email.column,
+    field: DB_CONTRACT.adminUser.email.column,
     validate: {
       is: REGEX.email,
       notEmpty: true,
     },
   },
-  [DB_CONTRACT.instructorUser.role.property]: {
+  [DB_CONTRACT.adminUser.role.property]: {
     type: Sequelize.STRING(20),
     allowNull: false,
     defaultValue: USER_ROLE.admin,
-    field: DB_CONTRACT.instructorUser.role.column,
+    field: DB_CONTRACT.adminUser.role.column,
     validate: {
       is: USER_ROLE.admin,
       notEmpty: true,
     },
   },
-  [DB_CONTRACT.instructorUser.isActive.property]: {
+  [DB_CONTRACT.adminUser.isActive.property]: {
     type: Sequelize.TINYINT,
     allowNull: false,
-    field: DB_CONTRACT.instructorUser.isActive.column,
+    field: DB_CONTRACT.adminUser.isActive.column,
     validate: {
       notEmpty: true,
     },
   },
-  [DB_CONTRACT.instructorUser.hashPassword.property]: {
+  [DB_CONTRACT.adminUser.hashPassword.property]: {
     type: Sequelize.TEXT,
-    field: DB_CONTRACT.instructorUser.hashPassword.column,
+    field: DB_CONTRACT.adminUser.hashPassword.column,
     allowNull: false,
-    validate: {
-      notEmpty: true,
-    },
-  },
-  [DB_CONTRACT.instructorUser.generalInformation.property]: {
-    type: Sequelize.JSON,
-    allowNull: false,
-    field: DB_CONTRACT.instructorUser.generalInformation.column,
-    validate: {
-      notEmpty: true,
-    },
-  },
-  [DB_CONTRACT.instructorUser.academicStatus.property]: {
-    type: Sequelize.STRING(100),
-    allowNull: false,
-    field: DB_CONTRACT.instructorUser.academicStatus.column,
     validate: {
       notEmpty: true,
     },
@@ -114,6 +98,6 @@ module.exports = sequelizeInstance => InstructorUserModel.init({
   },
 }, {
   sequelize: sequelizeInstance,
-  modelName: DB_CONTRACT.instructorUser.tableName,
+  modelName: DB_CONTRACT.adminUser.tableName,
   freezeTableName: true,
 });

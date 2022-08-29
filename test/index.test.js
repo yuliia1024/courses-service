@@ -4,11 +4,12 @@ process.env.NODE_ENV = 'test';
 
 describe('Tests:', () => {
   // Controllers
+  require('./unit-tests/controllers-tests/token-controller.test');
 
   // Services
-  require('./unit/unit-tests/services-tests/token-service.test');
-  require('./unit/unit-tests/services-tests/db-service.test');
+  require('./unit-tests/services-tests/token-service.test');
+  require('./unit-tests/services-tests/db-service.test');
 
   // Utils
-  require('./unit/unit-tests/utils-tests/utils.test');
+  require('./unit-tests/utils-tests/utils.test');
 });

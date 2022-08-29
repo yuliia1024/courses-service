@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 const { DB_CONTRACT } = require('../db.contract');
-const { REGEX, USER_ROLE } = require('../../src/constants');
+const { REGEX, USER_ROLE } = require('../../constants');
 
 class StudentUserModel extends Sequelize.Model {}
 
@@ -41,7 +41,7 @@ module.exports = sequelizeInstance => StudentUserModel.init({
     allowNull: true,
     field: DB_CONTRACT.studentUser.phone.column,
     validate: {
-      notEmpty: false,
+      notEmpty: true,
     },
   },
   [DB_CONTRACT.studentUser.role.property]: {
@@ -58,6 +58,14 @@ module.exports = sequelizeInstance => StudentUserModel.init({
     type: Sequelize.TINYINT,
     allowNull: false,
     field: DB_CONTRACT.studentUser.isActive.column,
+    validate: {
+      notEmpty: true,
+    },
+  },
+  [DB_CONTRACT.studentUser.isVerified.property]: {
+    type: Sequelize.TINYINT,
+    allowNull: false,
+    field: DB_CONTRACT.studentUser.isVerified.column,
     validate: {
       notEmpty: true,
     },

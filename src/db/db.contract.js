@@ -93,6 +93,10 @@ const DB_CONTRACT = {
       property: 'isActive',
       column: 'is_active',
     },
+    isVerified: {
+      property: 'isVerified',
+      column: 'is_verified',
+    },
     hashPassword: {
       property: 'hashPassword',
       column: 'hash_password',
@@ -119,6 +123,10 @@ const DB_CONTRACT = {
     isActive: {
       property: 'isActive',
       column: 'is_active',
+    },
+    isVerified: {
+      property: 'isVerified',
+      column: 'is_verified',
     },
     hashPassword: {
       property: 'hashPassword',

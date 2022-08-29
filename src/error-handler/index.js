@@ -1,5 +1,5 @@
 const { omit } = require('lodash');
-const { server } = require('../../config');
+const { name } = require('../../package.json');
 const { CustomError } = require('./custom.error');
 const { HTTP_STATUS } = require('../constants');
 const { ForbiddenError } = require('./errors/forbidden.error');
@@ -17,6 +17,8 @@ const errorHandler = (req, res, errObject) => {
   const logMetadata = {
     endpoint: req.path,
   };
+
+  const serviceName = name;
 
   if (errObject.code) logMetadata.httpCode = errObject.code;
   if (errObject.httpError) logMetadata.httpError = errObject.httpError;
@@ -37,7 +39,7 @@ const errorHandler = (req, res, errObject) => {
 
   const responseMetadata = {
     stack: logMetadata.stack,
-    origin: server.prefix,
+    origin: serviceName,
   };
 
   console.error(

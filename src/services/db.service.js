@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
-const { DB_CONTRACT } = require('../../db/db.contract');
-const { refreshTokenModel } = require('../../db');
+const { DB_CONTRACT } = require('../db/db.contract');
+const { refreshTokenModel, instructorUserModel, studentUserModel } = require('../db');
 
 const saveRefreshToken = async data => {
   await refreshTokenModel.create({
@@ -37,9 +37,19 @@ const removeRefreshTokensByArrayUsersIds = async usersIds => {
   });
 };
 
+// eslint-disable-next-line require-await
+const saveInstructorUser = async (data, transaction) => instructorUserModel.create(data,
+  { transaction });
+
+// eslint-disable-next-line require-await
+const saveStudentUser = async (data, transaction) => studentUserModel.create(data,
+  { transaction });
+
 module.exports = {
   saveRefreshToken,
   removeRefreshTokenByUserId,
   removeRefreshTokenByTokens,
   removeRefreshTokensByArrayUsersIds,
+  saveInstructorUser,
+  saveStudentUser,
 };

@@ -9,7 +9,7 @@ const { swaggerDocument } = require('./utils/swagger');
 const routes = require('./routes');
 const { HTTP_STATUS } = require('./constants');
 const { redisClient } = require('./services/redis.service');
-const { createTables } = require('../db');
+const { createTables } = require('./db');
 
 const { port, prefix } = server;
 const globalPrefix = `/api/${prefix}`;

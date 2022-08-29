@@ -5,10 +5,20 @@ services:
       context: .local/mysql
     restart: always
     environment:
-      MYSQL_DATABASE: 'courses'
-      MYSQL_PASSWORD: 'root'
-      MYSQL_ROOT_PASSWORD: 'root'
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
     ports:
       - 3306:3306
     volumes:
       - ${DB_VOLUME}:/var/lib/mysql
+  redis:
+    image: redis:6.2-alpine
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    restart: always
+    ports:
+      - '${REDIS_PORT}:${REDIS_PORT}'
+    command: redis-server --save 20 1 --loglevel warning
+    volumes:
+      - ${REDIS_VOLUME}:/var/lib/redis

@@ -1,12 +1,12 @@
 const router = require('express').Router();
 const routerHandler = require('../../handler-wrapper');
 const {
-  testController,
-} = require('../../../controllers/auth.controller');
+  registrationUserController,
+} = require('../../../controllers/user.controller');
 
-router.get(
+router.post(
   '/',
-  routerHandler(testController),
+  routerHandler(registrationUserController),
 );
 
 module.exports = router;

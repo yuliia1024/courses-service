@@ -8,10 +8,17 @@ module.exports = {
     port: process.env.PORT || 3000,
     prefix: process.env.PREFIX_PATH || 'courses',
   },
+  project: {
+    email: process.env.PROJECT_SENDER_EMAIL,
+    password: process.env.PROJECT_MAIL_PASSWORD,
+  },
   tokenConfig: {
     secretKey: process.env.SECRET_KEY_TOKEN,
     expireAccessToken: Number(process.env.EXPIRE_ACCESS_TOKEN) * 60, // in seconds
     expireRefreshToken: process.env.EXPIRE_REFRESH_TOKEN, // string
+  },
+  activationCodeConfig: {
+    expireActivationCode: Number(process.env.EXPIRE_ACTIVATION_CODE) * 60 * 60 * 60 * 24, // in day
   },
   requestLimitOptions: {
     time: Number(process.env.REQUEST_LIMIT_TIME) * 60 * 1000,
