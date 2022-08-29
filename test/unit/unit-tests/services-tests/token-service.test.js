@@ -6,11 +6,11 @@ const { expect } = require('chai');
 const sinon = require('sinon');
 const jwt = require('jsonwebtoken');
 const httpMocks = require('node-mocks-http');
-const { tokenConfig } = require('../../../config');
-const { TOKEN_TYPES } = require('../../../src/constants');
+const { tokenConfig } = require('../../../../config');
+const { TOKEN_TYPES } = require('../../../../src/constants');
 const { mockExportedFunction } = require('../../test-utils');
-const { redisClient } = require('../../../src/services/redis.service');
-const { BadRequestError } = require('../../../src/error-handler');
+const { redisClient } = require('../../../../src/services/redis.service');
+const { BadRequestError } = require('../../../../src/error-handler');
 
 let jwtMock;
 let redisClientMock;

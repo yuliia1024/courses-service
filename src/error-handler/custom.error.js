@@ -6,7 +6,6 @@ class CustomError extends Error {
    * The common class for the processed errors
    * @param { String } message - the message of an error
    * @param { Object } metadata - the additional data that will be added to a response
-   * @param { String } originalMessage - the original error message that will be stored in logs
    * @param { Number } code - http status code
    * @param { String } httpError - the text of http status code (e.g. Not Found, Forbidden, Bad Request)
    */

@@ -3,14 +3,14 @@ delete require.cache[require.resolve('../../../src/services/db.service')];
 
 const sinon = require('sinon');
 const Sequelize = require('sequelize');
-const { DB_CONTRACT } = require('../../../db/db.contract');
-const { refreshTokenModel } = require('../../../db');
+const { DB_CONTRACT } = require('../../../../db/db.contract');
+const { refreshTokenModel } = require('../../../../db');
 const {
   saveRefreshToken,
   removeRefreshTokenByUserId,
   removeRefreshTokenByTokens,
   removeRefreshTokensByArrayUsersIds,
-} = require('../../../src/services/db.service');
+} = require('../../../../src/services/db.service');
 
 let refreshTokenModelMock;
 const data = {

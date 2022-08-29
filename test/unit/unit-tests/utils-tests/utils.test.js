@@ -3,14 +3,14 @@ delete require.cache[require.resolve('../../../src/utils')];
 
 const { expect } = require('chai');
 const httpMocks = require('node-mocks-http');
-const { HTTP_STATUS, HEADER_PARAMS } = require('../../../src/constants');
+const { HTTP_STATUS, HEADER_PARAMS } = require('../../../../src/constants');
 const {
   createCustomError,
   createHeader,
   getAccessTokenFromHeader,
   parseBoolean,
-} = require('../../../src/utils');
-const { BadRequestError, CustomError } = require('../../../src/error-handler');
+} = require('../../../../src/utils');
+const { BadRequestError, CustomError } = require('../../../../src/error-handler');
 
 const customError = {
   response: {

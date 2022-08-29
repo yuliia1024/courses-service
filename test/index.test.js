@@ -6,9 +6,9 @@ describe('Tests:', () => {
   // Controllers
 
   // Services
-  require('./unit-tests/services-tests/token-service.test');
-  require('./unit-tests/services-tests/db-service.test');
+  require('./unit/unit-tests/services-tests/token-service.test');
+  require('./unit/unit-tests/services-tests/db-service.test');
 
   // Utils
-  require('./unit-tests/utils-tests/utils.test');
+  require('./unit/unit-tests/utils-tests/utils.test');
 });
