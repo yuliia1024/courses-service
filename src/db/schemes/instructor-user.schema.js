@@ -29,7 +29,7 @@ module.exports = sequelizeInstance => InstructorUserModel.init({
   [DB_CONTRACT.instructorUser.email.property]: {
     type: Sequelize.STRING(50),
     allowNull: false,
-    uniq: true,
+    unique: true,
     field: DB_CONTRACT.instructorUser.email.column,
     validate: {
       is: REGEX.email,
@@ -54,14 +54,6 @@ module.exports = sequelizeInstance => InstructorUserModel.init({
       notEmpty: true,
     },
   },
-  [DB_CONTRACT.instructorUser.isVerified.property]: {
-    type: Sequelize.TINYINT,
-    allowNull: false,
-    field: DB_CONTRACT.instructorUser.isVerified.column,
-    validate: {
-      notEmpty: true,
-    },
-  },
   [DB_CONTRACT.instructorUser.hashPassword.property]: {
     type: Sequelize.TEXT,
     field: DB_CONTRACT.instructorUser.hashPassword.column,
@@ -72,7 +64,7 @@ module.exports = sequelizeInstance => InstructorUserModel.init({
   },
   [DB_CONTRACT.instructorUser.generalInformation.property]: {
     type: Sequelize.JSON,
-    allowNull: false,
+    allowNull: true,
     field: DB_CONTRACT.instructorUser.generalInformation.column,
     validate: {
       notEmpty: false,
@@ -80,7 +72,7 @@ module.exports = sequelizeInstance => InstructorUserModel.init({
   },
   [DB_CONTRACT.instructorUser.academicStatus.property]: {
     type: Sequelize.STRING(100),
-    allowNull: false,
+    allowNull: true,
     field: DB_CONTRACT.instructorUser.academicStatus.column,
     validate: {
       notEmpty: false,

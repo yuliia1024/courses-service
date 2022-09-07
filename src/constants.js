@@ -59,6 +59,15 @@ const REGEX = {
   // eslint-disable-next-line
   token: /^(?:Bearer)\s([\w-]+?\.[\w-]+?\.[\w-]+?)$/,
 };
+// eslint-disable-next-line
+const EMAIL_PATTERN = /(?=^.{0,50}$)(^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$)/;
+/*
+At least one upper case English letter, (?=.*?[A-Z])
+At least one lower case English letter, (?=.*?[a-z])
+At least one digit, (?=.*?[0-9])
+Minimum eight in length .{8,256} (with the anchors)
+ */
+const PASSWORD_PATTERN = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,256}$/;
 
 module.exports = {
   REQUEST_DATA_SOURCE,
@@ -69,4 +78,6 @@ module.exports = {
   PATH_DB_SCHEMES,
   REGEX,
   USER_ROLE,
+  EMAIL_PATTERN,
+  PASSWORD_PATTERN,
 };

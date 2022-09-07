@@ -1,16 +1,22 @@
 const router = require('express').Router();
-const userRouter = require('./user-route');
-const tokenRouter = require('./token-route');
-const { ROUTE } = require('../route-path');
+const authorizedRoute = require('./authorized-route');
+const unauthorizedRoute = require('./unauthorized-route');
+const { HEADER_PARAMS } = require('../../constants');
+const { validateHeaderFields, verifyToken } = require('../../validation');
 
+// the order of routes is important
 router.use(
-  `/${ROUTE.user.root}`,
-  userRouter,
+  '/',
+  unauthorizedRoute,
 );
 
 router.use(
-  `/${ROUTE.token.root}`,
-  tokenRouter,
+  '/',
+  validateHeaderFields([
+    HEADER_PARAMS.authorization,
+  ]),
+  verifyToken(),
+  authorizedRoute
 );
 
 module.exports = router;

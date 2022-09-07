@@ -3,5 +3,4 @@
 **/coverage/*.*
 **/node_modules/*.*
 *.yaml
-get-schemes-from-db.js
-np-user.js
+src/db/seeders/*

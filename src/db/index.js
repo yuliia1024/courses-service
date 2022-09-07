@@ -61,4 +61,5 @@ module.exports = {
   adminUserModel,
   studentUserModel,
   instructorUserModel,
+  sequelizeInstance,
 };

@@ -10,6 +10,7 @@ const routes = require('./routes');
 const { HTTP_STATUS } = require('./constants');
 const { redisClient } = require('./services/redis.service');
 const { createTables } = require('./db');
+const { runSeedAll } = require('./db/executors');
 
 const { port, prefix } = server;
 const globalPrefix = `/api/${prefix}`;
@@ -51,6 +52,7 @@ const startServer = () => {
     });
 
     await createTables();
+    await runSeedAll();
   });
 };
 

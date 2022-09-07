@@ -1,60 +1,50 @@
 const { v4: uuid } = require('uuid');
-const generator = require('generate-password');
+const { omit } = require('lodash');
 const { sequelizeInstance } = require('../db');
 const { createCustomError } = require('../utils');
-const mailer = require('../utils/nodemailer');
-const { project, activationCodeConfig } = require('../../config');
 const { USER_ROLE } = require('../constants');
-const { redisClient } = require('./redis.service');
-const { saveInstructorUser, saveStudentUser } = require('./db.service');
+const {
+  saveInstructorUser,
+  saveStudentUser,
+  getStudentUserByEmail,
+  getInstructorUserByEmail,
+  getAdminUserByEmail,
+} = require('./db.service');
 const { DB_CONTRACT } = require('../db/db.contract');
+const { hashPassword, comparePassword } = require('../utils/bcrypt');
+const { UnauthorizedError } = require('../error-handler');
 
 const registrationUser = async userData => {
   const transaction = await sequelizeInstance.transaction();
   const id = uuid();
-
-  // TODO add bcrypt logic
-  let hashPassword;
+  const hashPasswordDB = await hashPassword(userData.password);
 
   try {
     if (userData.role === USER_ROLE.instructor) {
       await saveInstructorUser(
         {
-          userData,
-          [DB_CONTRACT.instructorUser.hashPassword.property]: hashPassword,
-          [DB_CONTRACT.instructorUser.true.property]: false,
-          [DB_CONTRACT.instructorUser.isVerified.property]: false,
-          id: uuid(),
+          ...userData,
+          [DB_CONTRACT.instructorUser.hashPassword.property]: hashPasswordDB,
+          [DB_CONTRACT.instructorUser.isActive.property]: true,
+          [DB_CONTRACT.common.createdBy.property]: id,
+          [DB_CONTRACT.common.updatedBy.property]: id,
+          id,
         },
         transaction,
       );
     } else if (userData.role === USER_ROLE.student) {
       await saveStudentUser(
         {
-          userData,
-          [DB_CONTRACT.studentUser.hashPassword.property]: hashPassword,
-          [DB_CONTRACT.studentUser.true.property]: false,
-          [DB_CONTRACT.studentUser.isVerified.property]: false,
+          ...userData,
+          [DB_CONTRACT.studentUser.hashPassword.property]: hashPasswordDB,
+          [DB_CONTRACT.studentUser.isActive.property]: true,
+          [DB_CONTRACT.common.createdBy.property]: id,
+          [DB_CONTRACT.common.updatedBy.property]: id,
           id,
         },
         transaction,
       );
     }
-
-    const activationCode = generator.generate({
-      length: 6,
-      numbers: true,
-    });
-
-    await mailer.sendMail({
-      from: project.email,
-      to: userData.email,
-      subject: 'Courses service: verification',
-      text: `Verify yourself via this code ${activationCode}.`,
-    });
-
-    // TODO need to change prefix in redis
-    await redisClient.setex(id, activationCodeConfig.expireActivationCode, activationCode);
 
     await transaction.commit();
   } catch (err) {
@@ -64,6 +54,33 @@ const registrationUser = async userData => {
   }
 };
 
+const loginUser = async credentials => {
+  try {
+    let user = await getStudentUserByEmail(credentials.email);
+
+    if (!user) {
+      user = await getInstructorUserByEmail(credentials.email);
+    }
+    if (!user) {
+      user = await getAdminUserByEmail(credentials.email);
+    }
+    if (!user) {
+      throw new UnauthorizedError('Email or password is incorrect.');
+    }
+
+    const match = await comparePassword(credentials.password, user.hashPassword);
+
+    if (!match) {
+      throw new UnauthorizedError('Email or password is incorrect.');
+    }
+
+    return omit(user, ['hashPassword']);
+  } catch (err) {
+    throw createCustomError(err);
+  }
+};
+
 module.exports = {
   registrationUser,
+  loginUser,
 };

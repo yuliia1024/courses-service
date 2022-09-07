@@ -1,5 +1,6 @@
 const { SuccessResponse } = require('../custom-response');
-const { registrationUser } = require('../services/user.service');
+const { registrationUser, loginUser } = require('../services/user.service');
+const { generateTokens } = require('../services/token.service');
 
 const registrationUserController = async (req, res) => {
   await registrationUser(req.body);
@@ -7,6 +8,21 @@ const registrationUserController = async (req, res) => {
   new SuccessResponse(res).send();
 };
 
+const loginUserController = async (req, res) => {
+  const user = await loginUser(req.body);
+
+  const tokens = await generateTokens({
+    userId: user.id,
+    role: user.role,
+  });
+
+  new SuccessResponse(res).send({
+    user,
+    tokens,
+  });
+};
+
 module.exports = {
   registrationUserController,
+  loginUserController,
 };

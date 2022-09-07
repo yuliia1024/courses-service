@@ -29,7 +29,7 @@ module.exports = sequelizeInstance => AdminUserModel.init({
   [DB_CONTRACT.adminUser.email.property]: {
     type: Sequelize.STRING(50),
     allowNull: false,
-    uniq: true,
+    unique: true,
     field: DB_CONTRACT.adminUser.email.column,
     validate: {
       is: REGEX.email,

@@ -16,7 +16,7 @@ const { BadRequestError } = require('../error-handler');
 
 const createToken = (payload, options = {}) => jwt.sign(payload, tokenConfig.secretKey, options);
 
-const verifyToken = token => jwt.verify(token, tokenConfig.secretKey);
+const verifyUserToken = token => jwt.verify(token, tokenConfig.secretKey);
 
 const decodeToken = token => jwt.decode(token);
 
@@ -82,7 +82,7 @@ const verifyAccessToken = async accessTokenFromHeader => {
     throw new Error('jwt expired');
   }
 
-  return verifyToken(accessToken);
+  return verifyUserToken(accessToken);
 };
 
 const checkAndRemoveRefreshToken = async (accessToken, refreshToken) => {
@@ -126,7 +126,7 @@ const declineTokenByIds = async usersIds => {
 
 module.exports = {
   generateTokens,
-  verifyToken,
+  verifyUserToken,
   decodeToken,
   verifyAccessToken,
   checkAndRemoveRefreshToken,

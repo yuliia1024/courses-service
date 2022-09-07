@@ -29,7 +29,7 @@ module.exports = sequelizeInstance => StudentUserModel.init({
   [DB_CONTRACT.studentUser.email.property]: {
     type: Sequelize.STRING(50),
     allowNull: false,
-    uniq: true,
+    unique: true,
     field: DB_CONTRACT.studentUser.email.column,
     validate: {
       is: REGEX.email,
@@ -58,14 +58,6 @@ module.exports = sequelizeInstance => StudentUserModel.init({
     type: Sequelize.TINYINT,
     allowNull: false,
     field: DB_CONTRACT.studentUser.isActive.column,
-    validate: {
-      notEmpty: true,
-    },
-  },
-  [DB_CONTRACT.studentUser.isVerified.property]: {
-    type: Sequelize.TINYINT,
-    allowNull: false,
-    field: DB_CONTRACT.studentUser.isVerified.column,
     validate: {
       notEmpty: true,
     },

@@ -1,13 +1,13 @@
 const router = require('express').Router();
-const routerHandler = require('../../handler-wrapper');
-const { ROUTE } = require('../../route-path');
-const { validateValues, validateHeaderFields } = require('../../../validation');
+const routerHandler = require('../../../handler-wrapper');
+const { ROUTE } = require('../../../route-path');
+const { validateValues, validateHeaderFields } = require('../../../../validation');
 const { refreshTokenSchema } = require('./validation-schemes/refresh-token.schema');
-const { REQUEST_DATA_SOURCE, HEADER_PARAMS } = require('../../../constants');
+const { REQUEST_DATA_SOURCE, HEADER_PARAMS } = require('../../../../constants');
 const {
   refreshTokenController,
   declineTokenController,
-} = require('../../../controllers/token.controller');
+} = require('../../../../controllers/token.controller');
 
 router.post(
   `/${ROUTE.token.refresh}`,
