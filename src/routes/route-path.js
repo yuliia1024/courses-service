@@ -1,10 +1,13 @@
 const ROUTE = {
   public: 'public',
-  user: {
-    root: 'user',
-    login: 'login',
-    registration: 'registration',
+  login: 'login',
+  registration: 'registration',
+  admin: {
+    root: 'admin',
+    filtered: 'filtered',
   },
+  student: 'student',
+  instructor: 'instructor',
   token: {
     root: 'token',
     refresh: 'refresh',

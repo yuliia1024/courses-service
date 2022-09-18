@@ -8,12 +8,17 @@ module.exports = {
     port: process.env.PORT || 3000,
     prefix: process.env.PREFIX_PATH || 'courses',
   },
-  mailer: {
+  mailerConfig: {
     email: process.env.PROJECT_SENDER_EMAIL,
     password: process.env.PROJECT_MAIL_PASSWORD,
   },
   hash: {
     passwordHashRounds: Number(process.env.PASSWORD_HASH_ROUNDS),
+  },
+  passwordGeneratorOptions: {
+    length: 10,
+    numbers: true,
+    symbols: true,
   },
   tokenConfig: {
     secretKey: process.env.SECRET_KEY_TOKEN,

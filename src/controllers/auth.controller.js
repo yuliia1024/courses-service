@@ -1,5 +1,5 @@
 const { SuccessResponse } = require('../custom-response');
-const { registrationUser, loginUser } = require('../services/user.service');
+const { registrationUser, loginUser } = require('../services/auth.service');
 const { generateTokens } = require('../services/token.service');
 
 const registrationUserController = async (req, res) => {

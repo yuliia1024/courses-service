@@ -50,7 +50,9 @@ if (process.env.NODE_ENV === 'test') {
 
 const createTables = async () => {
   // can not use Promise.all because the order of tables is important
+  // eslint-disable-next-line no-restricted-syntax
   for (const model of models) {
+    // eslint-disable-next-line no-await-in-loop
     await model.sync({ force: false });
   }
 };

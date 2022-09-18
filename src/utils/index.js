@@ -1,6 +1,10 @@
-const { get, cloneDeep } = require('lodash');
+const { get, cloneDeep, isArray } = require('lodash');
 const { HEADER_PARAMS, REGEX, HTTP_STATUS } = require('../constants');
-const { CustomError, BadRequestError } = require('../error-handler');
+const {
+  CustomError,
+  BadRequestError,
+  NotFoundError,
+} = require('../error-handler');
 
 const createCustomError = (err, customErrMessage = null) => {
   if (err instanceof CustomError) {
@@ -53,9 +57,31 @@ const parseBoolean = variable => {
   throw new Error(`The variable "${variable}" is not boolean`);
 };
 
+const checkDataFromDB = data => {
+  if (
+    !data
+    || (isArray(data) && !data.length)
+  ) {
+    throw new NotFoundError('Data not found');
+  }
+};
+
+const createOrderParameters = (orderBy, orderDirection) => {
+  const order = [];
+
+  // add the order parameters to the order
+  if (orderBy && orderDirection) {
+    order.push([orderBy, orderDirection]);
+  }
+
+  return order;
+};
+
 module.exports = {
   createCustomError,
   createHeader,
   getAccessTokenFromHeader,
   parseBoolean,
+  checkDataFromDB,
+  createOrderParameters,
 };

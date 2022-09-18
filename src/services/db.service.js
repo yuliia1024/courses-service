@@ -7,6 +7,7 @@ const {
   adminUserModel,
 } = require('../db');
 const { BadRequestError } = require('../error-handler');
+const { checkDataFromDB } = require('../utils');
 
 const createExcludedObjectForDB = (excludedPropertyNames = []) => ({
   attributes: {
@@ -138,7 +139,10 @@ const getAllStudentUsersByOptions = async optionsData => studentUserModel.findAn
 const getStudentUserByEmail = async email => studentUserModel.findOne({
   raw: true,
   nest: true,
-  where: { email },
+  where: {
+    email,
+    [DB_CONTRACT.studentUser.isActive.property]: true,
+  },
   ...createExcludedObjectForDB(),
 });
 
@@ -146,7 +150,10 @@ const getStudentUserByEmail = async email => studentUserModel.findOne({
 const getAdminUserByEmail = async email => adminUserModel.findOne({
   raw: true,
   nest: true,
-  where: { email },
+  where: {
+    email,
+    [DB_CONTRACT.adminUser.isActive.property]: true,
+  },
   ...createExcludedObjectForDB(),
 });
 
@@ -154,7 +161,10 @@ const getAdminUserByEmail = async email => adminUserModel.findOne({
 const getInstructorUserByEmail = async email => instructorUserModel.findOne({
   raw: true,
   nest: true,
-  where: { email },
+  where: {
+    email,
+    [DB_CONTRACT.instructorUser.isActive.property]: true,
+  },
   ...createExcludedObjectForDB(),
 });
 
@@ -162,7 +172,7 @@ const getInstructorUserByEmail = async email => instructorUserModel.findOne({
 const saveAdminUser = async (data, transaction) => adminUserModel.create(data,
   { transaction });
 
-const getActiveAdminUserById = async id => {
+const getAdminUserById = async id => {
   const result = await adminUserModel.findByPk(id, {
     raw: true,
     nest: true,
@@ -171,9 +181,7 @@ const getActiveAdminUserById = async id => {
     ]),
   });
 
-  if (result && !result.isActive) {
-    throw new BadRequestError('This user is not active');
-  }
+  checkDataFromDB(result);
 
   return result;
 };
@@ -194,7 +202,6 @@ const getAllAdminUsersByOptions = async optionsData => adminUserModel.findAndCou
   ...optionsData,
   raw: true,
   nest: true,
-  ...optionsData.where,
 });
 
 module.exports = {
@@ -214,7 +221,7 @@ module.exports = {
   updateStudentUserById,
   getAllStudentUsersByOptions,
   saveAdminUser,
-  getActiveAdminUserById,
+  getAdminUserById,
   updateAdminUserById,
   getAllAdminUsersByOptions,
 };

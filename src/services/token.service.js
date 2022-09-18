@@ -119,7 +119,9 @@ const declineTokenByIds = async usersIds => {
   await removeRefreshTokensByArrayUsersIds(usersIds);
 
   // we can't use multi-key operations
+  // eslint-disable-next-line no-restricted-syntax
   for (const id of usersIds) {
+    // eslint-disable-next-line no-await-in-loop
     await redisClient.del(id);
   }
 };

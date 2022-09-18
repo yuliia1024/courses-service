@@ -2,7 +2,7 @@ const { getAccessTokenFromHeader } = require('../utils');
 const {
   generateTokens,
   decodeToken,
-  verifyToken,
+  verifyUserToken,
   checkAndRemoveRefreshToken,
   declineTokens,
 } = require('../services/token.service');
@@ -14,7 +14,7 @@ const refreshTokenController = async (req, res) => {
 
   await checkAndRemoveRefreshToken(accessToken, refreshToken);
 
-  verifyToken(refreshToken);
+  await verifyUserToken(refreshToken);
 
   const tokens = await generateTokens(req, decodeToken(accessToken));
 
