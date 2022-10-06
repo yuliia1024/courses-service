@@ -20,21 +20,21 @@ const updateAdminController = async (req, res) => {
 };
 
 const getAdminByIdController = async (req, res) => {
-  const adminUser = await getAdminUserById(req.params.userId);
+  const adminUser = await getAdminUserById(req.params.id);
 
   new SuccessResponse(res).send(adminUser);
 };
 
 const deleteAdminController = async (req, res) => {
-  await inactiveAdminUser(req.params.userId);
+  await inactiveAdminUser(req, req.params.id);
 
   new SuccessResponse(res).send();
 };
 
 const getAllAdminsController = async (req, res) => {
-  await getAllAdminsUser(req.body);
+  const result = await getAllAdminsUser(req.body);
 
-  new SuccessResponse(res).send();
+  new SuccessResponse(res).send(result);
 };
 
 module.exports = {

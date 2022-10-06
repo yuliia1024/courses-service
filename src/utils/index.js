@@ -1,9 +1,11 @@
 const { get, cloneDeep, isArray } = require('lodash');
-const { HEADER_PARAMS, REGEX, HTTP_STATUS } = require('../constants');
+const { HEADER_PARAMS, REGEX, HTTP_STATUS,
+  USER_ROLE } = require('../constants');
 const {
   CustomError,
   BadRequestError,
   NotFoundError,
+  ForbiddenError,
 } = require('../error-handler');
 
 const createCustomError = (err, customErrMessage = null) => {
@@ -77,11 +79,18 @@ const createOrderParameters = (orderBy, orderDirection) => {
   return order;
 };
 
+const checkPossibilityToUpdateOrDelete = (role, userId, loggedInUserId) => {
+  if (role !== USER_ROLE.admin && userId !== loggedInUserId) {
+    throw new ForbiddenError('You don\'t have possibility to do this action');
+  }
+};
+
 module.exports = {
   createCustomError,
   createHeader,
   getAccessTokenFromHeader,
   parseBoolean,
   checkDataFromDB,
+  checkPossibilityToUpdateOrDelete,
   createOrderParameters,
 };

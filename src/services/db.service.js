@@ -93,6 +93,9 @@ const getAllInstructorUsersByOptions = async optionsData => instructorUserModel.
   raw: true,
   nest: true,
   ...optionsData.where,
+  ...createExcludedObjectForDB([
+    DB_CONTRACT.adminUser.hashPassword.property,
+  ]),
 });
 
 // eslint-disable-next-line require-await
@@ -117,6 +120,30 @@ const getActiveStudentUserById = async id => {
 };
 
 // eslint-disable-next-line require-await
+const getStudentUserByOptions = async options => studentUserModel.findOne({
+  raw: true,
+  nest: true,
+  where: {
+    ...options,
+  },
+  ...createExcludedObjectForDB([
+    DB_CONTRACT.studentUser.hashPassword.property,
+  ]),
+});
+
+// eslint-disable-next-line require-await
+const getInstructorUserByOptions = async options => instructorUserModel.findOne({
+  raw: true,
+  nest: true,
+  where: {
+    ...options,
+  },
+  ...createExcludedObjectForDB([
+    DB_CONTRACT.studentUser.hashPassword.property,
+  ]),
+});
+
+// eslint-disable-next-line require-await
 const updateStudentUserById = async (id, dataObject, transaction) => studentUserModel.update(
   dataObject,
   {
@@ -133,6 +160,16 @@ const getAllStudentUsersByOptions = async optionsData => studentUserModel.findAn
   raw: true,
   nest: true,
   ...optionsData.where,
+  ...createExcludedObjectForDB([
+    DB_CONTRACT.adminUser.hashPassword.property,
+  ]),
+});
+
+// eslint-disable-next-line require-await
+const getStudentUsersByOptions = async optionsData => studentUserModel.findAll({
+  ...optionsData,
+  raw: true,
+  nest: true,
 });
 
 // eslint-disable-next-line require-await
@@ -202,6 +239,18 @@ const getAllAdminUsersByOptions = async optionsData => adminUserModel.findAndCou
   ...optionsData,
   raw: true,
   nest: true,
+  ...createExcludedObjectForDB([
+    DB_CONTRACT.adminUser.hashPassword.property,
+  ]),
+});
+
+// eslint-disable-next-line require-await
+const getAllAdminUsersByQuery = async query => adminUserModel.findAll({
+  raw: true,
+  nest: true,
+  where: {
+    ...query,
+  },
 });
 
 module.exports = {
@@ -224,4 +273,8 @@ module.exports = {
   getAdminUserById,
   updateAdminUserById,
   getAllAdminUsersByOptions,
+  getStudentUserByOptions,
+  getInstructorUserByOptions,
+  getStudentUsersByOptions,
+  getAllAdminUsersByQuery,
 };

@@ -18,6 +18,7 @@ const {
 const { checkRole } = require('../../../../services/role.service');
 const { adminSchema } = require('./validation-schemes/admin.schema');
 const { adminFilteredSchema } = require('./validation-schemes/admin-filtered.schema');
+const { updateAdminSchema } = require('./validation-schemes/update-admin.schema');
 
 router.post(
   '/',
@@ -28,15 +29,6 @@ router.post(
   routerHandler(createAdminController),
 );
 
-router.put(
-  '/',
-  checkRole([
-    USER_ROLE.admin,
-  ]),
-  validateValues(adminSchema, REQUEST_DATA_SOURCE.body),
-  routerHandler(updateAdminController),
-);
-
 router.post(
   `/${ROUTE.admin.filtered}`,
   checkRole([
@@ -44,6 +36,15 @@ router.post(
   ]),
   validateValues(adminFilteredSchema, REQUEST_DATA_SOURCE.body),
   routerHandler(getAllAdminsController),
+);
+
+router.put(
+  '/:id',
+  checkRole([
+    USER_ROLE.admin,
+  ]),
+  validateValues(updateAdminSchema, REQUEST_DATA_SOURCE.body),
+  routerHandler(updateAdminController),
 );
 
 router.get(

@@ -6,8 +6,16 @@ const ROUTE = {
     root: 'admin',
     filtered: 'filtered',
   },
-  student: 'student',
-  instructor: 'instructor',
+  student: {
+    root: 'student',
+    active: 'active',
+    filtered: 'filtered',
+  },
+  instructor: {
+    root: 'instructor',
+    active: 'active',
+    filtered: 'filtered',
+  },
   token: {
     root: 'token',
     refresh: 'refresh',

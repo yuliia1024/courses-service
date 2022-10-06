@@ -19,6 +19,8 @@ module.exports = {
     length: 10,
     numbers: true,
     symbols: true,
+    uppercase: true,
+    lowercase: true,
   },
   tokenConfig: {
     secretKey: process.env.SECRET_KEY_TOKEN,

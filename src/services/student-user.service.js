@@ -1,13 +1,13 @@
 const generator = require('generate-password');
 const { v4: uuid } = require('uuid');
+const { isEmpty } = require('lodash');
 const nodemailer = require('../utils/nodemailer');
 const { USER_ROLE } = require('../constants');
 const { BadRequestError } = require('../error-handler');
 const {
-  saveAdminUser,
-  updateAdminUserById,
-  getAllAdminUsersByOptions,
-  getAllAdminUsersByQuery,
+  saveStudentUser,
+  updateStudentUserById,
+  getAllStudentUsersByOptions,
 } = require('./db.service');
 const { DB_CONTRACT } = require('../db/db.contract');
 const { sequelizeInstance } = require('../db');
@@ -24,7 +24,7 @@ const {
   createDataObjectWithPaginationInfo,
 } = require('../utils/pagination');
 
-const createAdminUser = async req => {
+const createStudentUser = async req => {
   const transaction = await sequelizeInstance.transaction();
   const id = uuid();
   const password = generator.generate(passwordGeneratorOptions);
@@ -32,20 +32,20 @@ const createAdminUser = async req => {
   try {
     const hashedPassword = await hashPassword(password);
 
-    await saveAdminUser({
+    await saveStudentUser({
       ...req.body,
       id,
-      [DB_CONTRACT.adminUser.hashPassword.property]: hashedPassword,
-      [DB_CONTRACT.adminUser.isActive.property]: true,
+      [DB_CONTRACT.studentUser.hashPassword.property]: hashedPassword,
+      [DB_CONTRACT.studentUser.isActive.property]: true,
       [DB_CONTRACT.common.createdBy.property]: req.userId,
-      [DB_CONTRACT.adminUser.role.property]: USER_ROLE.admin,
+      [DB_CONTRACT.studentUser.role.property]: USER_ROLE.student,
     }, transaction);
 
     await nodemailer.sendMail({
       from: mailerConfig.email,
       to: req.body.email,
       subject: 'Courses service: account created',
-      text: `Account for this email address has been created. Your password is: ${password}`,
+      text: `Student account for this email address has been created. Your password is: ${password}`,
     });
 
     await transaction.commit();
@@ -56,38 +56,29 @@ const createAdminUser = async req => {
   }
 };
 
-const updateAdminUser = async (id, loggedInUserId, data) => {
+const updateStudentUser = async (id, loggedInUserId, data) => {
   const dataObject = {
     ...data,
-    ...(data.password && { [DB_CONTRACT.adminUser.hashPassword.property]: await hashPassword(data.password) }),
+    ...(data.password && { [DB_CONTRACT.studentUser.hashPassword.property]: await hashPassword(data.password) }),
     [DB_CONTRACT.common.updatedBy.property]: loggedInUserId,
   };
 
-  const result = await updateAdminUserById(id, dataObject);
+  const result = await updateStudentUserById(id, dataObject);
 
   checkDataFromDB(result[0]);
 };
 
-const inactiveAdminUser = async (req, id) => {
+const inactiveStudentUser = async (req, id) => {
   if (!id) {
     throw new BadRequestError('ID is not provided');
   }
   const transaction = await sequelizeInstance.transaction();
 
-  const admins = await getAllAdminUsersByQuery({
-    [DB_CONTRACT.adminUser.isActive.property]: true,
-  });
-
-  if (admins.length <= 1) {
-    throw new BadRequestError('You cannot inactive last admin in the service');
-  }
-
   try {
-    await updateAdminUserById(id, {
-      [DB_CONTRACT.adminUser.isActive.property]: false,
+    await updateStudentUserById(id, {
+      [DB_CONTRACT.studentUser.isActive.property]: false,
       [DB_CONTRACT.common.updatedBy.property]: req.userId,
     }, transaction);
-
     await declineTokensByAdmin(id);
 
     await transaction.commit();
@@ -98,23 +89,37 @@ const inactiveAdminUser = async (req, id) => {
   }
 };
 
-const getAllAdminsUser = async data => {
+const getAllStudentsUser = async data => {
   try {
     const {
       offset,
       limit,
       orderBy,
       orderDirection,
+      isActive,
+      studentIds,
     } = data;
 
     const order = createOrderParameters(orderBy, orderDirection);
 
-    const options = createPaginateOptions(offset, limit, order);
+    let options = createPaginateOptions(offset, limit, order);
+
+    // TODO change logic to more simple
+    if (isActive !== undefined || !isEmpty(studentIds)) {
+      options = {
+        ...options,
+        where: {
+          ...(!isEmpty(studentIds) && { id: studentIds }),
+          // transform isActive to boolean
+          ...(isActive !== undefined && { [DB_CONTRACT.studentUser.isActive.property]: `${isActive}` === 'true' }),
+        },
+      };
+    }
 
     const {
       count,
       rows,
-    } = await getAllAdminUsersByOptions(options);
+    } = await getAllStudentUsersByOptions(options);
 
     return createDataObjectWithPaginationInfo(offset, limit, count, rows);
   } catch (err) {
@@ -123,8 +128,8 @@ const getAllAdminsUser = async data => {
 };
 
 module.exports = {
-  createAdminUser,
-  updateAdminUser,
-  inactiveAdminUser,
-  getAllAdminsUser,
+  createStudentUser,
+  updateStudentUser,
+  inactiveStudentUser,
+  getAllStudentsUser,
 };
