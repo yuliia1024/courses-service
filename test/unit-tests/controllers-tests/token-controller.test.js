@@ -14,7 +14,7 @@ let resMock;
 const generateTokensStub = sinon.stub();
 const getAccessTokenFromHeaderStub = sinon.stub();
 const checkAndRemoveRefreshTokenStub = sinon.stub();
-const verifyTokenStub = sinon.stub();
+const verifyUserTokenStub = sinon.stub();
 const decodeTokenStub = sinon.stub();
 
 const tokenMock = 'token_mock';
@@ -44,7 +44,7 @@ describe('token.controller.js', () => {
     generateTokensStub.resetHistory();
     getAccessTokenFromHeaderStub.resetHistory();
     checkAndRemoveRefreshTokenStub.resetHistory();
-    verifyTokenStub.resetHistory();
+    verifyUserTokenStub.resetHistory();
     decodeTokenStub.resetHistory();
   });
 
@@ -67,7 +67,7 @@ describe('token.controller.js', () => {
             dependencyPath: '../../src/services/token.service.js',
             stubs: {
               checkAndRemoveRefreshToken: checkAndRemoveRefreshTokenStub.resolves(),
-              verifyToken: verifyTokenStub.returns(tokenPayloadMock),
+              verifyUserToken: verifyUserTokenStub.returns(tokenPayloadMock),
               decodeToken: decodeTokenStub.returns(tokenPayloadMock),
               generateTokens: generateTokensStub.resolves(tokensResponseMock),
             },
@@ -81,7 +81,7 @@ describe('token.controller.js', () => {
         .to.be.true;
       expect(checkAndRemoveRefreshTokenStub.calledOnceWithExactly(tokenMock, tokenMock))
         .to.be.true;
-      expect(verifyTokenStub.calledOnceWithExactly(tokenMock))
+      expect(verifyUserTokenStub.calledOnceWithExactly(tokenMock))
         .to.be.true;
       expect(decodeTokenStub.calledOnceWithExactly(tokenMock))
         .to.be.true;
