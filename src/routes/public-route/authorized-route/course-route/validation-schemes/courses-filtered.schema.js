@@ -1,6 +1,6 @@
 const Joi = require('joi');
 
-const studentFilteredSchema = Joi.object({
+const coursesFilteredSchema = Joi.object({
   offset: Joi.number()
     .integer()
     .min(0),
@@ -9,12 +9,8 @@ const studentFilteredSchema = Joi.object({
     .min(0),
   orderBy: Joi.string(),
   orderDirection: Joi.string(),
-  courseId: Joi.string()
-    .uuid(),
-  isActive: Joi.boolean(),
-  isActiveStudent: Joi.boolean(),
 });
 
 module.exports = {
-  studentFilteredSchema,
+  coursesFilteredSchema,
 };

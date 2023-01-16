@@ -79,6 +79,7 @@ const inactiveStudentUser = async (req, id) => {
       [DB_CONTRACT.studentUser.isActive.property]: false,
       [DB_CONTRACT.common.updatedBy.property]: req.userId,
     }, transaction);
+
     await declineTokensByAdmin(id);
 
     await transaction.commit();
@@ -89,7 +90,7 @@ const inactiveStudentUser = async (req, id) => {
   }
 };
 
-const getAllStudentsUser = async data => {
+const getAllStudentsUser = async (data, studentIds = []) => {
   try {
     const {
       offset,
@@ -97,14 +98,12 @@ const getAllStudentsUser = async data => {
       orderBy,
       orderDirection,
       isActive,
-      studentIds,
     } = data;
 
     const order = createOrderParameters(orderBy, orderDirection);
 
     let options = createPaginateOptions(offset, limit, order);
 
-    // TODO change logic to more simple
     if (isActive !== undefined || !isEmpty(studentIds)) {
       options = {
         ...options,

@@ -40,6 +40,12 @@ const USER_ROLE = {
   instructor: 'instructor',
   student: 'student',
 };
+const STUDENT_COURSES_STATUS = {
+  passed: 'passed',
+  rejected: 'rejected',
+  inProgress: 'inProgress',
+};
+const COURSE_LESSONS_MIN_COUNT = 5;
 const TOKEN_TYPES = {
   access: 'access',
   refresh: 'refresh',
@@ -80,4 +86,6 @@ module.exports = {
   USER_ROLE,
   EMAIL_PATTERN,
   PASSWORD_PATTERN,
+  STUDENT_COURSES_STATUS,
+  COURSE_LESSONS_MIN_COUNT,
 };

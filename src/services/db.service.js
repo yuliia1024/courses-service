@@ -5,6 +5,10 @@ const {
   instructorUserModel,
   studentUserModel,
   adminUserModel,
+  coursesModel,
+  coursesInstructorModel,
+  coursesLessonModel,
+  coursesStudentModel,
 } = require('../db');
 const { BadRequestError } = require('../error-handler');
 const { checkDataFromDB } = require('../utils');
@@ -131,6 +135,19 @@ const getStudentUserByOptions = async options => studentUserModel.findOne({
   ]),
 });
 
+const getStudentIdsByOption = async options => {
+  const result = await studentUserModel.findAll({
+    raw: true,
+    nest: true,
+    where: options,
+    ...createExcludedObjectForDB([
+      DB_CONTRACT.studentUser.hashPassword.property,
+    ]),
+  });
+
+  return result.map(student => student.id);
+};
+
 // eslint-disable-next-line require-await
 const getInstructorUserByOptions = async options => instructorUserModel.findOne({
   raw: true,
@@ -253,6 +270,119 @@ const getAllAdminUsersByQuery = async query => adminUserModel.findAll({
   },
 });
 
+// eslint-disable-next-line require-await
+const saveCourseInstructor = async (data, transaction) => coursesInstructorModel.bulkCreate(data,
+  { transaction });
+
+// eslint-disable-next-line require-await
+const saveCourseStudent = async (data, transaction) => coursesStudentModel.bulkCreate(data,
+  { transaction });
+
+// eslint-disable-next-line require-await
+const getCourseInstructorsByOptions = async options => coursesInstructorModel.findAll({
+  where: { ...options },
+});
+
+// eslint-disable-next-line require-await
+const removeCourseInstructor = async (courseId, instructorId) => coursesInstructorModel.destroy({
+  where: { courseId, instructorId },
+});
+
+// eslint-disable-next-line require-await
+const removeCourseStudent = async (courseId, studentId) => coursesStudentModel.destroy({
+  where: { courseId, studentId },
+});
+
+// eslint-disable-next-line require-await
+const saveCourseLessons = async (data, transaction) => coursesLessonModel.bulkCreate(data,
+  { transaction });
+
+// eslint-disable-next-line require-await
+const deleteCourseLessons = async (courseId, transaction) => coursesLessonModel.destroy({
+  where: { courseId },
+  transaction,
+});
+
+// eslint-disable-next-line require-await
+const courseWithLessonsByCourseId = async courseId => coursesLessonModel.findOne({
+  raw: true,
+  nest: true,
+  where: { courseId },
+  include: [{
+    model: coursesModel,
+    required: true,
+    as: DB_CONTRACT.coursesLesson.courseReferenceName,
+    ...createExcludedObjectForDB(),
+  }],
+  ...createExcludedObjectForDB(),
+});
+
+// eslint-disable-next-line require-await
+const saveCourse = async (data, transaction) => coursesModel.create(data,
+  { transaction });
+
+// eslint-disable-next-line require-await
+const updateCourseById = async (id, dataObject, transaction) => coursesModel.update(
+  dataObject,
+  {
+    where: {
+      [DB_CONTRACT.common.id.property]: id,
+    },
+    transaction,
+  }
+);
+
+const getCourseById = async id => {
+  const result = await coursesModel.findByPk(id, {
+    raw: true,
+    nest: true,
+  });
+
+  checkDataFromDB(result);
+
+  return result;
+};
+
+// eslint-disable-next-line require-await
+const removeCourseById = async id => coursesModel.destroy({
+  where: { id },
+});
+
+// eslint-disable-next-line require-await
+const getAllCoursesByOptions = async optionsData => coursesModel.findAndCountAll({
+  ...optionsData,
+  raw: true,
+  nest: true,
+});
+
+// eslint-disable-next-line require-await
+const saveLesson = async data => coursesLessonModel.create(data);
+
+// eslint-disable-next-line require-await
+const updateLessonById = async (id, courseId, data) => coursesLessonModel.update(data, {
+  where: { id, courseId },
+});
+
+// eslint-disable-next-line require-await
+const getAllLessonsByCourseId = async courseId => coursesLessonModel.findAll({
+  raw: true,
+  nest: true,
+  order: [DB_CONTRACT.coursesLesson.lessonNumber.property, 'ASC'],
+  where: { courseId },
+});
+
+// eslint-disable-next-line require-await
+const removeLessonById = async (id, courseId) => coursesLessonModel.destroy({
+  where: { id, courseId },
+});
+
+// eslint-disable-next-line require-await
+const getLessonById = async (id, courseId) => coursesLessonModel.findOne({
+  raw: true,
+  nest: true,
+  where: { id, courseId },
+});
+
 module.exports = {
   saveRefreshToken,
   removeRefreshTokenByUserId,
@@ -277,4 +407,23 @@ module.exports = {
   getInstructorUserByOptions,
   getStudentUsersByOptions,
   getAllAdminUsersByQuery,
+  saveCourse,
+  updateCourseById,
+  getCourseById,
+  removeCourseById,
+  saveCourseInstructor,
+  saveCourseLessons,
+  courseWithLessonsByCourseId,
+  getAllCoursesByOptions,
+  getStudentIdsByOption,
+  deleteCourseLessons,
+  removeCourseInstructor,
+  saveLesson,
+  updateLessonById,
+  getAllLessonsByCourseId,
+  removeLessonById,
+  getLessonById,
+  getCourseInstructorsByOptions,
+  removeCourseStudent,
+  saveCourseStudent,
 };

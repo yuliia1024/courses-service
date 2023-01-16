@@ -4,6 +4,15 @@ const refreshTokenInstance = require('./schemes/refresh-token.schema');
 const adminUserInstance = require('./schemes/admin-user.schema');
 const studentUserInstance = require('./schemes/student-user.schema');
 const instructorUserInstance = require('./schemes/instructor-user.schema');
+const coursesInstance = require('./schemes/courses.schema');
+const coursesLessonInstance = require('./schemes/courses-lesson.schema');
+const coursesInstructorInstance = require('./schemes/courses-instructor.schema');
+const coursesStudentInstance = require('./schemes/courses-student.schema');
+const {
+  coursesInstructorAssociate,
+  coursesLessonAssociate,
+  coursesStudentAssociate,
+} = require('./association-models');
 
 const sequelizeInstance = new Sequelize(
   db.name,
@@ -30,6 +39,14 @@ const refreshTokenModel = refreshTokenInstance(sequelizeInstance);
 const adminUserModel = adminUserInstance(sequelizeInstance);
 const studentUserModel = studentUserInstance(sequelizeInstance);
 const instructorUserModel = instructorUserInstance(sequelizeInstance);
+const coursesModel = coursesInstance(sequelizeInstance);
+const coursesInstructorModel = coursesInstructorInstance(sequelizeInstance);
+const coursesLessonModel = coursesLessonInstance(sequelizeInstance);
+const coursesStudentModel = coursesStudentInstance(sequelizeInstance);
+
+coursesInstructorAssociate(coursesInstructorModel, instructorUserModel, coursesModel);
+coursesLessonAssociate(coursesLessonModel, coursesModel);
+coursesStudentAssociate(coursesStudentModel, studentUserModel, coursesModel);
 
 // IMPORTANT: The order is important. Make sure that the table that has foreign keys will be created after the main table
 const models = [
@@ -37,6 +54,10 @@ const models = [
   adminUserModel,
   studentUserModel,
   instructorUserModel,
+  coursesModel,
+  coursesInstructorModel,
+  coursesLessonModel,
+  coursesStudentModel,
 ];
 
 if (process.env.NODE_ENV === 'test') {
@@ -63,5 +84,9 @@ module.exports = {
   adminUserModel,
   studentUserModel,
   instructorUserModel,
+  coursesModel,
+  coursesInstructorModel,
+  coursesLessonModel,
+  coursesStudentModel,
   sequelizeInstance,
 };

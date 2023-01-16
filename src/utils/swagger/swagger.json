@@ -1,14 +1,962 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "Courses Service",
-    "description": "Courses service (Sombra promotion project)",
-    "version": "1.0.0"
+    "version": "1.0",
+    "title": "Course API",
+    "contact": {}
   },
+  "host": "example.com",
+  "basePath": "/public",
+  "securityDefinitions": {},
   "schemes": [
-    "http",
-    "https"
+    "http"
   ],
-  "paths": {},
-  "definitions": {}
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/login": {
+      "post": {
+        "description": "login",
+        "summary": "login",
+        "tags": [
+          "auth/login"
+        ],
+        "operationId": "login",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/loginrequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/registration": {
+      "post": {
+        "summary": "registration",
+        "tags": [
+          "auth/login"
+        ],
+        "operationId": "registration",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/registrationrequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/student": {
+      "post": {
+        "summary": "create student",
+        "tags": [
+          "student"
+        ],
+        "operationId": "createstudent",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/createstudentrequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/student/6ec0b552-d911-4891-afdf-73845f51de3b": {
+      "get": {
+        "summary": "get student by ID (only Admin)",
+        "tags": [
+          "student"
+        ],
+        "operationId": "getstudentbyID(onlyAdmin)",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "security": []
+      },
+      "delete": {
+        "summary": "delete student by ID",
+        "tags": [
+          "student"
+        ],
+        "operationId": "deletestudentbyID",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "security": []
+      },
+      "put": {
+        "summary": "update student by ID",
+        "tags": [
+          "student"
+        ],
+        "operationId": "updatestudentbyID",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/updatestudentbyIDRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/student/active/6ec0b552-d911-4891-afdf-73845f51de3b": {
+      "get": {
+        "summary": "get active student by ID",
+        "tags": [
+          "student"
+        ],
+        "operationId": "getactivestudentbyID",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/student/filtered": {
+      "post": {
+        "summary": "get all student with pagination",
+        "tags": [
+          "student"
+        ],
+        "operationId": "getallstudentwithpagination",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/getallstudentwithpaginationrequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/admin": {
+      "post": {
+        "summary": "create admin",
+        "tags": [
+          "admin"
+        ],
+        "operationId": "createadmin",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/createadminrequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/admin/efc5ea3e-b401-411e-9b7e-6648271d4bf3": {
+      "get": {
+        "summary": "get admin by ID (only Admin)",
+        "tags": [
+          "admin"
+        ],
+        "operationId": "getadminbyID(onlyAdmin)",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "security": []
+      },
+      "delete": {
+        "summary": "delete admin by ID",
+        "tags": [
+          "admin"
+        ],
+        "operationId": "deleteadminbyID",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "security": []
+      },
+      "put": {
+        "summary": "update admin by ID (only Admin)",
+        "tags": [
+          "admin"
+        ],
+        "operationId": "updateadminbyID(onlyAdmin)",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/updateadminbyID%28onlyAdmin%29Request"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/admin/filtered": {
+      "post": {
+        "summary": "get all admin with pagination",
+        "tags": [
+          "admin"
+        ],
+        "operationId": "getalladminwithpagination",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/getalladminwithpaginationrequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/instructor/12147a92-c1f5-4075-8a5d-c8ef173fd07b": {
+      "delete": {
+        "summary": "delete instructor by ID",
+        "tags": [
+          "instructor"
+        ],
+        "operationId": "deleteinstructorbyID",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "security": []
+      },
+      "put": {
+        "summary": "update instructor by ID (only Admin)",
+        "tags": [
+          "instructor"
+        ],
+        "operationId": "updateinstructorbyID(onlyAdmin)",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/updateinstructorbyID%28onlyAdmin%29Request"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "security": []
+      },
+      "get": {
+        "summary": "get instructor by ID (only Admin)",
+        "tags": [
+          "instructor"
+        ],
+        "operationId": "getinstructorbyID(onlyAdmin)",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/instructor": {
+      "post": {
+        "summary": "create instructor",
+        "tags": [
+          "instructor"
+        ],
+        "operationId": "createinstructor",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/createinstructorrequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/instructor/filtered": {
+      "post": {
+        "summary": "get all instructors with pagination",
+        "tags": [
+          "instructor"
+        ],
+        "operationId": "getallinstructorswithpagination",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/getallinstructorswithpaginationrequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/instructor/active/12147a92-c1f5-4075-8a5d-c8ef173fd07b": {
+      "get": {
+        "summary": "get active instructor by ID",
+        "tags": [
+          "instructor"
+        ],
+        "operationId": "getactiveinstructorbyID",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    }
+  },
+  "definitions": {
+    "loginrequest": {
+      "title": "loginrequest",
+      "example": {
+        "email": "admin@courses.com",
+        "password": "sombra"
+      },
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "email",
+        "password"
+      ]
+    },
+    "registrationrequest": {
+      "title": "registrationrequest",
+      "example": {
+        "role": "student",
+        "firstName": "student",
+        "lastName": "new",
+        "email": "yuliia.kovalenko@sombrainc.com",
+        "password": "Sombra1234+"
+      },
+      "type": "object",
+      "properties": {
+        "role": {
+          "type": "string"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "role",
+        "firstName",
+        "lastName",
+        "email",
+        "password"
+      ]
+    },
+    "createstudentrequest": {
+      "title": "createstudentrequest",
+      "example": {
+        "firstName": "intsr",
+        "lastName": "student",
+        "email": "byjfufzoufxdrgujlj@kvhrw.com"
+      },
+      "type": "object",
+      "properties": {
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "firstName",
+        "lastName",
+        "email"
+      ]
+    },
+    "getallstudentwithpaginationrequest": {
+      "title": "getallstudentwithpaginationrequest",
+      "example": {
+        "offset": 0,
+        "limit": 3,
+        "orderBy": "email",
+        "orderDirection": "asc"
+      },
+      "type": "object",
+      "properties": {
+        "offset": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "limit": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "orderBy": {
+          "type": "string"
+        },
+        "orderDirection": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "offset",
+        "limit",
+        "orderBy",
+        "orderDirection"
+      ]
+    },
+    "updatestudentbyIDRequest": {
+      "title": "updatestudentbyIDRequest",
+      "example": {
+        "firstName": "admin",
+        "lastName": "admin",
+        "email": "byjfufzoufxdrgujlj@kvhrw.com"
+      },
+      "type": "object",
+      "properties": {
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "firstName",
+        "lastName",
+        "email"
+      ]
+    },
+    "createadminrequest": {
+      "title": "createadminrequest",
+      "example": {
+        "firstName": "admin",
+        "lastName": "admin",
+        "email": "byjfufzoufxdrgujlj@kvhrw.com"
+      },
+      "type": "object",
+      "properties": {
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "firstName",
+        "lastName",
+        "email"
+      ]
+    },
+    "getalladminwithpaginationrequest": {
+      "title": "getalladminwithpaginationrequest",
+      "example": {
+        "offset": 0,
+        "limit": 3,
+        "orderBy": "email",
+        "orderDirection": "asc"
+      },
+      "type": "object",
+      "properties": {
+        "offset": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "limit": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "orderBy": {
+          "type": "string"
+        },
+        "orderDirection": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "offset",
+        "limit",
+        "orderBy",
+        "orderDirection"
+      ]
+    },
+    "updateadminbyID(onlyAdmin)Request": {
+      "title": "updateadminbyID(onlyAdmin)Request",
+      "example": {
+        "firstName": "admin",
+        "lastName": "admin",
+        "email": "byjfufzoufxdrgujlj@kvhrw.com"
+      },
+      "type": "object",
+      "properties": {
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "firstName",
+        "lastName",
+        "email"
+      ]
+    },
+    "createinstructorrequest": {
+      "title": "createinstructorrequest",
+      "example": {
+        "firstName": "intsr",
+        "lastName": "student",
+        "email": "byjfufzoufxdrgujlj@kvhrw.com"
+      },
+      "type": "object",
+      "properties": {
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "firstName",
+        "lastName",
+        "email"
+      ]
+    },
+    "getallinstructorswithpaginationrequest": {
+      "title": "getallinstructorswithpaginationrequest",
+      "example": {
+        "offset": 0,
+        "limit": 3,
+        "orderBy": "email",
+        "orderDirection": "asc"
+      },
+      "type": "object",
+      "properties": {
+        "offset": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "limit": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "orderBy": {
+          "type": "string"
+        },
+        "orderDirection": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "offset",
+        "limit",
+        "orderBy",
+        "orderDirection"
+      ]
+    },
+    "updateinstructorbyID(onlyAdmin)Request": {
+      "title": "updateinstructorbyID(onlyAdmin)Request",
+      "example": {
+        "firstName": "admin",
+        "lastName": "admin",
+        "email": "byjfufzoffufxdrgujlj@kvhrw.com"
+      },
+      "type": "object",
+      "properties": {
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "firstName",
+        "lastName",
+        "email"
+      ]
+    }
+  },
+  "tags": [
+    {
+      "name": "auth/login"
+    },
+    {
+      "name": "student"
+    },
+    {
+      "name": "admin"
+    },
+    {
+      "name": "instructor"
+    }
+  ]
 }

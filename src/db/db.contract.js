@@ -133,6 +133,129 @@ const DB_CONTRACT = {
       column: 'academic_status',
     },
   },
+  courses: {
+    tableName: 'courses',
+    title: {
+      property: 'title',
+      column: 'title',
+    },
+    description: {
+      property: 'description',
+      column: 'description',
+    },
+    generalInformation: {
+      property: 'generalInformation',
+      column: 'general_information',
+    },
+  },
+  coursesInstructor: {
+    tableName: 'courses_instructor',
+    coursesReferenceName: 'courses_instructor-courses',
+    instructorReferenceName: 'courses_instructor-instructor',
+    instructorId: {
+      property: 'instructorId',
+      column: 'instructor_id',
+    },
+    courseId: {
+      property: 'courseId',
+      column: 'course_id',
+    },
+  },
+  coursesStudent: {
+    tableName: 'courses_student',
+    coursesReferenceName: 'courses_student-courses',
+    studentReferenceName: 'courses_student-student',
+    studentId: {
+      property: 'studentId',
+      column: 'student_id',
+    },
+    courseId: {
+      property: 'courseId',
+      column: 'course_id',
+    },
+    status: {
+      property: 'status',
+      column: 'status',
+    },
+  },
+  coursesLesson: {
+    tableName: 'courses_lesson',
+    courseReferenceName: 'courses_lesson-courses',
+    courseId: {
+      property: 'courseId',
+      column: 'course_id',
+    },
+    lessonNumber: {
+      property: 'lessonNumber',
+      column: 'lesson_number',
+    },
+    title: {
+      property: 'title',
+      column: 'title',
+    },
+    description: {
+      property: 'description',
+      column: 'description',
+    },
+    information: {
+      property: 'information',
+      column: 'information',
+    },
+    homeworkTask: {
+      property: 'homeworkTask',
+      column: 'homework_task',
+    },
+  },
+  homework: {
+    tableName: 'courses_lesson',
+    courseId: {
+      property: 'courseId',
+      column: 'course_id',
+    },
+    studentId: {
+      property: 'studentId',
+      column: 'student_id',
+    },
+    lessonId: {
+      property: 'lessonId',
+      column: 'lesson_id',
+    },
+    answer: {
+      property: 'answer',
+      column: 'answer',
+    },
+    file: {
+      property: 'file',
+      column: 'file',
+    },
+    mark: {
+      property: 'mark',
+      column: 'mark',
+    },
+  },
+  studentFeedback: {
+    tableName: 'courses_lesson',
+    courseId: {
+      property: 'courseId',
+      column: 'course_id',
+    },
+    studentId: {
+      property: 'studentId',
+      column: 'student_id',
+    },
+    instructorId: {
+      property: 'instructorId',
+      column: 'instructor_id',
+    },
+    feedback: {
+      property: 'feedback',
+      column: 'feedback',
+    },
+    file: {
+      property: 'file',
+      column: 'file',
+    },
+  },
 };
 
 module.exports = {

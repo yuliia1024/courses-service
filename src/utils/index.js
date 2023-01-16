@@ -1,6 +1,10 @@
 const { get, cloneDeep, isArray } = require('lodash');
-const { HEADER_PARAMS, REGEX, HTTP_STATUS,
-  USER_ROLE } = require('../constants');
+const {
+  HEADER_PARAMS,
+  REGEX,
+  HTTP_STATUS,
+  USER_ROLE,
+} = require('../constants');
 const {
   CustomError,
   BadRequestError,

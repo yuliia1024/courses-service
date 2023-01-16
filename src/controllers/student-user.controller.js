@@ -2,6 +2,7 @@ const { SuccessResponse } = require('../custom-response');
 const {
   getActiveStudentUserById,
   getStudentUserByOptions,
+  getStudentIdsByOption,
 } = require('../services/db.service');
 const {
   createStudentUser,
@@ -10,6 +11,7 @@ const {
   getAllStudentsUser,
 } = require('../services/student-user.service');
 const { checkPossibilityToUpdateOrDelete } = require('../utils');
+const { DB_CONTRACT } = require('../db/db.contract');
 
 const createStudentController = async (req, res) => {
   await createStudentUser(req);
@@ -48,13 +50,16 @@ const deleteStudentController = async (req, res) => {
 };
 
 const getAllStudentsController = async (req, res) => {
-  // TODO add logic when table student_course will be created
-  // const studentIds;
-  // if (req.body.courseId) {
-  // studentIds = getStudentsByCourseId(req.body.courseId)
-  // }
+  let studentIds;
 
-  const result = await getAllStudentsUser(req.body);
+  if (req.body.courseId) {
+    studentIds = await getStudentIdsByOption({
+      courseId: req.body.courseId,
+      ...(req.body.isActiveStudent && { [DB_CONTRACT.studentUser.isActive.property]: req.body.isActiveStudent }),
+    });
+  }
+
+  const result = await getAllStudentsUser(req.body, studentIds);
 
   new SuccessResponse(res).send(result);
 };
