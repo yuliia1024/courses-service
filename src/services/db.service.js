@@ -294,6 +294,18 @@ const removeCourseStudent = async (courseId, studentId) => coursesStudentModel.d
 });
 
 // eslint-disable-next-line require-await
+const getCoursesByStudentIdAndOptions = async (studentId, options) => coursesStudentModel.findAll({
+  where: { ...options, studentId },
+  include: [{
+    model: coursesModel,
+    required: true,
+    as: DB_CONTRACT.coursesStudent.courseReferenceName,
+    ...createExcludedObjectForDB(),
+  }],
+  ...createExcludedObjectForDB(),
+});
+
+// eslint-disable-next-line require-await
 const saveCourseLessons = async (data, transaction) => coursesLessonModel.bulkCreate(data,
   { transaction });
 
@@ -426,4 +438,5 @@ module.exports = {
   getCourseInstructorsByOptions,
   removeCourseStudent,
   saveCourseStudent,
+  getCoursesByStudentIdAndOptions,
 };

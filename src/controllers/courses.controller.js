@@ -1,5 +1,11 @@
 const { SuccessResponse } = require('../custom-response');
-const { removeCourseInstructor, removeCourseStudent } = require('../services/db.service');
+const {
+  removeCourseInstructor,
+  removeCourseStudent,
+  getActiveStudentUserById,
+  getActiveInstructorUserById,
+  getCourseInstructorsByOptions,
+} = require('../services/db.service');
 const {
   createCourse,
   updateCourse,
@@ -10,6 +16,9 @@ const {
   checkUserPermissionToModifyCourseInfo,
   assignStudentForCourse,
 } = require('../services/courses.service');
+const { USER_ROLE } = require('../constants');
+const { ForbiddenError,
+  BadRequestError } = require('../error-handler');
 
 const createCourseController = async (req, res) => {
   await createCourse(req);
@@ -44,7 +53,13 @@ const deleteCourseController = async (req, res) => {
 };
 
 const removeInstructorFromCourseController = async (req, res) => {
+  await checkUserPermissionToModifyCourseInfo(req.userRole, req.userId, req.params.courseId);
   await getAllCourseInfoById(req.params.courseId);
+  const instructors = await getCourseInstructorsByOptions({ courseId: req.params.courseId });
+
+  if (instructors.length <= 1) {
+    throw new BadRequestError('You can`t remove the last instructor from course.');
+  }
   await removeCourseInstructor(req.params.courseId, req.params.instructorId);
 
   new SuccessResponse(res).send();
@@ -52,6 +67,7 @@ const removeInstructorFromCourseController = async (req, res) => {
 
 const assignInstructorsForCourseController = async (req, res) => {
   await getAllCourseInfoById(req.params.courseId);
+  await getActiveInstructorUserById(req.params.instructorId);
   await assignInstructorsForCourse({
     courseId: req.params.courseId,
     instructorId: req.params.instructorId,
@@ -62,6 +78,15 @@ const assignInstructorsForCourseController = async (req, res) => {
 
 const assignStudentForCourseController = async (req, res) => {
   await getAllCourseInfoById(req.params.courseId);
+
+  if (req.userRole === USER_ROLE.student && req.params.studentId !== req.userId) {
+    throw new ForbiddenError('You do not have permission for this actions');
+  }
+  if (req.userRole !== USER_ROLE.student) {
+    await checkUserPermissionToModifyCourseInfo(req.userRole, req.userId, req.params.courseId);
+  }
+
+  await getActiveStudentUserById(req.params.studentId);
   await assignStudentForCourse({
     courseId: req.params.courseId,
     studentId: req.params.studentId,
@@ -72,6 +97,14 @@ const assignStudentForCourseController = async (req, res) => {
 
 const removeStudentFromCourseController = async (req, res) => {
   await getAllCourseInfoById(req.params.courseId);
+
+  if (req.userRole === USER_ROLE.student && req.params.studentId !== req.userId) {
+    throw new ForbiddenError('You do not have permission for this actions');
+  }
+  if (req.userRole !== USER_ROLE.student) {
+    await checkUserPermissionToModifyCourseInfo(req.userRole, req.userId, req.params.courseId);
+  }
+
   await removeCourseStudent(req.params.courseId, req.params.studentId);
 
   new SuccessResponse(res).send();

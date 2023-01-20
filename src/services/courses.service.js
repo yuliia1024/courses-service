@@ -12,6 +12,7 @@ const {
   getAllCoursesByOptions,
   getCourseInstructorsByOptions,
   saveCourseStudent,
+  getCoursesByStudentIdAndOptions,
 } = require('./db.service');
 const { DB_CONTRACT } = require('../db/db.contract');
 const { sequelizeInstance } = require('../db');
@@ -24,7 +25,11 @@ const {
   createPaginateOptions,
   createDataObjectWithPaginationInfo,
 } = require('../utils/pagination');
-const { USER_ROLE } = require('../constants');
+const {
+  USER_ROLE,
+  STUDENT_COURSES_STATUS,
+  STUDENT_COURSES_MAX_COUNT,
+} = require('../constants');
 
 const createCourse = async req => {
   const transaction = await sequelizeInstance.transaction();
@@ -134,6 +139,14 @@ const assignInstructorsForCourse = async (data, loggedUserId) => {
 };
 
 const assignStudentForCourse = async (data, loggedUserId) => {
+  const studentCourses = await getCoursesByStudentIdAndOptions(data.studentId, {
+    [DB_CONTRACT.coursesStudent.status.property]: STUDENT_COURSES_STATUS.inProgress,
+  });
+
+  if (studentCourses.length >= STUDENT_COURSES_MAX_COUNT) {
+    throw BadRequestError(`Student can take up to ${STUDENT_COURSES_MAX_COUNT} courses at the same time.`);
+  }
+
   const coursesStudentData = data.instructors.map(item => ({
     ...item,
     [DB_CONTRACT.common.createdBy.property]: loggedUserId,

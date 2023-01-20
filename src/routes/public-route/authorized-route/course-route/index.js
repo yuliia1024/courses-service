@@ -52,23 +52,18 @@ router.delete(
   `/:courseId/${ROUTE.course.instructor}/:instructorId`,
   checkRole([
     USER_ROLE.admin,
+    USER_ROLE.instructor,
   ]),
   routerHandler(removeInstructorFromCourseController),
 );
 
 router.post(
   `/:courseId/${ROUTE.course.student}/:studentId`,
-  checkRole([
-    USER_ROLE.admin,
-  ]),
   routerHandler(assignStudentForCourseController),
 );
 
 router.delete(
   `/:courseId/${ROUTE.course.student}/:studentId`,
-  checkRole([
-    USER_ROLE.admin,
-  ]),
   routerHandler(removeStudentFromCourseController),
 );
 

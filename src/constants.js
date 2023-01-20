@@ -45,6 +45,7 @@ const STUDENT_COURSES_STATUS = {
   rejected: 'rejected',
   inProgress: 'inProgress',
 };
+const STUDENT_COURSES_MAX_COUNT = 5;
 const COURSE_LESSONS_MIN_COUNT = 5;
 const TOKEN_TYPES = {
   access: 'access',
@@ -88,4 +89,5 @@ module.exports = {
   PASSWORD_PATTERN,
   STUDENT_COURSES_STATUS,
   COURSE_LESSONS_MIN_COUNT,
+  STUDENT_COURSES_MAX_COUNT,
 };
