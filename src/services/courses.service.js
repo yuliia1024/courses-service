@@ -1,5 +1,9 @@
 const { v4: uuid } = require('uuid');
-const { isEmpty } = require('lodash');
+const {
+  isEmpty,
+  find,
+  omit,
+} = require('lodash');
 const { BadRequestError,
   ForbiddenError } = require('../error-handler');
 const {
@@ -35,6 +39,10 @@ const createCourse = async req => {
   const transaction = await sequelizeInstance.transaction();
   const courseId = uuid();
 
+  if (req.userRole !== USER_ROLE.admin && !find(req.body.instructors)) {
+    throw new BadRequestError('You cannot create course for other instructors.');
+  }
+
   try {
     await saveCourse({
       ...req.body,
@@ -42,8 +50,9 @@ const createCourse = async req => {
       [DB_CONTRACT.common.createdBy.property]: req.userId,
     }, transaction);
 
-    const coursesLessonsData = req.body.lessons.map(item => ({
+    const coursesLessonsData = req.body.lessons.map((item, num) => ({
       ...item,
+      lessonNumber: num + 1,
       id: uuid(),
       [DB_CONTRACT.coursesLesson.courseId.property]: courseId,
       [DB_CONTRACT.common.createdBy.property]: req.userId,
@@ -51,8 +60,8 @@ const createCourse = async req => {
 
     await saveCourseLessons(coursesLessonsData, transaction);
 
-    const coursesInstructorData = req.body.instructors.map(item => ({
-      ...item,
+    const coursesInstructorData = req.body.instructorIds.map(instructorId => ({
+      instructorId,
       id: uuid(),
       [DB_CONTRACT.coursesLesson.courseId.property]: courseId,
       [DB_CONTRACT.common.createdBy.property]: req.userId,
@@ -98,7 +107,7 @@ const getAllCourseInfoById = async id => {
 
   return {
     ...lessonsData[0][DB_CONTRACT.coursesLesson.courseReferenceName],
-    lessons: lessonsData.map(item => item.omit([DB_CONTRACT.coursesLesson.courseReferenceName])),
+    lessons: lessonsData.map(item => omit(item, [DB_CONTRACT.coursesLesson.courseReferenceName])),
   };
 };
 
@@ -127,13 +136,11 @@ const getAllCourses = async data => {
 };
 
 const assignInstructorsForCourse = async (data, loggedUserId) => {
-  const coursesInstructorData = data.instructors.map(item => ({
-    ...item,
+  const result = await saveCourseInstructor({
+    ...data,
     [DB_CONTRACT.common.createdBy.property]: loggedUserId,
     id: uuid(),
-  }));
-
-  const result = await saveCourseInstructor(coursesInstructorData);
+  });
 
   checkDataFromDB(result[0]);
 };
@@ -144,16 +151,15 @@ const assignStudentForCourse = async (data, loggedUserId) => {
   });
 
   if (studentCourses.length >= STUDENT_COURSES_MAX_COUNT) {
-    throw BadRequestError(`Student can take up to ${STUDENT_COURSES_MAX_COUNT} courses at the same time.`);
+    throw new BadRequestError(`Student can take up to ${STUDENT_COURSES_MAX_COUNT} courses at the same time.`);
   }
 
-  const coursesStudentData = data.instructors.map(item => ({
-    ...item,
+  const result = await saveCourseStudent({
+    ...data,
+    [DB_CONTRACT.coursesStudent.status.property]: STUDENT_COURSES_STATUS.inProgress,
     [DB_CONTRACT.common.createdBy.property]: loggedUserId,
     id: uuid(),
-  }));
-
-  const result = await saveCourseStudent(coursesStudentData);
+  });
 
   checkDataFromDB(result[0]);
 };

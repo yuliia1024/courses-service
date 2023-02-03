@@ -150,6 +150,7 @@ const DB_CONTRACT = {
   },
   coursesInstructor: {
     tableName: 'courses_instructor',
+    compositeIndexName: 'composite_index',
     coursesReferenceName: 'courses_instructor-courses',
     instructorReferenceName: 'courses_instructor-instructor',
     instructorId: {
@@ -163,6 +164,7 @@ const DB_CONTRACT = {
   },
   coursesStudent: {
     tableName: 'courses_student',
+    compositeIndexName: 'composite_index',
     coursesReferenceName: 'courses_student-courses',
     studentReferenceName: 'courses_student-student',
     studentId: {

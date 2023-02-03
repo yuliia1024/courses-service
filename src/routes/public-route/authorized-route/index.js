@@ -4,6 +4,7 @@ const instructorUserRouter = require('./instructor-route');
 const studentUserRouter = require('./student-route');
 const tokenRouter = require('./token-route');
 const lessonRouter = require('./course-lessons-route');
+const courseRouter = require('./course-route');
 const { ROUTE } = require('../../route-path');
 
 router.use(
@@ -23,7 +24,7 @@ router.use(
 
 router.use(
   `/${ROUTE.course.root}`,
-  studentUserRouter,
+  courseRouter,
 );
 
 router.use(

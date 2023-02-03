@@ -73,4 +73,14 @@ module.exports = sequelizeInstance => CoursesStudentModel.init({
   sequelize: sequelizeInstance,
   modelName: DB_CONTRACT.coursesStudent.tableName,
   freezeTableName: true,
+  indexes: [
+    {
+      name: DB_CONTRACT.coursesStudent.compositeIndexName,
+      unique: true,
+      fields: [
+        DB_CONTRACT.coursesStudent.courseId.column,
+        DB_CONTRACT.coursesStudent.studentId.column,
+      ],
+    },
+  ],
 });

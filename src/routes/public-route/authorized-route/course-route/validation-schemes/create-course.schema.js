@@ -4,10 +4,9 @@ const { createLessonSchema } = require('../../course-lessons-route/validation-sc
 const { COURSE_LESSONS_MIN_COUNT } = require('../../../../../constants');
 
 const createCourseSchema = updateCourseInfoSchema.concat(Joi.object({
-  instructors: Joi.array()
+  instructorIds: Joi.array()
     .items(Joi.string().uuid())
-    .min(1)
-    .required(),
+    .min(1),
   lessons: Joi.array()
     .items(createLessonSchema)
     .min(COURSE_LESSONS_MIN_COUNT)

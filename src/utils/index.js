@@ -72,7 +72,7 @@ const checkDataFromDB = data => {
   }
 };
 
-const createOrderParameters = (orderBy, orderDirection) => {
+const createOrderParameters = (orderBy, orderDirection = 'ASC') => {
   const order = [];
 
   // add the order parameters to the order

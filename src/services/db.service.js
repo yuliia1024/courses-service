@@ -1,4 +1,5 @@
 const Sequelize = require('sequelize');
+const { isArray } = require('lodash');
 const { DB_CONTRACT } = require('../db/db.contract');
 const {
   refreshTokenModel,
@@ -11,7 +12,10 @@ const {
   coursesStudentModel,
 } = require('../db');
 const { BadRequestError } = require('../error-handler');
-const { checkDataFromDB } = require('../utils');
+const {
+  checkDataFromDB,
+  createOrderParameters,
+} = require('../utils');
 
 const createExcludedObjectForDB = (excludedPropertyNames = []) => ({
   attributes: {
@@ -73,6 +77,8 @@ const getActiveInstructorUserById = async id => {
     ]),
   });
 
+  checkDataFromDB(result);
+
   if (result && !result.isActive) {
     throw new BadRequestError('This user is not active');
   }
@@ -115,6 +121,8 @@ const getActiveStudentUserById = async id => {
       DB_CONTRACT.studentUser.hashPassword.property,
     ]),
   });
+
+  checkDataFromDB(result);
 
   if (result && !result.isActive) {
     throw new BadRequestError('This user is not active');
@@ -271,12 +279,24 @@ const getAllAdminUsersByQuery = async query => adminUserModel.findAll({
 });
 
 // eslint-disable-next-line require-await
-const saveCourseInstructor = async (data, transaction) => coursesInstructorModel.bulkCreate(data,
-  { transaction });
+const saveCourseInstructor = async (data, transaction) => {
+  const records = isArray(data) ? data : [data];
+
+  return coursesInstructorModel.bulkCreate(
+    records,
+    { transaction }
+  );
+};
 
 // eslint-disable-next-line require-await
-const saveCourseStudent = async (data, transaction) => coursesStudentModel.bulkCreate(data,
-  { transaction });
+const saveCourseStudent = async (data, transaction) => {
+  const records = isArray(data) ? data : [data];
+
+  return coursesStudentModel.bulkCreate(
+    records,
+    { transaction }
+  );
+};
 
 // eslint-disable-next-line require-await
 const getCourseInstructorsByOptions = async options => coursesInstructorModel.findAll({
@@ -299,7 +319,7 @@ const getCoursesByStudentIdAndOptions = async (studentId, options) => coursesStu
   include: [{
     model: coursesModel,
     required: true,
-    as: DB_CONTRACT.coursesStudent.courseReferenceName,
+    as: DB_CONTRACT.coursesStudent.coursesReferenceName,
     ...createExcludedObjectForDB(),
   }],
   ...createExcludedObjectForDB(),
@@ -316,9 +336,10 @@ const deleteCourseLessons = async (courseId, transaction) => coursesLessonModel.
 });
 
 // eslint-disable-next-line require-await
-const courseWithLessonsByCourseId = async courseId => coursesLessonModel.findOne({
+const courseWithLessonsByCourseId = async courseId => coursesLessonModel.findAll({
   raw: true,
   nest: true,
+  order: createOrderParameters(DB_CONTRACT.coursesLesson.lessonNumber.property),
   where: { courseId },
   include: [{
     model: coursesModel,

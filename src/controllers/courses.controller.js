@@ -40,9 +40,9 @@ const getCourseByIdController = async (req, res) => {
 };
 
 const getCoursesByOptionsController = async (req, res) => {
-  const studentUser = await getAllCourses(req.body);
+  const courses = await getAllCourses(req.body);
 
-  new SuccessResponse(res).send(studentUser);
+  new SuccessResponse(res).send(courses);
 };
 
 const deleteCourseController = async (req, res) => {

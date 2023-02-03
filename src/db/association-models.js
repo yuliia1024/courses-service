@@ -7,7 +7,7 @@ const coursesInstructorAssociate = (coursesInstructorModel, instructorModel, cou
       name: [DB_CONTRACT.coursesInstructor.courseId.property],
     },
     onUpdate: DB_REFERENTIAL_ACTIONS.CASCADE,
-    onDelete: DB_REFERENTIAL_ACTIONS.RESTRICT,
+    onDelete: DB_REFERENTIAL_ACTIONS.CASCADE,
     constraints: true,
     as: DB_CONTRACT.coursesInstructor.coursesReferenceName,
   });
@@ -16,7 +16,7 @@ const coursesInstructorAssociate = (coursesInstructorModel, instructorModel, cou
       name: [DB_CONTRACT.coursesInstructor.instructorId.property],
     },
     onUpdate: DB_REFERENTIAL_ACTIONS.CASCADE,
-    onDelete: DB_REFERENTIAL_ACTIONS.RESTRICT,
+    onDelete: DB_REFERENTIAL_ACTIONS.CASCADE,
     constraints: true,
     as: DB_CONTRACT.coursesInstructor.instructorReferenceName,
   });
@@ -28,7 +28,7 @@ const coursesLessonAssociate = (coursesLessonModel, coursesModel) => {
       name: [DB_CONTRACT.coursesLesson.courseId.property],
     },
     onUpdate: DB_REFERENTIAL_ACTIONS.CASCADE,
-    onDelete: DB_REFERENTIAL_ACTIONS.RESTRICT,
+    onDelete: DB_REFERENTIAL_ACTIONS.CASCADE,
     constraints: true,
     as: DB_CONTRACT.coursesLesson.courseReferenceName,
   });
@@ -40,7 +40,7 @@ const coursesStudentAssociate = (coursesStudentModel, studentModel, coursesModel
       name: [DB_CONTRACT.coursesStudent.courseId.property],
     },
     onUpdate: DB_REFERENTIAL_ACTIONS.CASCADE,
-    onDelete: DB_REFERENTIAL_ACTIONS.RESTRICT,
+    onDelete: DB_REFERENTIAL_ACTIONS.CASCADE,
     constraints: true,
     as: DB_CONTRACT.coursesStudent.coursesReferenceName,
   });
@@ -49,7 +49,7 @@ const coursesStudentAssociate = (coursesStudentModel, studentModel, coursesModel
       name: [DB_CONTRACT.coursesStudent.studentId.property],
     },
     onUpdate: DB_REFERENTIAL_ACTIONS.CASCADE,
-    onDelete: DB_REFERENTIAL_ACTIONS.RESTRICT,
+    onDelete: DB_REFERENTIAL_ACTIONS.CASCADE,
     constraints: true,
     as: DB_CONTRACT.coursesStudent.studentReferenceName,
   });
