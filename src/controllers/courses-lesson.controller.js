@@ -18,7 +18,7 @@ const createLessonController = async (req, res) => {
   await checkUserPermissionToModifyCourseInfo(req.userRole, req.userId, req.params.courseId);
   await createLesson({
     ...req.body,
-    ...req.courseId,
+    courseId: req.params.courseId,
   }, req.userId);
 
   new SuccessResponse(res).send();
@@ -26,7 +26,7 @@ const createLessonController = async (req, res) => {
 
 const updateLessonController = async (req, res) => {
   await checkUserPermissionToModifyCourseInfo(req.userRole, req.userId, req.params.courseId);
-  await updateLesson(req.params.id, req.courseId, req.body, req.userId);
+  await updateLesson(req.params.id, req.params.courseId, req.body, req.userId);
 
   new SuccessResponse(res).send();
 };

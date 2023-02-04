@@ -7,6 +7,10 @@ const createLessonSchema = Joi.object({
   description: Joi.string()
     .max(300)
     .required(),
+  lessonNumber: Joi.number()
+    .min(1)
+    .integer()
+    .positive(),
   information: Joi.array()
     .items(Joi.string().required())
     .min(1)

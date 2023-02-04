@@ -1,7 +1,7 @@
 const { v4: uuid } = require('uuid');
 const {
   isEmpty,
-  find,
+  includes,
   omit,
 } = require('lodash');
 const { BadRequestError,
@@ -39,7 +39,11 @@ const createCourse = async req => {
   const transaction = await sequelizeInstance.transaction();
   const courseId = uuid();
 
-  if (req.userRole !== USER_ROLE.admin && !find(req.body.instructors)) {
+  if (
+    req.userRole !== USER_ROLE.admin
+    && !(includes(req.body.instructorIds, req.userId)
+    && req.body.instructorIds.length === 1)
+  ) {
     throw new BadRequestError('You cannot create course for other instructors.');
   }
 
@@ -168,11 +172,11 @@ const checkUserPermissionToModifyCourseInfo = async (role, userId, courseId) => 
   if (role !== USER_ROLE.admin) {
     const instructor = await getCourseInstructorsByOptions({
       courseId,
-      [DB_CONTRACT.coursesInstructor.instructorId]: userId,
+      [DB_CONTRACT.coursesInstructor.instructorId.property]: userId,
     });
 
     if (isEmpty(instructor)) {
-      throw ForbiddenError('You dont have permission for this action');
+      throw new ForbiddenError('You dont have permission for this action');
     }
   }
 };

@@ -400,7 +400,7 @@ const updateLessonById = async (id, courseId, data) => coursesLessonModel.update
 const getAllLessonsByCourseId = async courseId => coursesLessonModel.findAll({
   raw: true,
   nest: true,
-  order: [DB_CONTRACT.coursesLesson.lessonNumber.property, 'ASC'],
+  order: createOrderParameters(DB_CONTRACT.coursesLesson.lessonNumber.property),
   where: { courseId },
 });
 

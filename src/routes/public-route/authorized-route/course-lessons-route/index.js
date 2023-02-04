@@ -29,7 +29,7 @@ router.post(
 );
 
 router.get(
-  `${ROUTE.lesson.course}/:courseId`,
+  `/${ROUTE.lesson.course}/:courseId`,
   routerHandler(getAllLessonByCourseController),
 );
 

@@ -1,4 +1,5 @@
 const { v4: uuid } = require('uuid');
+const { last } = require('lodash');
 const { BadRequestError } = require('../error-handler');
 const {
   saveLesson,
@@ -14,9 +15,11 @@ const { getAllCourseInfoById } = require('./courses.service');
 const { COURSE_LESSONS_MIN_COUNT } = require('../constants');
 
 const createLesson = async (lessonData, loggedInUserId) => {
-  await getAllCourseInfoById(lessonData.courseId);
+  const course = await getAllCourseInfoById(lessonData.courseId);
 
   await saveLesson({
+    // The empty array error should never occur(if business logic change we should check this place).
+    [DB_CONTRACT.coursesLesson.lessonNumber.property]: last(course.lessons).lessonNumber + 1,
     ...lessonData,
     id: uuid(),
     [DB_CONTRACT.common.createdBy.property]: loggedInUserId,
@@ -43,7 +46,7 @@ const deleteLessonById = async (id, courseId) => {
 
   checkDataFromDB(lessons);
 
-  if (lessons.length() <= COURSE_LESSONS_MIN_COUNT) {
+  if (lessons.length <= COURSE_LESSONS_MIN_COUNT) {
     throw new BadRequestError(`Each course should have at least ${COURSE_LESSONS_MIN_COUNT} lessons`);
   }
 
