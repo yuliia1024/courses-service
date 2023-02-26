@@ -11,7 +11,7 @@ API for online management application. Its main purpose is to make efficient int
 - Setup environment variables
 
 ```sh
-cp .env.local .env
+cp .env.sample .env
 ```
 
 - Install dependencies
