@@ -47,6 +47,7 @@ const STUDENT_COURSES_STATUS = {
 };
 const STUDENT_COURSES_MAX_COUNT = 5;
 const COURSE_LESSONS_MIN_COUNT = 5;
+const COURSE_PASS_MIN_MARK = 80;
 const TOKEN_TYPES = {
   access: 'access',
   refresh: 'refresh',
@@ -75,6 +76,20 @@ At least one digit, (?=.*?[0-9])
 Minimum eight in length .{8,256} (with the anchors)
  */
 const PASSWORD_PATTERN = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,256}$/;
+const FILE_SIZE_LIMIT = 1024 * 1024 * 50; // MB
+const UPLOADING_FILE = {
+  fieldName: 'file',
+  folders: {
+    homework: 'homework',
+  },
+};
+const DOC_MIME_TYPES = [
+  'text/plain',
+  'application/pdf',
+  'application/zip',
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', // *.xlsx
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document', // *.docx
+];
 
 module.exports = {
   REQUEST_DATA_SOURCE,
@@ -90,4 +105,8 @@ module.exports = {
   STUDENT_COURSES_STATUS,
   COURSE_LESSONS_MIN_COUNT,
   STUDENT_COURSES_MAX_COUNT,
+  COURSE_PASS_MIN_MARK,
+  FILE_SIZE_LIMIT,
+  UPLOADING_FILE,
+  DOC_MIME_TYPES,
 };

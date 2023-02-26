@@ -3,15 +3,18 @@ const {
   getActiveStudentUserById,
   getStudentUserByOptions,
   getStudentIdsByOption,
+  getStudentFeedbacksByOptions,
 } = require('../services/db.service');
 const {
   createStudentUser,
   updateStudentUser,
   inactiveStudentUser,
   getAllStudentsUser,
+  addStudentFeedback,
 } = require('../services/student-user.service');
 const { checkPossibilityToUpdateOrDelete } = require('../utils');
 const { DB_CONTRACT } = require('../db/db.contract');
+const { checkUserPermissionToAccessCourseInfo } = require('../services/courses.service');
 
 const createStudentController = async (req, res) => {
   await createStudentUser(req);
@@ -53,6 +56,8 @@ const getAllStudentsController = async (req, res) => {
   let studentIds;
 
   if (req.body.courseId) {
+    await checkUserPermissionToAccessCourseInfo(req.userRole, req.userId, req.body.courseId);
+
     studentIds = await getStudentIdsByOption({
       courseId: req.body.courseId,
       ...(req.body.isActiveStudent && { [DB_CONTRACT.studentUser.isActive.property]: req.body.isActiveStudent }),
@@ -64,6 +69,26 @@ const getAllStudentsController = async (req, res) => {
   new SuccessResponse(res).send(result);
 };
 
+const getStudentFeedbackController = async (req, res) => {
+  await addStudentFeedback(req.body, req.userRole, req.userId);
+
+  new SuccessResponse(res).send();
+};
+
+const getStudentFeedbacksByOptionsController = async (req, res) => {
+  await getStudentFeedbacksByOptions(req.body);
+
+  new SuccessResponse(res).send();
+};
+
+const getStudentFeedbacksForStudentController = async (req, res) => {
+  await getStudentFeedbacksByOptions({
+    studentId: req.userId,
+  });
+
+  new SuccessResponse(res).send();
+};
+
 module.exports = {
   createStudentController,
   updateStudentController,
@@ -71,4 +96,7 @@ module.exports = {
   getActiveStudentByIdController,
   getStudentByOptionsController,
   deleteStudentController,
+  getStudentFeedbackController,
+  getStudentFeedbacksByOptionsController,
+  getStudentFeedbacksForStudentController,
 };

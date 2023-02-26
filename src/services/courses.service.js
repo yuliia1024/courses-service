@@ -168,7 +168,7 @@ const assignStudentForCourse = async (data, loggedUserId) => {
   checkDataFromDB(result[0]);
 };
 
-const checkUserPermissionToModifyCourseInfo = async (role, userId, courseId) => {
+const checkUserPermissionToAccessCourseInfo = async (role, userId, courseId) => {
   if (role !== USER_ROLE.admin) {
     const instructor = await getCourseInstructorsByOptions({
       courseId,
@@ -188,6 +188,6 @@ module.exports = {
   getAllCourseInfoById,
   getAllCourses,
   assignInstructorsForCourse,
-  checkUserPermissionToModifyCourseInfo,
+  checkUserPermissionToAccessCourseInfo,
   assignStudentForCourse,
 };

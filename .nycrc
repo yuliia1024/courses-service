@@ -15,6 +15,8 @@
     "src/db/**",
     "src/server.js",
     "src/services/redis.service.js",
+    "src/services/s3.service.js",
+    "src/services/multer.service.js",
     "src/validation/**",
     "src/routes/**",
     "src/custom-response",

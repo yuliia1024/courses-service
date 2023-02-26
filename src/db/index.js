@@ -8,10 +8,14 @@ const coursesInstance = require('./schemes/courses.schema');
 const coursesLessonInstance = require('./schemes/courses-lesson.schema');
 const coursesInstructorInstance = require('./schemes/courses-instructor.schema');
 const coursesStudentInstance = require('./schemes/courses-student.schema');
+const homeworkInstance = require('./schemes/homework.schema');
+const feedbackInstance = require('./schemes/feedback.schema');
 const {
   coursesInstructorAssociate,
   coursesLessonAssociate,
   coursesStudentAssociate,
+  homeworkAssociate,
+  feedbackAssociate,
 } = require('./association-models');
 
 const sequelizeInstance = new Sequelize(
@@ -43,10 +47,14 @@ const coursesModel = coursesInstance(sequelizeInstance);
 const coursesInstructorModel = coursesInstructorInstance(sequelizeInstance);
 const coursesLessonModel = coursesLessonInstance(sequelizeInstance);
 const coursesStudentModel = coursesStudentInstance(sequelizeInstance);
+const homeworkModel = homeworkInstance(sequelizeInstance);
+const feedbackModel = feedbackInstance(sequelizeInstance);
 
 coursesInstructorAssociate(coursesInstructorModel, instructorUserModel, coursesModel);
 coursesLessonAssociate(coursesLessonModel, coursesModel);
 coursesStudentAssociate(coursesStudentModel, studentUserModel, coursesModel);
+homeworkAssociate(homeworkModel, studentUserModel, coursesLessonModel);
+feedbackAssociate(feedbackModel, studentUserModel, coursesModel);
 
 // IMPORTANT: The order is important. Make sure that the table that has foreign keys will be created after the main table
 const models = [
@@ -58,6 +66,8 @@ const models = [
   coursesInstructorModel,
   coursesLessonModel,
   coursesStudentModel,
+  homeworkModel,
+  feedbackModel,
 ];
 
 if (process.env.NODE_ENV === 'test') {
@@ -88,5 +98,7 @@ module.exports = {
   coursesInstructorModel,
   coursesLessonModel,
   coursesStudentModel,
+  homeworkModel,
+  feedbackModel,
   sequelizeInstance,
 };

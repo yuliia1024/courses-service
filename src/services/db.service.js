@@ -10,6 +10,8 @@ const {
   coursesInstructorModel,
   coursesLessonModel,
   coursesStudentModel,
+  homeworkModel,
+  feedbackModel,
 } = require('../db');
 const { BadRequestError } = require('../error-handler');
 const {
@@ -305,17 +307,26 @@ const getCourseInstructorsByOptions = async options => coursesInstructorModel.fi
 
 // eslint-disable-next-line require-await
 const removeCourseInstructor = async (courseId, instructorId) => coursesInstructorModel.destroy({
-  where: { courseId, instructorId },
+  where: {
+    courseId,
+    instructorId,
+  },
 });
 
 // eslint-disable-next-line require-await
 const removeCourseStudent = async (courseId, studentId) => coursesStudentModel.destroy({
-  where: { courseId, studentId },
+  where: {
+    courseId,
+    studentId,
+  },
 });
 
 // eslint-disable-next-line require-await
 const getCoursesByStudentIdAndOptions = async (studentId, options) => coursesStudentModel.findAll({
-  where: { ...options, studentId },
+  where: {
+    ...options,
+    studentId,
+  },
   include: [{
     model: coursesModel,
     required: true,
@@ -324,6 +335,15 @@ const getCoursesByStudentIdAndOptions = async (studentId, options) => coursesStu
   }],
   ...createExcludedObjectForDB(),
 });
+
+// eslint-disable-next-line require-await
+const updateCoursesStudentStatus = async (studentId, courseId, status, transaction) => coursesStudentModel.update(
+  status,
+  {
+    where: { studentId, courseId },
+  },
+  transaction
+);
 
 // eslint-disable-next-line require-await
 const saveCourseLessons = async (data, transaction) => coursesLessonModel.bulkCreate(data,
@@ -389,11 +409,27 @@ const getAllCoursesByOptions = async optionsData => coursesModel.findAndCountAll
 });
 
 // eslint-disable-next-line require-await
+const getAllCoursesByInstructorsId = async instructorId => coursesInstructorModel.findAll({
+  where: { instructorId },
+  include: [{
+    model: coursesModel,
+    required: true,
+    as: DB_CONTRACT.coursesInstructor.coursesReferenceName,
+    ...createExcludedObjectForDB(),
+  }],
+  raw: true,
+  nest: true,
+});
+
+// eslint-disable-next-line require-await
 const saveLesson = async data => coursesLessonModel.create(data);
 
 // eslint-disable-next-line require-await
 const updateLessonById = async (id, courseId, data) => coursesLessonModel.update(data, {
-  where: { id, courseId },
+  where: {
+    id,
+    courseId,
+  },
 });
 
 // eslint-disable-next-line require-await
@@ -406,14 +442,76 @@ const getAllLessonsByCourseId = async courseId => coursesLessonModel.findAll({
 
 // eslint-disable-next-line require-await
 const removeLessonById = async (id, courseId) => coursesLessonModel.destroy({
-  where: { id, courseId },
+  where: {
+    id,
+    courseId,
+  },
 });
 
 // eslint-disable-next-line require-await
 const getLessonById = async (id, courseId) => coursesLessonModel.findOne({
   raw: true,
   nest: true,
-  where: { id, courseId },
+  where: {
+    id,
+    ...(courseId && { courseId }),
+  },
+});
+
+// eslint-disable-next-line require-await
+const saveHomework = async (data, transaction) => homeworkModel.create(data, { transaction });
+
+// eslint-disable-next-line require-await
+const updateHomeworkById = async (id, data, transaction) => homeworkModel.update(data, {
+  where: { id },
+  transaction,
+});
+
+// eslint-disable-next-line require-await
+const deleteHomework = async (id, transaction) => homeworkModel.destroy({
+  where: { id },
+  transaction,
+});
+
+// eslint-disable-next-line require-await
+const getOneHomeworkByOptions = async options => homeworkModel.findOne({
+  raw: true,
+  nest: true,
+  where: { ...options },
+  ...createExcludedObjectForDB(),
+});
+
+// eslint-disable-next-line require-await
+const getHomeworksByOptions = async options => homeworkModel.findAll({
+  raw: true,
+  nest: true,
+  where: { ...options },
+  ...createExcludedObjectForDB(),
+});
+
+// eslint-disable-next-line require-await
+const getHomeworksByOptionsWithLessonInfo = async options => homeworkModel.findAll({
+  raw: true,
+  nest: true,
+  where: { ...options },
+  include: [{
+    model: coursesLessonModel,
+    required: true,
+    as: DB_CONTRACT.homework.courseLessonReferenceName,
+    ...createExcludedObjectForDB(),
+  }],
+  ...createExcludedObjectForDB(),
+});
+
+// eslint-disable-next-line require-await
+const createStudentFeedback = async (data, transaction) => feedbackModel.create(data, { transaction });
+
+// eslint-disable-next-line require-await
+const getStudentFeedbacksByOptions = async options => feedbackModel.findAll({
+  raw: true,
+  nest: true,
+  where: { ...options },
+  attributes: [DB_CONTRACT.studentFeedback.feedback.property],
 });
 
 module.exports = {
@@ -460,4 +558,14 @@ module.exports = {
   removeCourseStudent,
   saveCourseStudent,
   getCoursesByStudentIdAndOptions,
+  saveHomework,
+  updateHomeworkById,
+  deleteHomework,
+  getOneHomeworkByOptions,
+  getHomeworksByOptions,
+  getHomeworksByOptionsWithLessonInfo,
+  updateCoursesStudentStatus,
+  createStudentFeedback,
+  getStudentFeedbacksByOptions,
+  getAllCoursesByInstructorsId,
 };

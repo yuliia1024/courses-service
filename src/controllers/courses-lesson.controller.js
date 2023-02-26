@@ -12,10 +12,10 @@ const { BadRequestError } = require('../error-handler');
 const {
   checkDataFromDB,
 } = require('../utils');
-const { checkUserPermissionToModifyCourseInfo } = require('../services/courses.service');
+const { checkUserPermissionToAccessCourseInfo } = require('../services/courses.service');
 
 const createLessonController = async (req, res) => {
-  await checkUserPermissionToModifyCourseInfo(req.userRole, req.userId, req.params.courseId);
+  await checkUserPermissionToAccessCourseInfo(req.userRole, req.userId, req.params.courseId);
   await createLesson({
     ...req.body,
     courseId: req.params.courseId,
@@ -25,7 +25,7 @@ const createLessonController = async (req, res) => {
 };
 
 const updateLessonController = async (req, res) => {
-  await checkUserPermissionToModifyCourseInfo(req.userRole, req.userId, req.params.courseId);
+  await checkUserPermissionToAccessCourseInfo(req.userRole, req.userId, req.params.courseId);
   await updateLesson(req.params.id, req.params.courseId, req.body, req.userId);
 
   new SuccessResponse(res).send();
@@ -50,7 +50,7 @@ const getAllLessonByCourseController = async (req, res) => {
 };
 
 const deleteLessonController = async (req, res) => {
-  await checkUserPermissionToModifyCourseInfo(req.userRole, req.userId, req.params.courseId);
+  await checkUserPermissionToAccessCourseInfo(req.userRole, req.userId, req.params.courseId);
   await deleteLessonById(req.params.id, req.params.courseId);
 
   new SuccessResponse(res).send();

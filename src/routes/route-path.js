@@ -10,6 +10,7 @@ const ROUTE = {
     root: 'student',
     active: 'active',
     filtered: 'filtered',
+    options: 'options',
     feedback: 'feedback',
   },
   course: {
@@ -25,10 +26,14 @@ const ROUTE = {
     filtered: 'filtered',
   },
   homework: {
+    instructor: 'instructor',
+    lesson: 'lesson',
+    student: 'student',
+    course: 'course',
     root: 'homework',
     file: 'file',
     mark: 'mark',
-    filtered: 'filtered',
+    options: 'options',
   },
   instructor: {
     root: 'instructor',

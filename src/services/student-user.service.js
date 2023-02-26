@@ -2,12 +2,17 @@ const generator = require('generate-password');
 const { v4: uuid } = require('uuid');
 const { isEmpty } = require('lodash');
 const nodemailer = require('../utils/nodemailer');
-const { USER_ROLE } = require('../constants');
+const {
+  USER_ROLE,
+  STUDENT_COURSES_STATUS,
+} = require('../constants');
 const { BadRequestError } = require('../error-handler');
 const {
   saveStudentUser,
   updateStudentUserById,
   getAllStudentUsersByOptions,
+  getCoursesByStudentIdAndOptions,
+  createStudentFeedback,
 } = require('./db.service');
 const { DB_CONTRACT } = require('../db/db.contract');
 const { sequelizeInstance } = require('../db');
@@ -23,6 +28,7 @@ const {
   createPaginateOptions,
   createDataObjectWithPaginationInfo,
 } = require('../utils/pagination');
+const { checkUserPermissionToAccessCourseInfo } = require('./courses.service');
 
 const createStudentUser = async req => {
   const transaction = await sequelizeInstance.transaction();
@@ -126,9 +132,29 @@ const getAllStudentsUser = async (data, studentIds = []) => {
   }
 };
 
+const addStudentFeedback = async (data, userRole, loggedInUserId) => {
+  await checkUserPermissionToAccessCourseInfo(userRole, loggedInUserId, data.courseId);
+
+  const student = getCoursesByStudentIdAndOptions(data.studentId, {
+    courseId: data.courseId,
+    [DB_CONTRACT.coursesStudent.status.property]: STUDENT_COURSES_STATUS.passed,
+  });
+
+  checkDataFromDB(student);
+
+  await createStudentFeedback({
+    id: uuid(),
+    [DB_CONTRACT.studentFeedback.studentId.property]: data.studentId,
+    [DB_CONTRACT.studentFeedback.courseId.property]: data.courseId,
+    [DB_CONTRACT.studentFeedback.feedback.property]: data.feedback,
+    [DB_CONTRACT.common.createdBy.property]: loggedInUserId,
+  });
+};
+
 module.exports = {
   createStudentUser,
   updateStudentUser,
   inactiveStudentUser,
   getAllStudentsUser,
+  addStudentFeedback,
 };

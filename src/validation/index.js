@@ -1,6 +1,6 @@
 const { get } = require('lodash');
 const { ValidationError, UnauthorizedError } = require('../error-handler');
-const { USER_ROLE } = require('../constants');
+const { USER_ROLE, UPLOADING_FILE } = require('../constants');
 const { createCustomError, getAccessTokenFromHeader } = require('../utils');
 const { verifyAccessToken } = require('../services/token.service');
 
@@ -52,8 +52,33 @@ const verifyToken = () => async (req, res, next) => {
   }
 };
 
+const checkMimeType = (mimetypes, fileNotRequired = false) => (req, res, next) => {
+  const fileType = get(req, `${UPLOADING_FILE.fieldName}.mimetype`);
+
+  if (fileNotRequired && !fileType) {
+    next();
+
+    return;
+  }
+
+  try {
+    if (!fileType) {
+      throw new ValidationError('File is required');
+    }
+
+    if (!mimetypes.includes(fileType)) {
+      throw new ValidationError('Wrong file type');
+    }
+
+    next();
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   validateValues,
   validateHeaderFields,
   verifyToken,
+  checkMimeType,
 };

@@ -18,6 +18,8 @@ const {
   assignInstructorsForCourseController,
   assignStudentForCourseController,
   removeStudentFromCourseController,
+  getCoursesByInstructorIdController,
+  getCoursesByStudentIdController,
 } = require('../../../../controllers/courses.controller');
 const { checkRole } = require('../../../../services/role.service');
 const { updateCourseInfoSchema } = require('./validation-schemes/update-course.schema');
@@ -38,6 +40,38 @@ router.post(
   `/${ROUTE.course.filtered}`,
   validateValues(coursesFilteredSchema, REQUEST_DATA_SOURCE.body),
   routerHandler(getCoursesByOptionsController),
+);
+
+router.get(
+  `/${ROUTE.course.instructor}`,
+  checkRole([
+    USER_ROLE.instructor,
+  ]),
+  routerHandler(getCoursesByInstructorIdController),
+);
+
+router.get(
+  `/${ROUTE.course.student}`,
+  checkRole([
+    USER_ROLE.student,
+  ]),
+  routerHandler(getCoursesByStudentIdController),
+);
+
+router.get(
+  `/${ROUTE.course.instructor}/:id`,
+  checkRole([
+    USER_ROLE.admin,
+  ]),
+  routerHandler(getCoursesByInstructorIdController),
+);
+
+router.get(
+  `/${ROUTE.course.student}/:id`,
+  checkRole([
+    USER_ROLE.admin,
+  ]),
+  routerHandler(getCoursesByStudentIdController),
 );
 
 router.post(

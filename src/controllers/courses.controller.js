@@ -1,3 +1,4 @@
+const { pick } = require('lodash');
 const { SuccessResponse } = require('../custom-response');
 const {
   removeCourseInstructor,
@@ -5,6 +6,8 @@ const {
   getActiveStudentUserById,
   getActiveInstructorUserById,
   getCourseInstructorsByOptions,
+  getCoursesByStudentIdAndOptions,
+  getAllCoursesByInstructorsId,
 } = require('../services/db.service');
 const {
   createCourse,
@@ -13,12 +16,13 @@ const {
   getAllCourseInfoById,
   getAllCourses,
   assignInstructorsForCourse,
-  checkUserPermissionToModifyCourseInfo,
+  checkUserPermissionToAccessCourseInfo,
   assignStudentForCourse,
 } = require('../services/courses.service');
 const { USER_ROLE } = require('../constants');
 const { ForbiddenError,
   BadRequestError } = require('../error-handler');
+const { DB_CONTRACT } = require('../db/db.contract');
 
 const createCourseController = async (req, res) => {
   await createCourse(req);
@@ -27,7 +31,7 @@ const createCourseController = async (req, res) => {
 };
 
 const updateCourseController = async (req, res) => {
-  await checkUserPermissionToModifyCourseInfo(req.userRole, req.userId, req.params.id);
+  await checkUserPermissionToAccessCourseInfo(req.userRole, req.userId, req.params.id);
   await updateCourse(req.params.id, req.userId, req.body);
 
   new SuccessResponse(res).send();
@@ -45,15 +49,29 @@ const getCoursesByOptionsController = async (req, res) => {
   new SuccessResponse(res).send(courses);
 };
 
+const getCoursesByInstructorIdController = async (req, res) => {
+  const instructorId = req.userRole === USER_ROLE.admin ? req.params.id : req.userId;
+  const courses = await getAllCoursesByInstructorsId(instructorId);
+
+  new SuccessResponse(res).send(pick(courses, [DB_CONTRACT.coursesInstructor.coursesReferenceName]));
+};
+
+const getCoursesByStudentIdController = async (req, res) => {
+  const studentId = req.userRole === USER_ROLE.admin ? req.params.id : req.userId;
+  const courses = await getCoursesByStudentIdAndOptions(studentId);
+
+  new SuccessResponse(res).send(pick(courses, [DB_CONTRACT.coursesStudent.coursesReferenceName]));
+};
+
 const deleteCourseController = async (req, res) => {
-  await checkUserPermissionToModifyCourseInfo(req.userRole, req.userId, req.params.id);
+  await checkUserPermissionToAccessCourseInfo(req.userRole, req.userId, req.params.id);
   await deleteCourseById(req.params.id);
 
   new SuccessResponse(res).send();
 };
 
 const removeInstructorFromCourseController = async (req, res) => {
-  await checkUserPermissionToModifyCourseInfo(req.userRole, req.userId, req.params.courseId);
+  await checkUserPermissionToAccessCourseInfo(req.userRole, req.userId, req.params.courseId);
   await getAllCourseInfoById(req.params.courseId);
   const instructors = await getCourseInstructorsByOptions({ courseId: req.params.courseId });
 
@@ -83,7 +101,7 @@ const assignStudentForCourseController = async (req, res) => {
     throw new ForbiddenError('You do not have permission for this actions');
   }
   if (req.userRole !== USER_ROLE.student) {
-    await checkUserPermissionToModifyCourseInfo(req.userRole, req.userId, req.params.courseId);
+    await checkUserPermissionToAccessCourseInfo(req.userRole, req.userId, req.params.courseId);
   }
 
   await getActiveStudentUserById(req.params.studentId);
@@ -102,7 +120,7 @@ const removeStudentFromCourseController = async (req, res) => {
     throw new ForbiddenError('You do not have permission for this actions');
   }
   if (req.userRole !== USER_ROLE.student) {
-    await checkUserPermissionToModifyCourseInfo(req.userRole, req.userId, req.params.courseId);
+    await checkUserPermissionToAccessCourseInfo(req.userRole, req.userId, req.params.courseId);
   }
 
   await removeCourseStudent(req.params.courseId, req.params.studentId);
@@ -120,4 +138,6 @@ module.exports = {
   assignInstructorsForCourseController,
   assignStudentForCourseController,
   removeStudentFromCourseController,
+  getCoursesByInstructorIdController,
+  getCoursesByStudentIdController,
 };

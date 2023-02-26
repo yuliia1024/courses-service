@@ -4,6 +4,7 @@ const instructorUserRouter = require('./instructor-route');
 const studentUserRouter = require('./student-route');
 const tokenRouter = require('./token-route');
 const lessonRouter = require('./course-lessons-route');
+const homeworkRouter = require('./homework-route');
 const courseRouter = require('./course-route');
 const { ROUTE } = require('../../route-path');
 
@@ -30,6 +31,11 @@ router.use(
 router.use(
   `/${ROUTE.lesson.root}`,
   lessonRouter,
+);
+
+router.use(
+  `/${ROUTE.homework.root}`,
+  homeworkRouter,
 );
 
 router.use(

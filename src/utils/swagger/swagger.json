@@ -28,7 +28,7 @@
         "operationId": "login",
         "deprecated": false,
         "produces": [
-          "application/json"
+          "application/json; charset=utf-8"
         ],
         "parameters": [
           {
@@ -43,8 +43,55 @@
         ],
         "responses": {
           "200": {
-            "description": "",
-            "headers": {}
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/login"
+            },
+            "examples": {
+              "application/json; charset=utf-8": {
+                "success": true,
+                "result": {
+                  "user": {
+                    "id": "a05fb7a6-ef20-4240-ac40-0e33325458b2",
+                    "firstName": "Default",
+                    "lastName": "Admin",
+                    "email": "admin@courses.com",
+                    "role": "admin",
+                    "isActive": 1
+                  },
+                  "tokens": {
+                    "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJhMDVmYjdhNi1lZjIwLTQyNDAtYWM0MC0wZTMzMzI1NDU4YjIiLCJyb2xlIjoiYWRtaW4iLCJ0eXBlIjoiYWNjZXNzIiwiaWF0IjoxNjczODgxNjQ2LCJleHAiOjIwMzM4ODE2NDZ9.2elevmZN99Tnrqw7eBa4DZh9G1mfsH_A3DxY1oivD3E",
+                    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJhMDVmYjdhNi1lZjIwLTQyNDAtYWM0MC0wZTMzMzI1NDU4YjIiLCJyb2xlIjoiYWRtaW4iLCJ0eXBlIjoicmVmcmVzaCIsImlhdCI6MTY3Mzg4MTY0NiwiZXhwIjoxNjc0NDg2NDQ2fQ.Fj1zb_yRHzrYYMJpY0aE6O0fq4PTiv_HMCQj1V_9bPc"
+                  }
+                }
+              }
+            },
+            "headers": {
+              "X-Powered-By": {
+                "type": "string",
+                "default": "Express"
+              },
+              "Content-Length": {
+                "type": "string",
+                "default": "691"
+              },
+              "ETag": {
+                "type": "string",
+                "default": "W/\"2b3-vvz+UUp7G8Mljv0pSKdDpUbcte4\""
+              },
+              "Date": {
+                "type": "string",
+                "default": "Mon, 16 Jan 2023 15:07:26 GMT"
+              },
+              "Connection": {
+                "type": "string",
+                "default": "keep-alive"
+              },
+              "Keep-Alive": {
+                "type": "string",
+                "default": "timeout=5"
+              }
+            }
           }
         }
       }
@@ -58,7 +105,7 @@
         "operationId": "registration",
         "deprecated": false,
         "produces": [
-          "application/json"
+          "application/json; charset=utf-8"
         ],
         "parameters": [
           {
@@ -73,8 +120,41 @@
         ],
         "responses": {
           "200": {
-            "description": "",
-            "headers": {}
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/registration"
+            },
+            "examples": {
+              "application/json; charset=utf-8": {
+                "success": true
+              }
+            },
+            "headers": {
+              "X-Powered-By": {
+                "type": "string",
+                "default": "Express"
+              },
+              "Content-Length": {
+                "type": "string",
+                "default": "16"
+              },
+              "ETag": {
+                "type": "string",
+                "default": "W/\"10-oV4hJxRVSENxc/wX8+mA4/Pe4tA\""
+              },
+              "Date": {
+                "type": "string",
+                "default": "Mon, 16 Jan 2023 15:07:52 GMT"
+              },
+              "Connection": {
+                "type": "string",
+                "default": "keep-alive"
+              },
+              "Keep-Alive": {
+                "type": "string",
+                "default": "timeout=5"
+              }
+            }
           }
         }
       }
@@ -88,7 +168,7 @@
         "operationId": "createstudent",
         "deprecated": false,
         "produces": [
-          "application/json"
+          "application/json; charset=utf-8"
         ],
         "parameters": [
           {
@@ -110,14 +190,47 @@
         ],
         "responses": {
           "200": {
-            "description": "",
-            "headers": {}
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/createstudent"
+            },
+            "examples": {
+              "application/json; charset=utf-8": {
+                "success": true
+              }
+            },
+            "headers": {
+              "X-Powered-By": {
+                "type": "string",
+                "default": "Express"
+              },
+              "Content-Length": {
+                "type": "string",
+                "default": "16"
+              },
+              "ETag": {
+                "type": "string",
+                "default": "W/\"10-oV4hJxRVSENxc/wX8+mA4/Pe4tA\""
+              },
+              "Date": {
+                "type": "string",
+                "default": "Mon, 16 Jan 2023 15:08:15 GMT"
+              },
+              "Connection": {
+                "type": "string",
+                "default": "keep-alive"
+              },
+              "Keep-Alive": {
+                "type": "string",
+                "default": "timeout=5"
+              }
+            }
           }
         },
         "security": []
       }
     },
-    "/student/6ec0b552-d911-4891-afdf-73845f51de3b": {
+    "/student/{id}": {
       "get": {
         "summary": "get student by ID (only Admin)",
         "tags": [
@@ -126,9 +239,16 @@
         "operationId": "getstudentbyID(onlyAdmin)",
         "deprecated": false,
         "produces": [
-          "application/json"
+          "application/json; charset=utf-8"
         ],
         "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
           {
             "name": "Authorization",
             "in": "header",
@@ -139,8 +259,50 @@
         ],
         "responses": {
           "200": {
-            "description": "",
-            "headers": {}
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/getstudentbyID%28onlyAdmin%29"
+            },
+            "examples": {
+              "application/json; charset=utf-8": {
+                "success": true,
+                "result": {
+                  "id": "6ec0b552-d911-4891-afdf-73845f51de3b",
+                  "firstName": "admin",
+                  "lastName": "admin",
+                  "email": "byjfufzoufxdrgujlj@kvhrw.com",
+                  "phone": null,
+                  "role": "student",
+                  "isActive": 0
+                }
+              }
+            },
+            "headers": {
+              "X-Powered-By": {
+                "type": "string",
+                "default": "Express"
+              },
+              "Content-Length": {
+                "type": "string",
+                "default": "192"
+              },
+              "ETag": {
+                "type": "string",
+                "default": "W/\"c0-99UW9DrYyBSUIK3+QaNnGF1fRaw\""
+              },
+              "Date": {
+                "type": "string",
+                "default": "Mon, 16 Jan 2023 15:08:22 GMT"
+              },
+              "Connection": {
+                "type": "string",
+                "default": "keep-alive"
+              },
+              "Keep-Alive": {
+                "type": "string",
+                "default": "timeout=5"
+              }
+            }
           }
         },
         "security": []
@@ -153,63 +315,67 @@
         "operationId": "deletestudentbyID",
         "deprecated": false,
         "produces": [
-          "application/json"
+          "application/json; charset=utf-8"
         ],
         "parameters": [
           {
-            "name": "Authorization",
-            "in": "header",
-            "required": true,
-            "type": "string",
-            "description": ""
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "headers": {}
-          }
-        },
-        "security": []
-      },
-      "put": {
-        "summary": "update student by ID",
-        "tags": [
-          "student"
-        ],
-        "operationId": "updatestudentbyID",
-        "deprecated": false,
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
+            "name": "id",
+            "in": "path",
             "required": true,
             "type": "string",
             "description": ""
           },
           {
-            "name": "Body",
-            "in": "body",
+            "name": "Authorization",
+            "in": "header",
             "required": true,
-            "description": "",
-            "schema": {
-              "$ref": "#/definitions/updatestudentbyIDRequest"
-            }
+            "type": "string",
+            "description": ""
           }
         ],
         "responses": {
           "200": {
-            "description": "",
-            "headers": {}
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/deletestudentbyID"
+            },
+            "examples": {
+              "application/json; charset=utf-8": {
+                "success": true
+              }
+            },
+            "headers": {
+              "X-Powered-By": {
+                "type": "string",
+                "default": "Express"
+              },
+              "Content-Length": {
+                "type": "string",
+                "default": "16"
+              },
+              "ETag": {
+                "type": "string",
+                "default": "W/\"10-oV4hJxRVSENxc/wX8+mA4/Pe4tA\""
+              },
+              "Date": {
+                "type": "string",
+                "default": "Mon, 16 Jan 2023 15:18:35 GMT"
+              },
+              "Connection": {
+                "type": "string",
+                "default": "keep-alive"
+              },
+              "Keep-Alive": {
+                "type": "string",
+                "default": "timeout=5"
+              }
+            }
           }
         },
         "security": []
       }
     },
-    "/student/active/6ec0b552-d911-4891-afdf-73845f51de3b": {
+    "/student/active/{id}": {
       "get": {
         "summary": "get active student by ID",
         "tags": [
@@ -218,9 +384,16 @@
         "operationId": "getactivestudentbyID",
         "deprecated": false,
         "produces": [
-          "application/json"
+          "application/json; charset=utf-8"
         ],
         "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
           {
             "name": "Authorization",
             "in": "header",
@@ -231,8 +404,50 @@
         ],
         "responses": {
           "200": {
-            "description": "",
-            "headers": {}
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/getactivestudentbyID"
+            },
+            "examples": {
+              "application/json; charset=utf-8": {
+                "success": true,
+                "result": {
+                  "id": "290d1f41-6a37-431b-93d6-f88b085a35ef",
+                  "firstName": "student",
+                  "lastName": "student",
+                  "email": "m9mt@mikfarm.com",
+                  "phone": null,
+                  "role": "student",
+                  "isActive": 1
+                }
+              }
+            },
+            "headers": {
+              "X-Powered-By": {
+                "type": "string",
+                "default": "Express"
+              },
+              "Content-Length": {
+                "type": "string",
+                "default": "184"
+              },
+              "ETag": {
+                "type": "string",
+                "default": "W/\"b8-PhMFHXGLVYKkAgzLx3apkux8TDY\""
+              },
+              "Date": {
+                "type": "string",
+                "default": "Mon, 16 Jan 2023 15:19:09 GMT"
+              },
+              "Connection": {
+                "type": "string",
+                "default": "keep-alive"
+              },
+              "Keep-Alive": {
+                "type": "string",
+                "default": "timeout=5"
+              }
+            }
           }
         },
         "security": []
@@ -247,7 +462,7 @@
         "operationId": "getallstudentwithpagination",
         "deprecated": false,
         "produces": [
-          "application/json"
+          "application/json; charset=utf-8"
         ],
         "parameters": [
           {
@@ -269,8 +484,146 @@
         ],
         "responses": {
           "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/getallstudentwithpagination"
+            },
+            "examples": {
+              "application/json; charset=utf-8": {
+                "success": true,
+                "result": {
+                  "offset": 0,
+                  "limit": 3,
+                  "totalRecords": 5,
+                  "records": [
+                    {
+                      "id": "1e3ba647-1eb1-495c-897b-0441a9d84e34",
+                      "firstName": "intsr",
+                      "lastName": "student",
+                      "email": "byjfufzoufxd1rgujlj@kvhrw.com",
+                      "phone": null,
+                      "role": "student",
+                      "isActive": 1
+                    },
+                    {
+                      "id": "6ec0b552-d911-4891-afdf-73845f51de3b",
+                      "firstName": "admin",
+                      "lastName": "admin",
+                      "email": "byjfufzoufxdrgujlj@kvhrw.com",
+                      "phone": null,
+                      "role": "student",
+                      "isActive": 0
+                    },
+                    {
+                      "id": "290d1f41-6a37-431b-93d6-f88b085a35ef",
+                      "firstName": "student",
+                      "lastName": "student",
+                      "email": "m9mt@mikfarm.com",
+                      "phone": null,
+                      "role": "student",
+                      "isActive": 1
+                    }
+                  ]
+                }
+              }
+            },
+            "headers": {
+              "X-Powered-By": {
+                "type": "string",
+                "default": "Express"
+              },
+              "Content-Length": {
+                "type": "string",
+                "default": "573"
+              },
+              "ETag": {
+                "type": "string",
+                "default": "W/\"23d-/WIjFYYes/xCpMTUb8k0U5B6+5A\""
+              },
+              "Date": {
+                "type": "string",
+                "default": "Mon, 16 Jan 2023 15:23:42 GMT"
+              },
+              "Connection": {
+                "type": "string",
+                "default": "keep-alive"
+              },
+              "Keep-Alive": {
+                "type": "string",
+                "default": "timeout=5"
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/student/6ec0b552-d911-4891-afdf-73845f51de3b": {
+      "put": {
+        "summary": "update student by ID",
+        "tags": [
+          "student"
+        ],
+        "operationId": "updatestudentbyID",
+        "deprecated": false,
+        "produces": [
+          "application/json; charset=utf-8"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
             "description": "",
-            "headers": {}
+            "schema": {
+              "$ref": "#/definitions/updatestudentbyIDRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/updatestudentbyID"
+            },
+            "examples": {
+              "application/json; charset=utf-8": {
+                "success": true
+              }
+            },
+            "headers": {
+              "X-Powered-By": {
+                "type": "string",
+                "default": "Express"
+              },
+              "Content-Length": {
+                "type": "string",
+                "default": "16"
+              },
+              "ETag": {
+                "type": "string",
+                "default": "W/\"10-oV4hJxRVSENxc/wX8+mA4/Pe4tA\""
+              },
+              "Date": {
+                "type": "string",
+                "default": "Mon, 16 Jan 2023 15:24:44 GMT"
+              },
+              "Connection": {
+                "type": "string",
+                "default": "keep-alive"
+              },
+              "Keep-Alive": {
+                "type": "string",
+                "default": "timeout=5"
+              }
+            }
           }
         },
         "security": []
@@ -285,7 +638,7 @@
         "operationId": "createadmin",
         "deprecated": false,
         "produces": [
-          "application/json"
+          "application/json; charset=utf-8"
         ],
         "parameters": [
           {
@@ -307,14 +660,47 @@
         ],
         "responses": {
           "200": {
-            "description": "",
-            "headers": {}
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/createadmin"
+            },
+            "examples": {
+              "application/json; charset=utf-8": {
+                "success": true
+              }
+            },
+            "headers": {
+              "X-Powered-By": {
+                "type": "string",
+                "default": "Express"
+              },
+              "Content-Length": {
+                "type": "string",
+                "default": "16"
+              },
+              "ETag": {
+                "type": "string",
+                "default": "W/\"10-oV4hJxRVSENxc/wX8+mA4/Pe4tA\""
+              },
+              "Date": {
+                "type": "string",
+                "default": "Mon, 16 Jan 2023 15:25:14 GMT"
+              },
+              "Connection": {
+                "type": "string",
+                "default": "keep-alive"
+              },
+              "Keep-Alive": {
+                "type": "string",
+                "default": "timeout=5"
+              }
+            }
           }
         },
         "security": []
       }
     },
-    "/admin/efc5ea3e-b401-411e-9b7e-6648271d4bf3": {
+    "/admin/{id}": {
       "get": {
         "summary": "get admin by ID (only Admin)",
         "tags": [
@@ -323,9 +709,16 @@
         "operationId": "getadminbyID(onlyAdmin)",
         "deprecated": false,
         "produces": [
-          "application/json"
+          "application/json; charset=utf-8"
         ],
         "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
           {
             "name": "Authorization",
             "in": "header",
@@ -336,8 +729,49 @@
         ],
         "responses": {
           "200": {
-            "description": "",
-            "headers": {}
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/getadminbyID%28onlyAdmin%29"
+            },
+            "examples": {
+              "application/json; charset=utf-8": {
+                "success": true,
+                "result": {
+                  "id": "efc5ea3e-b401-411e-9b7e-6648271d4bf3",
+                  "firstName": "admin",
+                  "lastName": "admin",
+                  "email": "byjfufzoufxdrgujlj@kvhrw.com",
+                  "role": "admin",
+                  "isActive": 0
+                }
+              }
+            },
+            "headers": {
+              "X-Powered-By": {
+                "type": "string",
+                "default": "Express"
+              },
+              "Content-Length": {
+                "type": "string",
+                "default": "177"
+              },
+              "ETag": {
+                "type": "string",
+                "default": "W/\"b1-boXyrhy4XPkBAxC7/R7wrA+8rmA\""
+              },
+              "Date": {
+                "type": "string",
+                "default": "Mon, 16 Jan 2023 15:25:22 GMT"
+              },
+              "Connection": {
+                "type": "string",
+                "default": "keep-alive"
+              },
+              "Keep-Alive": {
+                "type": "string",
+                "default": "timeout=5"
+              }
+            }
           }
         },
         "security": []
@@ -350,9 +784,16 @@
         "operationId": "deleteadminbyID",
         "deprecated": false,
         "produces": [
-          "application/json"
+          "application/json; charset=utf-8"
         ],
         "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
           {
             "name": "Authorization",
             "in": "header",
@@ -363,8 +804,41 @@
         ],
         "responses": {
           "200": {
-            "description": "",
-            "headers": {}
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/deleteadminbyID"
+            },
+            "examples": {
+              "application/json; charset=utf-8": {
+                "success": true
+              }
+            },
+            "headers": {
+              "X-Powered-By": {
+                "type": "string",
+                "default": "Express"
+              },
+              "Content-Length": {
+                "type": "string",
+                "default": "16"
+              },
+              "ETag": {
+                "type": "string",
+                "default": "W/\"10-oV4hJxRVSENxc/wX8+mA4/Pe4tA\""
+              },
+              "Date": {
+                "type": "string",
+                "default": "Mon, 16 Jan 2023 15:25:52 GMT"
+              },
+              "Connection": {
+                "type": "string",
+                "default": "keep-alive"
+              },
+              "Keep-Alive": {
+                "type": "string",
+                "default": "timeout=5"
+              }
+            }
           }
         },
         "security": []
@@ -377,9 +851,16 @@
         "operationId": "updateadminbyID(onlyAdmin)",
         "deprecated": false,
         "produces": [
-          "application/json"
+          "application/json; charset=utf-8"
         ],
         "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
           {
             "name": "Authorization",
             "in": "header",
@@ -399,8 +880,41 @@
         ],
         "responses": {
           "200": {
-            "description": "",
-            "headers": {}
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/updateadminbyID%28onlyAdmin%29"
+            },
+            "examples": {
+              "application/json; charset=utf-8": {
+                "success": true
+              }
+            },
+            "headers": {
+              "X-Powered-By": {
+                "type": "string",
+                "default": "Express"
+              },
+              "Content-Length": {
+                "type": "string",
+                "default": "16"
+              },
+              "ETag": {
+                "type": "string",
+                "default": "W/\"10-oV4hJxRVSENxc/wX8+mA4/Pe4tA\""
+              },
+              "Date": {
+                "type": "string",
+                "default": "Mon, 16 Jan 2023 15:27:27 GMT"
+              },
+              "Connection": {
+                "type": "string",
+                "default": "keep-alive"
+              },
+              "Keep-Alive": {
+                "type": "string",
+                "default": "timeout=5"
+              }
+            }
           }
         },
         "security": []
@@ -415,7 +929,7 @@
         "operationId": "getalladminwithpagination",
         "deprecated": false,
         "produces": [
-          "application/json"
+          "application/json; charset=utf-8"
         ],
         "parameters": [
           {
@@ -437,14 +951,78 @@
         ],
         "responses": {
           "200": {
-            "description": "",
-            "headers": {}
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/getalladminwithpagination"
+            },
+            "examples": {
+              "application/json; charset=utf-8": {
+                "success": true,
+                "result": {
+                  "offset": 0,
+                  "limit": 3,
+                  "totalRecords": 3,
+                  "records": [
+                    {
+                      "id": "a05fb7a6-ef20-4240-ac40-0e33325458b2",
+                      "firstName": "Default",
+                      "lastName": "Admin",
+                      "email": "admin@courses.com",
+                      "role": "admin",
+                      "isActive": 1
+                    },
+                    {
+                      "id": "8781fe53-89d8-4bf1-8d4c-ab6ceea6de1a",
+                      "firstName": "admin",
+                      "lastName": "admin",
+                      "email": "byjfuf1zoufxdrgujlj@kvhrw.com",
+                      "role": "admin",
+                      "isActive": 1
+                    },
+                    {
+                      "id": "efc5ea3e-b401-411e-9b7e-6648271d4bf3",
+                      "firstName": "admin",
+                      "lastName": "admin",
+                      "email": "byjfufzoufxdrgujlj@kvhrw.com",
+                      "role": "admin",
+                      "isActive": 0
+                    }
+                  ]
+                }
+              }
+            },
+            "headers": {
+              "X-Powered-By": {
+                "type": "string",
+                "default": "Express"
+              },
+              "Content-Length": {
+                "type": "string",
+                "default": "525"
+              },
+              "ETag": {
+                "type": "string",
+                "default": "W/\"20d-UO/CrrSZhAnu0cnOoVHEFwHeFw0\""
+              },
+              "Date": {
+                "type": "string",
+                "default": "Mon, 16 Jan 2023 15:26:54 GMT"
+              },
+              "Connection": {
+                "type": "string",
+                "default": "keep-alive"
+              },
+              "Keep-Alive": {
+                "type": "string",
+                "default": "timeout=5"
+              }
+            }
           }
         },
         "security": []
       }
     },
-    "/instructor/12147a92-c1f5-4075-8a5d-c8ef173fd07b": {
+    "/instructor/{id}": {
       "delete": {
         "summary": "delete instructor by ID",
         "tags": [
@@ -453,9 +1031,16 @@
         "operationId": "deleteinstructorbyID",
         "deprecated": false,
         "produces": [
-          "application/json"
+          "application/json; charset=utf-8"
         ],
         "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
           {
             "name": "Authorization",
             "in": "header",
@@ -466,8 +1051,41 @@
         ],
         "responses": {
           "200": {
-            "description": "",
-            "headers": {}
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/deleteinstructorbyID"
+            },
+            "examples": {
+              "application/json; charset=utf-8": {
+                "success": true
+              }
+            },
+            "headers": {
+              "X-Powered-By": {
+                "type": "string",
+                "default": "Express"
+              },
+              "Content-Length": {
+                "type": "string",
+                "default": "16"
+              },
+              "ETag": {
+                "type": "string",
+                "default": "W/\"10-oV4hJxRVSENxc/wX8+mA4/Pe4tA\""
+              },
+              "Date": {
+                "type": "string",
+                "default": "Mon, 16 Jan 2023 15:27:40 GMT"
+              },
+              "Connection": {
+                "type": "string",
+                "default": "keep-alive"
+              },
+              "Keep-Alive": {
+                "type": "string",
+                "default": "timeout=5"
+              }
+            }
           }
         },
         "security": []
@@ -480,9 +1098,16 @@
         "operationId": "updateinstructorbyID(onlyAdmin)",
         "deprecated": false,
         "produces": [
-          "application/json"
+          "application/json; charset=utf-8"
         ],
         "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
           {
             "name": "Authorization",
             "in": "header",
@@ -502,35 +1127,41 @@
         ],
         "responses": {
           "200": {
-            "description": "",
-            "headers": {}
-          }
-        },
-        "security": []
-      },
-      "get": {
-        "summary": "get instructor by ID (only Admin)",
-        "tags": [
-          "instructor"
-        ],
-        "operationId": "getinstructorbyID(onlyAdmin)",
-        "deprecated": false,
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "required": true,
-            "type": "string",
-            "description": ""
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "headers": {}
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/updateinstructorbyID%28onlyAdmin%29"
+            },
+            "examples": {
+              "application/json; charset=utf-8": {
+                "success": true
+              }
+            },
+            "headers": {
+              "X-Powered-By": {
+                "type": "string",
+                "default": "Express"
+              },
+              "Content-Length": {
+                "type": "string",
+                "default": "16"
+              },
+              "ETag": {
+                "type": "string",
+                "default": "W/\"10-oV4hJxRVSENxc/wX8+mA4/Pe4tA\""
+              },
+              "Date": {
+                "type": "string",
+                "default": "Mon, 16 Jan 2023 15:28:47 GMT"
+              },
+              "Connection": {
+                "type": "string",
+                "default": "keep-alive"
+              },
+              "Keep-Alive": {
+                "type": "string",
+                "default": "timeout=5"
+              }
+            }
           }
         },
         "security": []
@@ -545,7 +1176,7 @@
         "operationId": "createinstructor",
         "deprecated": false,
         "produces": [
-          "application/json"
+          "application/json; charset=utf-8"
         ],
         "parameters": [
           {
@@ -567,8 +1198,41 @@
         ],
         "responses": {
           "200": {
-            "description": "",
-            "headers": {}
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/createinstructor"
+            },
+            "examples": {
+              "application/json; charset=utf-8": {
+                "success": true
+              }
+            },
+            "headers": {
+              "X-Powered-By": {
+                "type": "string",
+                "default": "Express"
+              },
+              "Content-Length": {
+                "type": "string",
+                "default": "16"
+              },
+              "ETag": {
+                "type": "string",
+                "default": "W/\"10-oV4hJxRVSENxc/wX8+mA4/Pe4tA\""
+              },
+              "Date": {
+                "type": "string",
+                "default": "Mon, 16 Jan 2023 15:27:54 GMT"
+              },
+              "Connection": {
+                "type": "string",
+                "default": "keep-alive"
+              },
+              "Keep-Alive": {
+                "type": "string",
+                "default": "timeout=5"
+              }
+            }
           }
         },
         "security": []
@@ -583,7 +1247,7 @@
         "operationId": "getallinstructorswithpagination",
         "deprecated": false,
         "produces": [
-          "application/json"
+          "application/json; charset=utf-8"
         ],
         "parameters": [
           {
@@ -605,14 +1269,84 @@
         ],
         "responses": {
           "200": {
-            "description": "",
-            "headers": {}
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/getallinstructorswithpagination"
+            },
+            "examples": {
+              "application/json; charset=utf-8": {
+                "success": true,
+                "result": {
+                  "offset": 0,
+                  "limit": 3,
+                  "totalRecords": 5,
+                  "records": [
+                    {
+                      "id": "0250ad05-8c3c-49c0-9fc9-c50caf6b415e",
+                      "firstName": "instructor",
+                      "lastName": "instructor",
+                      "email": "akl6cri@fastddns.org",
+                      "role": "instructor",
+                      "isActive": 1,
+                      "generalInformation": null,
+                      "academicStatus": null
+                    },
+                    {
+                      "id": "12147a92-c1f5-4075-8a5d-c8ef173fd07b",
+                      "firstName": "admin",
+                      "lastName": "admin",
+                      "email": "byjfufzoffufxdrgujlj@kvhrw.com",
+                      "role": "instructor",
+                      "isActive": 0,
+                      "generalInformation": null,
+                      "academicStatus": null
+                    },
+                    {
+                      "id": "d951dcef-a2c9-4840-acf3-5d39dd79fe01",
+                      "firstName": "intsr",
+                      "lastName": "student",
+                      "email": "byjfufzoufxdr1gujlj@kvhrw.com",
+                      "role": "instructor",
+                      "isActive": 1,
+                      "generalInformation": null,
+                      "academicStatus": null
+                    }
+                  ]
+                }
+              }
+            },
+            "headers": {
+              "X-Powered-By": {
+                "type": "string",
+                "default": "Express"
+              },
+              "Content-Length": {
+                "type": "string",
+                "default": "699"
+              },
+              "ETag": {
+                "type": "string",
+                "default": "W/\"2bb-f61shodZ2nblUbjnloRFXHey40I\""
+              },
+              "Date": {
+                "type": "string",
+                "default": "Mon, 16 Jan 2023 15:28:22 GMT"
+              },
+              "Connection": {
+                "type": "string",
+                "default": "keep-alive"
+              },
+              "Keep-Alive": {
+                "type": "string",
+                "default": "timeout=5"
+              }
+            }
           }
         },
         "security": []
       }
     },
-    "/instructor/active/12147a92-c1f5-4075-8a5d-c8ef173fd07b": {
+    "/instructor/active/{id}": {
       "get": {
         "summary": "get active instructor by ID",
         "tags": [
@@ -621,7 +1355,86 @@
         "operationId": "getactiveinstructorbyID",
         "deprecated": false,
         "produces": [
-          "application/json"
+          "application/json; charset=utf-8"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/getactiveinstructorbyID"
+            },
+            "examples": {
+              "application/json; charset=utf-8": {
+                "success": true,
+                "result": {
+                  "id": "eb5fce62-da43-4964-b486-23fd4989d67c",
+                  "firstName": "instructor",
+                  "lastName": "instructor",
+                  "email": "ubzfibjdhgmbzmjwaw@kvhrs.com",
+                  "role": "instructor",
+                  "isActive": 1,
+                  "generalInformation": null,
+                  "academicStatus": null
+                }
+              }
+            },
+            "headers": {
+              "X-Powered-By": {
+                "type": "string",
+                "default": "Express"
+              },
+              "Content-Length": {
+                "type": "string",
+                "default": "240"
+              },
+              "ETag": {
+                "type": "string",
+                "default": "W/\"f0-B3m/Aqx0hSESFPDmaBj74pc5CGs\""
+              },
+              "Date": {
+                "type": "string",
+                "default": "Mon, 16 Jan 2023 15:29:49 GMT"
+              },
+              "Connection": {
+                "type": "string",
+                "default": "keep-alive"
+              },
+              "Keep-Alive": {
+                "type": "string",
+                "default": "timeout=5"
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/instructor/12147a92-c1f5-4075-8a5d-c8ef173fd07b": {
+      "get": {
+        "summary": "get instructor by ID (only Admin)",
+        "tags": [
+          "instructor"
+        ],
+        "operationId": "getinstructorbyID(onlyAdmin)",
+        "deprecated": false,
+        "produces": [
+          "application/json; charset=utf-8"
         ],
         "parameters": [
           {
@@ -634,8 +1447,1306 @@
         ],
         "responses": {
           "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/getinstructorbyID%28onlyAdmin%29"
+            },
+            "examples": {
+              "application/json; charset=utf-8": {
+                "success": true,
+                "result": {
+                  "id": "12147a92-c1f5-4075-8a5d-c8ef173fd07b",
+                  "firstName": "admin",
+                  "lastName": "admin",
+                  "email": "byjfufzoffufxdrgujlj@kvhrw.com",
+                  "role": "instructor",
+                  "isActive": 0,
+                  "generalInformation": null,
+                  "academicStatus": null
+                }
+              }
+            },
+            "headers": {
+              "X-Powered-By": {
+                "type": "string",
+                "default": "Express"
+              },
+              "Content-Length": {
+                "type": "string",
+                "default": "232"
+              },
+              "ETag": {
+                "type": "string",
+                "default": "W/\"e8-+4ipkSiP/ZGyhiMZtKwI1DD7Dx4\""
+              },
+              "Date": {
+                "type": "string",
+                "default": "Mon, 16 Jan 2023 15:30:17 GMT"
+              },
+              "Connection": {
+                "type": "string",
+                "default": "keep-alive"
+              },
+              "Keep-Alive": {
+                "type": "string",
+                "default": "timeout=5"
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/course": {
+      "post": {
+        "description": "create course",
+        "summary": "create course",
+        "tags": [
+          "course"
+        ],
+        "operationId": "createcourse",
+        "deprecated": false,
+        "produces": [
+          "application/json; charset=utf-8"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
             "description": "",
-            "headers": {}
+            "schema": {
+              "$ref": "#/definitions/createcourserequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/%7B%7BBASE%7D%7D~1public~1course"
+            },
+            "examples": {
+              "application/json; charset=utf-8": {
+                "success": true
+              }
+            },
+            "headers": {
+              "X-Powered-By": {
+                "type": "string",
+                "default": "Express"
+              },
+              "Content-Length": {
+                "type": "string",
+                "default": "16"
+              },
+              "ETag": {
+                "type": "string",
+                "default": "W/\"10-oV4hJxRVSENxc/wX8+mA4/Pe4tA\""
+              },
+              "Date": {
+                "type": "string",
+                "default": "Fri, 03 Feb 2023 16:40:14 GMT"
+              },
+              "Connection": {
+                "type": "string",
+                "default": "keep-alive"
+              },
+              "Keep-Alive": {
+                "type": "string",
+                "default": "timeout=5"
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/course/filtered": {
+      "post": {
+        "description": "get all courses",
+        "summary": "get all  courses",
+        "tags": [
+          "course"
+        ],
+        "operationId": "getallcourses",
+        "deprecated": false,
+        "produces": [
+          "application/json; charset=utf-8"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/getallcoursesrequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/%7B%7BBASE%7D%7D~1public~1course~1filtered"
+            },
+            "examples": {
+              "application/json; charset=utf-8": {
+                "success": true,
+                "result": {
+                  "offset": 0,
+                  "limit": 3,
+                  "totalRecords": 2,
+                  "records": [
+                    {
+                      "id": "d97d94d3-83fb-427d-8326-c0474bc0eec0",
+                      "title": "kompuktorni clases",
+                      "description": "learn kompuktory",
+                      "generalInformation": [
+                        "all information about kompuktory"
+                      ],
+                      "createdBy": "a05fb7a6-ef20-4240-ac40-0e33325458b2",
+                      "updatedBy": null,
+                      "createdAt": "2023-02-03T16:40:14.000Z",
+                      "updatedAt": "2023-02-03T16:40:14.000Z"
+                    },
+                    {
+                      "id": "9b9b26dc-8f3b-4b8b-a269-0586b07ad43d",
+                      "title": "kompuktorni clases for dumps",
+                      "description": "learn kompuktory",
+                      "generalInformation": [
+                        "all information about kompuktory"
+                      ],
+                      "createdBy": "a05fb7a6-ef20-4240-ac40-0e33325458b2",
+                      "updatedBy": "a05fb7a6-ef20-4240-ac40-0e33325458b2",
+                      "createdAt": "2023-02-03T15:26:14.000Z",
+                      "updatedAt": "2023-02-03T15:43:04.000Z"
+                    }
+                  ]
+                }
+              }
+            },
+            "headers": {
+              "X-Powered-By": {
+                "type": "string",
+                "default": "Express"
+              },
+              "Content-Length": {
+                "type": "string",
+                "default": "745"
+              },
+              "ETag": {
+                "type": "string",
+                "default": "W/\"2e9-xiZOY1Kun+w6hXRJ1HHRzdv4rUU\""
+              },
+              "Date": {
+                "type": "string",
+                "default": "Fri, 03 Feb 2023 17:03:56 GMT"
+              },
+              "Connection": {
+                "type": "string",
+                "default": "keep-alive"
+              },
+              "Keep-Alive": {
+                "type": "string",
+                "default": "timeout=5"
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/course/{id}": {
+      "get": {
+        "description": "get course bu ID with lessons",
+        "summary": "get one course with lessons",
+        "tags": [
+          "course"
+        ],
+        "operationId": "getonecoursewithlessons",
+        "deprecated": false,
+        "produces": [
+          "application/json; charset=utf-8"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/%7B%7BBASE%7D%7D~1public~1course~1%3Aid"
+            },
+            "examples": {
+              "application/json; charset=utf-8": {
+                "success": true,
+                "result": {
+                  "id": "9b9b26dc-8f3b-4b8b-a269-0586b07ad43d",
+                  "title": "kompuktorni clases for dumps",
+                  "description": "learn kompuktory",
+                  "generalInformation": [
+                    "all information about kompuktory"
+                  ],
+                  "lessons": [
+                    {
+                      "id": "e5af4cc6-2da1-4339-a907-814142a2d399",
+                      "courseId": "9b9b26dc-8f3b-4b8b-a269-0586b07ad43d",
+                      "title": "kompuktory",
+                      "lessonNumber": 1,
+                      "description": "learn firs kompuktor",
+                      "information": [
+                        "information about kompuktory"
+                      ]
+                    },
+                    {
+                      "id": "664e7ff8-1fe7-4441-acd1-d7e8e38357c0",
+                      "courseId": "9b9b26dc-8f3b-4b8b-a269-0586b07ad43d",
+                      "title": "kompuktory 2",
+                      "lessonNumber": 2,
+                      "description": "learn second kompuktor",
+                      "information": [
+                        "information about kompuktory"
+                      ]
+                    },
+                    {
+                      "id": "f4ec7c43-db0a-46b6-ba2f-6e4d48c37eb0",
+                      "courseId": "9b9b26dc-8f3b-4b8b-a269-0586b07ad43d",
+                      "title": "kompuktory 3",
+                      "lessonNumber": 3,
+                      "description": "learn kompuktor of 3 gen",
+                      "information": [
+                        "information about kompuktory"
+                      ]
+                    },
+                    {
+                      "id": "bd979d42-762a-4d60-9ca6-ec490d72cf0d",
+                      "courseId": "9b9b26dc-8f3b-4b8b-a269-0586b07ad43d",
+                      "title": "kompuktory 4",
+                      "lessonNumber": 4,
+                      "description": "learn kompuktor of 4 gen",
+                      "information": [
+                        "information about kompuktory"
+                      ]
+                    },
+                    {
+                      "id": "5ebce9b7-c605-4fa7-b791-94043fa084d9",
+                      "courseId": "9b9b26dc-8f3b-4b8b-a269-0586b07ad43d",
+                      "title": "kompuktory 5",
+                      "lessonNumber": 5,
+                      "description": "learn kompuktor of 5 gen",
+                      "information": [
+                        "information about kompuktory"
+                      ]
+                    }
+                  ]
+                }
+              }
+            },
+            "headers": {
+              "X-Powered-By": {
+                "type": "string",
+                "default": "Express"
+              },
+              "Content-Length": {
+                "type": "string",
+                "default": "1325"
+              },
+              "ETag": {
+                "type": "string",
+                "default": "W/\"52d-v1mp9XV1MjKBue6k9n9Xbmb8jxU\""
+              },
+              "Date": {
+                "type": "string",
+                "default": "Fri, 03 Feb 2023 17:03:49 GMT"
+              },
+              "Connection": {
+                "type": "string",
+                "default": "keep-alive"
+              },
+              "Keep-Alive": {
+                "type": "string",
+                "default": "timeout=5"
+              }
+            }
+          }
+        },
+        "security": []
+      },
+      "put": {
+        "summary": "edit course",
+        "tags": [
+          "course"
+        ],
+        "operationId": "editcourse",
+        "deprecated": false,
+        "produces": [
+          "application/json; charset=utf-8"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/editcourserequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/%7B%7BBASE%7D%7D~1public~1course~1%3Aid1"
+            },
+            "examples": {
+              "application/json; charset=utf-8": {
+                "success": true
+              }
+            },
+            "headers": {
+              "X-Powered-By": {
+                "type": "string",
+                "default": "Express"
+              },
+              "Content-Length": {
+                "type": "string",
+                "default": "16"
+              },
+              "ETag": {
+                "type": "string",
+                "default": "W/\"10-oV4hJxRVSENxc/wX8+mA4/Pe4tA\""
+              },
+              "Date": {
+                "type": "string",
+                "default": "Fri, 03 Feb 2023 17:04:12 GMT"
+              },
+              "Connection": {
+                "type": "string",
+                "default": "keep-alive"
+              },
+              "Keep-Alive": {
+                "type": "string",
+                "default": "timeout=5"
+              }
+            }
+          }
+        },
+        "security": []
+      },
+      "delete": {
+        "summary": "delete course",
+        "tags": [
+          "course"
+        ],
+        "operationId": "deletecourse",
+        "deprecated": false,
+        "produces": [
+          "application/json; charset=utf-8"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/%7B%7BBASE%7D%7D~1public~1course~1%3Aid1"
+            },
+            "examples": {
+              "application/json; charset=utf-8": {
+                "success": true
+              }
+            },
+            "headers": {
+              "X-Powered-By": {
+                "type": "string",
+                "default": "Express"
+              },
+              "Content-Length": {
+                "type": "string",
+                "default": "16"
+              },
+              "ETag": {
+                "type": "string",
+                "default": "W/\"10-oV4hJxRVSENxc/wX8+mA4/Pe4tA\""
+              },
+              "Date": {
+                "type": "string",
+                "default": "Fri, 03 Feb 2023 17:19:52 GMT"
+              },
+              "Connection": {
+                "type": "string",
+                "default": "keep-alive"
+              },
+              "Keep-Alive": {
+                "type": "string",
+                "default": "timeout=5"
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/course/{courseId}/student/{studentId}": {
+      "post": {
+        "description": "assign student for course",
+        "summary": "add student to course",
+        "tags": [
+          "course"
+        ],
+        "operationId": "addstudenttocourse",
+        "deprecated": false,
+        "produces": [
+          "application/json; charset=utf-8"
+        ],
+        "parameters": [
+          {
+            "name": "courseId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "studentId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/%7B%7BBASE%7D%7D~1public~1course~1%3AcourseId~1student~1%3AstudentId"
+            },
+            "examples": {
+              "application/json; charset=utf-8": {
+                "success": true
+              }
+            },
+            "headers": {
+              "X-Powered-By": {
+                "type": "string",
+                "default": "Express"
+              },
+              "Content-Length": {
+                "type": "string",
+                "default": "16"
+              },
+              "ETag": {
+                "type": "string",
+                "default": "W/\"10-oV4hJxRVSENxc/wX8+mA4/Pe4tA\""
+              },
+              "Date": {
+                "type": "string",
+                "default": "Fri, 03 Feb 2023 17:03:15 GMT"
+              },
+              "Connection": {
+                "type": "string",
+                "default": "keep-alive"
+              },
+              "Keep-Alive": {
+                "type": "string",
+                "default": "timeout=5"
+              }
+            }
+          }
+        },
+        "security": []
+      },
+      "delete": {
+        "summary": "remove studen from course",
+        "tags": [
+          "course"
+        ],
+        "operationId": "removestudenfromcourse",
+        "deprecated": false,
+        "produces": [
+          "application/json; charset=utf-8"
+        ],
+        "parameters": [
+          {
+            "name": "courseId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "studentId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/%7B%7BBASE%7D%7D~1public~1course~1%3AcourseId~1student~1%3AstudentId"
+            },
+            "examples": {
+              "application/json; charset=utf-8": {
+                "success": true
+              }
+            },
+            "headers": {
+              "X-Powered-By": {
+                "type": "string",
+                "default": "Express"
+              },
+              "Content-Length": {
+                "type": "string",
+                "default": "16"
+              },
+              "ETag": {
+                "type": "string",
+                "default": "W/\"10-oV4hJxRVSENxc/wX8+mA4/Pe4tA\""
+              },
+              "Date": {
+                "type": "string",
+                "default": "Fri, 03 Feb 2023 17:03:15 GMT"
+              },
+              "Connection": {
+                "type": "string",
+                "default": "keep-alive"
+              },
+              "Keep-Alive": {
+                "type": "string",
+                "default": "timeout=5"
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/course/{courseId}/instructor/{instructorId}": {
+      "post": {
+        "summary": "add instructor for course",
+        "tags": [
+          "course"
+        ],
+        "operationId": "addinstructorforcourse",
+        "deprecated": false,
+        "produces": [
+          "application/json; charset=utf-8"
+        ],
+        "parameters": [
+          {
+            "name": "courseId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "instructorId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/%7B%7BBASE%7D%7D~1public~1course~1%3AcourseId~1student~1%3AstudentId"
+            },
+            "examples": {
+              "application/json; charset=utf-8": {
+                "success": true
+              }
+            },
+            "headers": {
+              "X-Powered-By": {
+                "type": "string",
+                "default": "Express"
+              },
+              "Content-Length": {
+                "type": "string",
+                "default": "16"
+              },
+              "ETag": {
+                "type": "string",
+                "default": "W/\"10-oV4hJxRVSENxc/wX8+mA4/Pe4tA\""
+              },
+              "Date": {
+                "type": "string",
+                "default": "Fri, 03 Feb 2023 17:10:20 GMT"
+              },
+              "Connection": {
+                "type": "string",
+                "default": "keep-alive"
+              },
+              "Keep-Alive": {
+                "type": "string",
+                "default": "timeout=5"
+              }
+            }
+          }
+        },
+        "security": []
+      },
+      "delete": {
+        "summary": "remove instructor from course",
+        "tags": [
+          "course"
+        ],
+        "operationId": "removeinstructorfromcourse",
+        "deprecated": false,
+        "produces": [
+          "application/json; charset=utf-8"
+        ],
+        "parameters": [
+          {
+            "name": "courseId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "instructorId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/%7B%7BBASE%7D%7D~1public~1course~1%3AcourseId~1student~1%3AstudentId"
+            },
+            "examples": {
+              "application/json; charset=utf-8": {
+                "success": true
+              }
+            },
+            "headers": {
+              "X-Powered-By": {
+                "type": "string",
+                "default": "Express"
+              },
+              "Content-Length": {
+                "type": "string",
+                "default": "16"
+              },
+              "ETag": {
+                "type": "string",
+                "default": "W/\"10-oV4hJxRVSENxc/wX8+mA4/Pe4tA\""
+              },
+              "Date": {
+                "type": "string",
+                "default": "Fri, 03 Feb 2023 17:10:35 GMT"
+              },
+              "Connection": {
+                "type": "string",
+                "default": "keep-alive"
+              },
+              "Keep-Alive": {
+                "type": "string",
+                "default": "timeout=5"
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/lesson/course/{courseId}": {
+      "post": {
+        "summary": "create lesson",
+        "tags": [
+          "lesson"
+        ],
+        "operationId": "createlesson",
+        "deprecated": false,
+        "produces": [
+          "application/json; charset=utf-8"
+        ],
+        "parameters": [
+          {
+            "name": "courseId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/createlessonrequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/createlesson"
+            },
+            "examples": {
+              "application/json; charset=utf-8": {
+                "success": true
+              }
+            },
+            "headers": {
+              "X-Powered-By": {
+                "type": "string",
+                "default": "Express"
+              },
+              "Content-Length": {
+                "type": "string",
+                "default": "16"
+              },
+              "ETag": {
+                "type": "string",
+                "default": "W/\"10-oV4hJxRVSENxc/wX8+mA4/Pe4tA\""
+              },
+              "Date": {
+                "type": "string",
+                "default": "Sat, 04 Feb 2023 18:44:55 GMT"
+              },
+              "Connection": {
+                "type": "string",
+                "default": "keep-alive"
+              },
+              "Keep-Alive": {
+                "type": "string",
+                "default": "timeout=5"
+              }
+            }
+          }
+        },
+        "security": []
+      },
+      "get": {
+        "summary": "get all lessons by course id",
+        "tags": [
+          "lesson"
+        ],
+        "operationId": "getalllessonsbycourseid",
+        "deprecated": false,
+        "produces": [
+          "application/json; charset=utf-8"
+        ],
+        "parameters": [
+          {
+            "name": "courseId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/getalllessonsbycourseid"
+            },
+            "examples": {
+              "application/json; charset=utf-8": {
+                "success": true,
+                "result": [
+                  {
+                    "id": "25fbc63c-55e3-40bb-8f5b-7bd7f8ef49a2",
+                    "courseId": "9e10d09e-e757-4ab5-b991-aeabd3c0d4b8",
+                    "title": "kompuktory",
+                    "lessonNumber": 1,
+                    "description": "learn firs kompuktor",
+                    "information": [
+                      "information about kompuktory"
+                    ],
+                    "createdBy": "a05fb7a6-ef20-4240-ac40-0e33325458b2",
+                    "updatedBy": null,
+                    "createdAt": "2023-02-04T17:50:09.000Z",
+                    "updatedAt": "2023-02-04T17:50:09.000Z"
+                  },
+                  {
+                    "id": "1bb84a91-c217-4646-8ce6-a491f0c501ea",
+                    "courseId": "9e10d09e-e757-4ab5-b991-aeabd3c0d4b8",
+                    "title": "kompuktory 2",
+                    "lessonNumber": 2,
+                    "description": "learn second kompuktor",
+                    "information": [
+                      "information about kompuktory"
+                    ],
+                    "createdBy": "a05fb7a6-ef20-4240-ac40-0e33325458b2",
+                    "updatedBy": null,
+                    "createdAt": "2023-02-04T17:50:09.000Z",
+                    "updatedAt": "2023-02-04T17:50:09.000Z"
+                  },
+                  {
+                    "id": "dafd076c-cd23-42d2-aa19-c1be0fb112f0",
+                    "courseId": "9e10d09e-e757-4ab5-b991-aeabd3c0d4b8",
+                    "title": "kompuktory 3",
+                    "lessonNumber": 3,
+                    "description": "learn kompuktor of 3 gen",
+                    "information": [
+                      "information about kompuktory"
+                    ],
+                    "createdBy": "a05fb7a6-ef20-4240-ac40-0e33325458b2",
+                    "updatedBy": null,
+                    "createdAt": "2023-02-04T17:50:09.000Z",
+                    "updatedAt": "2023-02-04T17:50:09.000Z"
+                  },
+                  {
+                    "id": "f1c4c340-3171-487c-ae4c-425247613457",
+                    "courseId": "9e10d09e-e757-4ab5-b991-aeabd3c0d4b8",
+                    "title": "kompuktory 4",
+                    "lessonNumber": 4,
+                    "description": "learn kompuktor of 4 gen",
+                    "information": [
+                      "information about kompuktory"
+                    ],
+                    "createdBy": "a05fb7a6-ef20-4240-ac40-0e33325458b2",
+                    "updatedBy": null,
+                    "createdAt": "2023-02-04T17:50:09.000Z",
+                    "updatedAt": "2023-02-04T17:50:09.000Z"
+                  },
+                  {
+                    "id": "15304177-d4c5-4dd5-8600-de1bc3376aa3",
+                    "courseId": "9e10d09e-e757-4ab5-b991-aeabd3c0d4b8",
+                    "title": "kompuktory 5",
+                    "lessonNumber": 5,
+                    "description": "learn kompuktor of 5 gen",
+                    "information": [
+                      "information about kompuktory"
+                    ],
+                    "createdBy": "a05fb7a6-ef20-4240-ac40-0e33325458b2",
+                    "updatedBy": null,
+                    "createdAt": "2023-02-04T17:50:09.000Z",
+                    "updatedAt": "2023-02-04T17:50:09.000Z"
+                  },
+                  {
+                    "id": "e434a0c7-2075-4be1-bead-ccff61dc5c17",
+                    "courseId": "9e10d09e-e757-4ab5-b991-aeabd3c0d4b8",
+                    "title": "kompuktory",
+                    "lessonNumber": 6,
+                    "description": "learn 6 kompuktor",
+                    "information": [
+                      "information about kompuktory"
+                    ],
+                    "createdBy": "a05fb7a6-ef20-4240-ac40-0e33325458b2",
+                    "updatedBy": null,
+                    "createdAt": "2023-02-04T18:39:57.000Z",
+                    "updatedAt": "2023-02-04T18:39:57.000Z"
+                  },
+                  {
+                    "id": "0aa46dcb-52ff-41e1-bf13-05dc9df044b6",
+                    "courseId": "9e10d09e-e757-4ab5-b991-aeabd3c0d4b8",
+                    "title": "kompuktory",
+                    "lessonNumber": 7,
+                    "description": "learn 6 kompuktor",
+                    "information": [
+                      "information about kompuktory"
+                    ],
+                    "createdBy": "a05fb7a6-ef20-4240-ac40-0e33325458b2",
+                    "updatedBy": null,
+                    "createdAt": "2023-02-04T18:40:22.000Z",
+                    "updatedAt": "2023-02-04T18:40:22.000Z"
+                  },
+                  {
+                    "id": "2709083e-85e2-41ba-aab6-c714a109ea0f",
+                    "courseId": "9e10d09e-e757-4ab5-b991-aeabd3c0d4b8",
+                    "title": "kompuktory",
+                    "lessonNumber": 8,
+                    "description": "learn 6 kompuktor",
+                    "information": [
+                      "information about kompuktory"
+                    ],
+                    "createdBy": "a05fb7a6-ef20-4240-ac40-0e33325458b2",
+                    "updatedBy": null,
+                    "createdAt": "2023-02-04T18:44:55.000Z",
+                    "updatedAt": "2023-02-04T18:44:55.000Z"
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "X-Powered-By": {
+                "type": "string",
+                "default": "Express"
+              },
+              "Content-Length": {
+                "type": "string",
+                "default": "2952"
+              },
+              "ETag": {
+                "type": "string",
+                "default": "W/\"b88-Ifu40TWOK2kJQGTBCmp1qjRudMM\""
+              },
+              "Date": {
+                "type": "string",
+                "default": "Sat, 04 Feb 2023 18:45:56 GMT"
+              },
+              "Connection": {
+                "type": "string",
+                "default": "keep-alive"
+              },
+              "Keep-Alive": {
+                "type": "string",
+                "default": "timeout=5"
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/lesson/{lessonId}/course/{courseId}": {
+      "get": {
+        "summary": "get lesson by Id",
+        "tags": [
+          "lesson"
+        ],
+        "operationId": "getlessonbyId",
+        "deprecated": false,
+        "produces": [
+          "application/json; charset=utf-8"
+        ],
+        "parameters": [
+          {
+            "name": "lessonId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "courseId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/getlessonbyId"
+            },
+            "examples": {
+              "application/json; charset=utf-8": {
+                "success": true,
+                "result": {
+                  "id": "25fbc63c-55e3-40bb-8f5b-7bd7f8ef49a2",
+                  "courseId": "9e10d09e-e757-4ab5-b991-aeabd3c0d4b8",
+                  "title": "kompuktory",
+                  "lessonNumber": 1,
+                  "description": "learn firs kompuktor",
+                  "information": [
+                    "information about kompuktory"
+                  ],
+                  "createdBy": "a05fb7a6-ef20-4240-ac40-0e33325458b2",
+                  "updatedBy": null,
+                  "createdAt": "2023-02-04T17:50:09.000Z",
+                  "updatedAt": "2023-02-04T17:50:09.000Z"
+                }
+              }
+            },
+            "headers": {
+              "X-Powered-By": {
+                "type": "string",
+                "default": "Express"
+              },
+              "Content-Length": {
+                "type": "string",
+                "default": "389"
+              },
+              "ETag": {
+                "type": "string",
+                "default": "W/\"185-jxq++j7e5fzHF3k4OwbAg52XFVc\""
+              },
+              "Date": {
+                "type": "string",
+                "default": "Sat, 04 Feb 2023 18:49:32 GMT"
+              },
+              "Connection": {
+                "type": "string",
+                "default": "keep-alive"
+              },
+              "Keep-Alive": {
+                "type": "string",
+                "default": "timeout=5"
+              }
+            }
+          }
+        },
+        "security": []
+      },
+      "put": {
+        "summary": "update lesson",
+        "tags": [
+          "lesson"
+        ],
+        "operationId": "updatelesson",
+        "deprecated": false,
+        "produces": [
+          "application/json; charset=utf-8"
+        ],
+        "parameters": [
+          {
+            "name": "lessonId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "courseId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/updatelessonrequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/updatelesson"
+            },
+            "examples": {
+              "application/json; charset=utf-8": {
+                "success": true
+              }
+            },
+            "headers": {
+              "X-Powered-By": {
+                "type": "string",
+                "default": "Express"
+              },
+              "Content-Length": {
+                "type": "string",
+                "default": "16"
+              },
+              "ETag": {
+                "type": "string",
+                "default": "W/\"10-oV4hJxRVSENxc/wX8+mA4/Pe4tA\""
+              },
+              "Date": {
+                "type": "string",
+                "default": "Sat, 04 Feb 2023 18:54:21 GMT"
+              },
+              "Connection": {
+                "type": "string",
+                "default": "keep-alive"
+              },
+              "Keep-Alive": {
+                "type": "string",
+                "default": "timeout=5"
+              }
+            }
+          }
+        },
+        "security": []
+      },
+      "delete": {
+        "summary": "delete lesson",
+        "tags": [
+          "lesson"
+        ],
+        "operationId": "deletelesson",
+        "deprecated": false,
+        "produces": [
+          "application/json; charset=utf-8"
+        ],
+        "parameters": [
+          {
+            "name": "lessonId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "courseId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/deletelesson"
+            },
+            "examples": {
+              "application/json; charset=utf-8": {
+                "success": true
+              }
+            },
+            "headers": {
+              "X-Powered-By": {
+                "type": "string",
+                "default": "Express"
+              },
+              "Content-Length": {
+                "type": "string",
+                "default": "16"
+              },
+              "ETag": {
+                "type": "string",
+                "default": "W/\"10-oV4hJxRVSENxc/wX8+mA4/Pe4tA\""
+              },
+              "Date": {
+                "type": "string",
+                "default": "Sat, 04 Feb 2023 18:57:23 GMT"
+              },
+              "Connection": {
+                "type": "string",
+                "default": "keep-alive"
+              },
+              "Keep-Alive": {
+                "type": "string",
+                "default": "timeout=5"
+              }
+            }
           }
         },
         "security": []
@@ -661,6 +2772,130 @@
       "required": [
         "email",
         "password"
+      ]
+    },
+    "login": {
+      "title": "login",
+      "example": {
+        "success": true,
+        "result": {
+          "user": {
+            "id": "a05fb7a6-ef20-4240-ac40-0e33325458b2",
+            "firstName": "Default",
+            "lastName": "Admin",
+            "email": "admin@courses.com",
+            "role": "admin",
+            "isActive": 1
+          },
+          "tokens": {
+            "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJhMDVmYjdhNi1lZjIwLTQyNDAtYWM0MC0wZTMzMzI1NDU4YjIiLCJyb2xlIjoiYWRtaW4iLCJ0eXBlIjoiYWNjZXNzIiwiaWF0IjoxNjczODgxNjQ2LCJleHAiOjIwMzM4ODE2NDZ9.2elevmZN99Tnrqw7eBa4DZh9G1mfsH_A3DxY1oivD3E",
+            "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJhMDVmYjdhNi1lZjIwLTQyNDAtYWM0MC0wZTMzMzI1NDU4YjIiLCJyb2xlIjoiYWRtaW4iLCJ0eXBlIjoicmVmcmVzaCIsImlhdCI6MTY3Mzg4MTY0NiwiZXhwIjoxNjc0NDg2NDQ2fQ.Fj1zb_yRHzrYYMJpY0aE6O0fq4PTiv_HMCQj1V_9bPc"
+          }
+        }
+      },
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "result": {
+          "$ref": "#/definitions/Result"
+        }
+      },
+      "required": [
+        "success",
+        "result"
+      ]
+    },
+    "Result": {
+      "title": "Result",
+      "example": {
+        "user": {
+          "id": "a05fb7a6-ef20-4240-ac40-0e33325458b2",
+          "firstName": "Default",
+          "lastName": "Admin",
+          "email": "admin@courses.com",
+          "role": "admin",
+          "isActive": 1
+        },
+        "tokens": {
+          "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJhMDVmYjdhNi1lZjIwLTQyNDAtYWM0MC0wZTMzMzI1NDU4YjIiLCJyb2xlIjoiYWRtaW4iLCJ0eXBlIjoiYWNjZXNzIiwiaWF0IjoxNjczODgxNjQ2LCJleHAiOjIwMzM4ODE2NDZ9.2elevmZN99Tnrqw7eBa4DZh9G1mfsH_A3DxY1oivD3E",
+          "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJhMDVmYjdhNi1lZjIwLTQyNDAtYWM0MC0wZTMzMzI1NDU4YjIiLCJyb2xlIjoiYWRtaW4iLCJ0eXBlIjoicmVmcmVzaCIsImlhdCI6MTY3Mzg4MTY0NiwiZXhwIjoxNjc0NDg2NDQ2fQ.Fj1zb_yRHzrYYMJpY0aE6O0fq4PTiv_HMCQj1V_9bPc"
+        }
+      },
+      "type": "object",
+      "properties": {
+        "user": {
+          "$ref": "#/definitions/User"
+        },
+        "tokens": {
+          "$ref": "#/definitions/Tokens"
+        }
+      },
+      "required": [
+        "user",
+        "tokens"
+      ]
+    },
+    "User": {
+      "title": "User",
+      "example": {
+        "id": "a05fb7a6-ef20-4240-ac40-0e33325458b2",
+        "firstName": "Default",
+        "lastName": "Admin",
+        "email": "admin@courses.com",
+        "role": "admin",
+        "isActive": 1
+      },
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        },
+        "isActive": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "required": [
+        "id",
+        "firstName",
+        "lastName",
+        "email",
+        "role",
+        "isActive"
+      ]
+    },
+    "Tokens": {
+      "title": "Tokens",
+      "example": {
+        "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJhMDVmYjdhNi1lZjIwLTQyNDAtYWM0MC0wZTMzMzI1NDU4YjIiLCJyb2xlIjoiYWRtaW4iLCJ0eXBlIjoiYWNjZXNzIiwiaWF0IjoxNjczODgxNjQ2LCJleHAiOjIwMzM4ODE2NDZ9.2elevmZN99Tnrqw7eBa4DZh9G1mfsH_A3DxY1oivD3E",
+        "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJhMDVmYjdhNi1lZjIwLTQyNDAtYWM0MC0wZTMzMzI1NDU4YjIiLCJyb2xlIjoiYWRtaW4iLCJ0eXBlIjoicmVmcmVzaCIsImlhdCI6MTY3Mzg4MTY0NiwiZXhwIjoxNjc0NDg2NDQ2fQ.Fj1zb_yRHzrYYMJpY0aE6O0fq4PTiv_HMCQj1V_9bPc"
+      },
+      "type": "object",
+      "properties": {
+        "accessToken": {
+          "type": "string"
+        },
+        "refreshToken": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "accessToken",
+        "refreshToken"
       ]
     },
     "registrationrequest": {
@@ -698,6 +2933,21 @@
         "password"
       ]
     },
+    "registration": {
+      "title": "registration",
+      "example": {
+        "success": true
+      },
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "success"
+      ]
+    },
     "createstudentrequest": {
       "title": "createstudentrequest",
       "example": {
@@ -721,6 +2971,138 @@
         "firstName",
         "lastName",
         "email"
+      ]
+    },
+    "createstudent": {
+      "title": "createstudent",
+      "example": {
+        "success": true
+      },
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "success"
+      ]
+    },
+    "getstudentbyID(onlyAdmin)": {
+      "title": "getstudentbyID(onlyAdmin)",
+      "example": {
+        "success": true,
+        "result": {
+          "id": "6ec0b552-d911-4891-afdf-73845f51de3b",
+          "firstName": "admin",
+          "lastName": "admin",
+          "email": "byjfufzoufxdrgujlj@kvhrw.com",
+          "phone": null,
+          "role": "student",
+          "isActive": 0
+        }
+      },
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "result": {
+          "$ref": "#/definitions/Result1"
+        }
+      },
+      "required": [
+        "success",
+        "result"
+      ]
+    },
+    "Result1": {
+      "title": "Result1",
+      "example": {
+        "id": "6ec0b552-d911-4891-afdf-73845f51de3b",
+        "firstName": "admin",
+        "lastName": "admin",
+        "email": "byjfufzoufxdrgujlj@kvhrw.com",
+        "phone": null,
+        "role": "student",
+        "isActive": 0
+      },
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        },
+        "isActive": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "required": [
+        "id",
+        "firstName",
+        "lastName",
+        "email",
+        "phone",
+        "role",
+        "isActive"
+      ]
+    },
+    "deletestudentbyID": {
+      "title": "deletestudentbyID",
+      "example": {
+        "success": true
+      },
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "success"
+      ]
+    },
+    "getactivestudentbyID": {
+      "title": "getactivestudentbyID",
+      "example": {
+        "success": true,
+        "result": {
+          "id": "290d1f41-6a37-431b-93d6-f88b085a35ef",
+          "firstName": "student",
+          "lastName": "student",
+          "email": "m9mt@mikfarm.com",
+          "phone": null,
+          "role": "student",
+          "isActive": 1
+        }
+      },
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "result": {
+          "$ref": "#/definitions/Result1"
+        }
+      },
+      "required": [
+        "success",
+        "result"
       ]
     },
     "getallstudentwithpaginationrequest": {
@@ -755,6 +3137,169 @@
         "orderDirection"
       ]
     },
+    "getallstudentwithpagination": {
+      "title": "getallstudentwithpagination",
+      "example": {
+        "success": true,
+        "result": {
+          "offset": 0,
+          "limit": 3,
+          "totalRecords": 5,
+          "records": [
+            {
+              "id": "1e3ba647-1eb1-495c-897b-0441a9d84e34",
+              "firstName": "intsr",
+              "lastName": "student",
+              "email": "byjfufzoufxd1rgujlj@kvhrw.com",
+              "phone": null,
+              "role": "student",
+              "isActive": 1
+            },
+            {
+              "id": "6ec0b552-d911-4891-afdf-73845f51de3b",
+              "firstName": "admin",
+              "lastName": "admin",
+              "email": "byjfufzoufxdrgujlj@kvhrw.com",
+              "phone": null,
+              "role": "student",
+              "isActive": 0
+            },
+            {
+              "id": "290d1f41-6a37-431b-93d6-f88b085a35ef",
+              "firstName": "student",
+              "lastName": "student",
+              "email": "m9mt@mikfarm.com",
+              "phone": null,
+              "role": "student",
+              "isActive": 1
+            }
+          ]
+        }
+      },
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "result": {
+          "$ref": "#/definitions/Result3"
+        }
+      },
+      "required": [
+        "success",
+        "result"
+      ]
+    },
+    "Result3": {
+      "title": "Result3",
+      "example": {
+        "offset": 0,
+        "limit": 3,
+        "totalRecords": 5,
+        "records": [
+          {
+            "id": "1e3ba647-1eb1-495c-897b-0441a9d84e34",
+            "firstName": "intsr",
+            "lastName": "student",
+            "email": "byjfufzoufxd1rgujlj@kvhrw.com",
+            "phone": null,
+            "role": "student",
+            "isActive": 1
+          },
+          {
+            "id": "6ec0b552-d911-4891-afdf-73845f51de3b",
+            "firstName": "admin",
+            "lastName": "admin",
+            "email": "byjfufzoufxdrgujlj@kvhrw.com",
+            "phone": null,
+            "role": "student",
+            "isActive": 0
+          },
+          {
+            "id": "290d1f41-6a37-431b-93d6-f88b085a35ef",
+            "firstName": "student",
+            "lastName": "student",
+            "email": "m9mt@mikfarm.com",
+            "phone": null,
+            "role": "student",
+            "isActive": 1
+          }
+        ]
+      },
+      "type": "object",
+      "properties": {
+        "offset": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "limit": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "totalRecords": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "records": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Record"
+          }
+        }
+      },
+      "required": [
+        "offset",
+        "limit",
+        "totalRecords",
+        "records"
+      ]
+    },
+    "Record": {
+      "title": "Record",
+      "example": {
+        "id": "1e3ba647-1eb1-495c-897b-0441a9d84e34",
+        "firstName": "intsr",
+        "lastName": "student",
+        "email": "byjfufzoufxd1rgujlj@kvhrw.com",
+        "phone": null,
+        "role": "student",
+        "isActive": 1
+      },
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        },
+        "isActive": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "required": [
+        "id",
+        "firstName",
+        "lastName",
+        "email",
+        "phone",
+        "role",
+        "isActive"
+      ]
+    },
     "updatestudentbyIDRequest": {
       "title": "updatestudentbyIDRequest",
       "example": {
@@ -780,6 +3325,21 @@
         "email"
       ]
     },
+    "updatestudentbyID": {
+      "title": "updatestudentbyID",
+      "example": {
+        "success": true
+      },
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "success"
+      ]
+    },
     "createadminrequest": {
       "title": "createadminrequest",
       "example": {
@@ -803,6 +3363,104 @@
         "firstName",
         "lastName",
         "email"
+      ]
+    },
+    "createadmin": {
+      "title": "createadmin",
+      "example": {
+        "success": true
+      },
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "success"
+      ]
+    },
+    "getadminbyID(onlyAdmin)": {
+      "title": "getadminbyID(onlyAdmin)",
+      "example": {
+        "success": true,
+        "result": {
+          "id": "efc5ea3e-b401-411e-9b7e-6648271d4bf3",
+          "firstName": "admin",
+          "lastName": "admin",
+          "email": "byjfufzoufxdrgujlj@kvhrw.com",
+          "role": "admin",
+          "isActive": 0
+        }
+      },
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "result": {
+          "$ref": "#/definitions/Result4"
+        }
+      },
+      "required": [
+        "success",
+        "result"
+      ]
+    },
+    "Result4": {
+      "title": "Result4",
+      "example": {
+        "id": "efc5ea3e-b401-411e-9b7e-6648271d4bf3",
+        "firstName": "admin",
+        "lastName": "admin",
+        "email": "byjfufzoufxdrgujlj@kvhrw.com",
+        "role": "admin",
+        "isActive": 0
+      },
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        },
+        "isActive": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "required": [
+        "id",
+        "firstName",
+        "lastName",
+        "email",
+        "role",
+        "isActive"
+      ]
+    },
+    "deleteadminbyID": {
+      "title": "deleteadminbyID",
+      "example": {
+        "success": true
+      },
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "success"
       ]
     },
     "getalladminwithpaginationrequest": {
@@ -837,12 +3495,165 @@
         "orderDirection"
       ]
     },
+    "getalladminwithpagination": {
+      "title": "getalladminwithpagination",
+      "example": {
+        "success": true,
+        "result": {
+          "offset": 0,
+          "limit": 3,
+          "totalRecords": 3,
+          "records": [
+            {
+              "id": "a05fb7a6-ef20-4240-ac40-0e33325458b2",
+              "firstName": "Default",
+              "lastName": "Admin",
+              "email": "admin@courses.com",
+              "role": "admin",
+              "isActive": 1
+            },
+            {
+              "id": "8781fe53-89d8-4bf1-8d4c-ab6ceea6de1a",
+              "firstName": "admin",
+              "lastName": "admin",
+              "email": "byjfuf1zoufxdrgujlj@kvhrw.com",
+              "role": "admin",
+              "isActive": 1
+            },
+            {
+              "id": "efc5ea3e-b401-411e-9b7e-6648271d4bf3",
+              "firstName": "admin",
+              "lastName": "admin",
+              "email": "byjfufzoufxdrgujlj@kvhrw.com",
+              "role": "admin",
+              "isActive": 0
+            }
+          ]
+        }
+      },
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "result": {
+          "$ref": "#/definitions/Result5"
+        }
+      },
+      "required": [
+        "success",
+        "result"
+      ]
+    },
+    "Result5": {
+      "title": "Result5",
+      "example": {
+        "offset": 0,
+        "limit": 3,
+        "totalRecords": 3,
+        "records": [
+          {
+            "id": "a05fb7a6-ef20-4240-ac40-0e33325458b2",
+            "firstName": "Default",
+            "lastName": "Admin",
+            "email": "admin@courses.com",
+            "role": "admin",
+            "isActive": 1
+          },
+          {
+            "id": "8781fe53-89d8-4bf1-8d4c-ab6ceea6de1a",
+            "firstName": "admin",
+            "lastName": "admin",
+            "email": "byjfuf1zoufxdrgujlj@kvhrw.com",
+            "role": "admin",
+            "isActive": 1
+          },
+          {
+            "id": "efc5ea3e-b401-411e-9b7e-6648271d4bf3",
+            "firstName": "admin",
+            "lastName": "admin",
+            "email": "byjfufzoufxdrgujlj@kvhrw.com",
+            "role": "admin",
+            "isActive": 0
+          }
+        ]
+      },
+      "type": "object",
+      "properties": {
+        "offset": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "limit": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "totalRecords": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "records": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Record1"
+          }
+        }
+      },
+      "required": [
+        "offset",
+        "limit",
+        "totalRecords",
+        "records"
+      ]
+    },
+    "Record1": {
+      "title": "Record1",
+      "example": {
+        "id": "a05fb7a6-ef20-4240-ac40-0e33325458b2",
+        "firstName": "Default",
+        "lastName": "Admin",
+        "email": "admin@courses.com",
+        "role": "admin",
+        "isActive": 1
+      },
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        },
+        "isActive": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "required": [
+        "id",
+        "firstName",
+        "lastName",
+        "email",
+        "role",
+        "isActive"
+      ]
+    },
     "updateadminbyID(onlyAdmin)Request": {
       "title": "updateadminbyID(onlyAdmin)Request",
       "example": {
         "firstName": "admin",
         "lastName": "admin",
-        "email": "byjfufzoufxdrgujlj@kvhrw.com"
+        "email": "byjfufzoufxdrgujlj@kvhrw.com",
+        "password": "Proto3Som1(1)"
       },
       "type": "object",
       "properties": {
@@ -854,12 +3665,46 @@
         },
         "email": {
           "type": "string"
+        },
+        "password": {
+          "type": "string"
         }
       },
       "required": [
         "firstName",
         "lastName",
-        "email"
+        "email",
+        "password"
+      ]
+    },
+    "updateadminbyID(onlyAdmin)": {
+      "title": "updateadminbyID(onlyAdmin)",
+      "example": {
+        "success": true
+      },
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "success"
+      ]
+    },
+    "deleteinstructorbyID": {
+      "title": "deleteinstructorbyID",
+      "example": {
+        "success": true
+      },
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "success"
       ]
     },
     "createinstructorrequest": {
@@ -885,6 +3730,21 @@
         "firstName",
         "lastName",
         "email"
+      ]
+    },
+    "createinstructor": {
+      "title": "createinstructor",
+      "example": {
+        "success": true
+      },
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "success"
       ]
     },
     "getallinstructorswithpaginationrequest": {
@@ -919,6 +3779,180 @@
         "orderDirection"
       ]
     },
+    "getallinstructorswithpagination": {
+      "title": "getallinstructorswithpagination",
+      "example": {
+        "success": true,
+        "result": {
+          "offset": 0,
+          "limit": 3,
+          "totalRecords": 5,
+          "records": [
+            {
+              "id": "0250ad05-8c3c-49c0-9fc9-c50caf6b415e",
+              "firstName": "instructor",
+              "lastName": "instructor",
+              "email": "akl6cri@fastddns.org",
+              "role": "instructor",
+              "isActive": 1,
+              "generalInformation": null,
+              "academicStatus": null
+            },
+            {
+              "id": "12147a92-c1f5-4075-8a5d-c8ef173fd07b",
+              "firstName": "admin",
+              "lastName": "admin",
+              "email": "byjfufzoffufxdrgujlj@kvhrw.com",
+              "role": "instructor",
+              "isActive": 0,
+              "generalInformation": null,
+              "academicStatus": null
+            },
+            {
+              "id": "d951dcef-a2c9-4840-acf3-5d39dd79fe01",
+              "firstName": "intsr",
+              "lastName": "student",
+              "email": "byjfufzoufxdr1gujlj@kvhrw.com",
+              "role": "instructor",
+              "isActive": 1,
+              "generalInformation": null,
+              "academicStatus": null
+            }
+          ]
+        }
+      },
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "result": {
+          "$ref": "#/definitions/Result6"
+        }
+      },
+      "required": [
+        "success",
+        "result"
+      ]
+    },
+    "Result6": {
+      "title": "Result6",
+      "example": {
+        "offset": 0,
+        "limit": 3,
+        "totalRecords": 5,
+        "records": [
+          {
+            "id": "0250ad05-8c3c-49c0-9fc9-c50caf6b415e",
+            "firstName": "instructor",
+            "lastName": "instructor",
+            "email": "akl6cri@fastddns.org",
+            "role": "instructor",
+            "isActive": 1,
+            "generalInformation": null,
+            "academicStatus": null
+          },
+          {
+            "id": "12147a92-c1f5-4075-8a5d-c8ef173fd07b",
+            "firstName": "admin",
+            "lastName": "admin",
+            "email": "byjfufzoffufxdrgujlj@kvhrw.com",
+            "role": "instructor",
+            "isActive": 0,
+            "generalInformation": null,
+            "academicStatus": null
+          },
+          {
+            "id": "d951dcef-a2c9-4840-acf3-5d39dd79fe01",
+            "firstName": "intsr",
+            "lastName": "student",
+            "email": "byjfufzoufxdr1gujlj@kvhrw.com",
+            "role": "instructor",
+            "isActive": 1,
+            "generalInformation": null,
+            "academicStatus": null
+          }
+        ]
+      },
+      "type": "object",
+      "properties": {
+        "offset": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "limit": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "totalRecords": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "records": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Record2"
+          }
+        }
+      },
+      "required": [
+        "offset",
+        "limit",
+        "totalRecords",
+        "records"
+      ]
+    },
+    "Record2": {
+      "title": "Record2",
+      "example": {
+        "id": "0250ad05-8c3c-49c0-9fc9-c50caf6b415e",
+        "firstName": "instructor",
+        "lastName": "instructor",
+        "email": "akl6cri@fastddns.org",
+        "role": "instructor",
+        "isActive": 1,
+        "generalInformation": null,
+        "academicStatus": null
+      },
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        },
+        "isActive": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "generalInformation": {
+          "type": "string"
+        },
+        "academicStatus": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "firstName",
+        "lastName",
+        "email",
+        "role",
+        "isActive",
+        "generalInformation",
+        "academicStatus"
+      ]
+    },
     "updateinstructorbyID(onlyAdmin)Request": {
       "title": "updateinstructorbyID(onlyAdmin)Request",
       "example": {
@@ -943,6 +3977,1082 @@
         "lastName",
         "email"
       ]
+    },
+    "updateinstructorbyID(onlyAdmin)": {
+      "title": "updateinstructorbyID(onlyAdmin)",
+      "example": {
+        "success": true
+      },
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "success"
+      ]
+    },
+    "getactiveinstructorbyID": {
+      "title": "getactiveinstructorbyID",
+      "example": {
+        "success": true,
+        "result": {
+          "id": "eb5fce62-da43-4964-b486-23fd4989d67c",
+          "firstName": "instructor",
+          "lastName": "instructor",
+          "email": "ubzfibjdhgmbzmjwaw@kvhrs.com",
+          "role": "instructor",
+          "isActive": 1,
+          "generalInformation": null,
+          "academicStatus": null
+        }
+      },
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "result": {
+          "$ref": "#/definitions/Result7"
+        }
+      },
+      "required": [
+        "success",
+        "result"
+      ]
+    },
+    "Result7": {
+      "title": "Result7",
+      "example": {
+        "id": "eb5fce62-da43-4964-b486-23fd4989d67c",
+        "firstName": "instructor",
+        "lastName": "instructor",
+        "email": "ubzfibjdhgmbzmjwaw@kvhrs.com",
+        "role": "instructor",
+        "isActive": 1,
+        "generalInformation": null,
+        "academicStatus": null
+      },
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        },
+        "isActive": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "generalInformation": {
+          "type": "string"
+        },
+        "academicStatus": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "firstName",
+        "lastName",
+        "email",
+        "role",
+        "isActive",
+        "generalInformation",
+        "academicStatus"
+      ]
+    },
+    "getinstructorbyID(onlyAdmin)": {
+      "title": "getinstructorbyID(onlyAdmin)",
+      "example": {
+        "success": true,
+        "result": {
+          "id": "12147a92-c1f5-4075-8a5d-c8ef173fd07b",
+          "firstName": "admin",
+          "lastName": "admin",
+          "email": "byjfufzoffufxdrgujlj@kvhrw.com",
+          "role": "instructor",
+          "isActive": 0,
+          "generalInformation": null,
+          "academicStatus": null
+        }
+      },
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "result": {
+          "$ref": "#/definitions/Result7"
+        }
+      },
+      "required": [
+        "success",
+        "result"
+      ]
+    },
+    "createcourserequest": {
+      "title": "createcourserequest",
+      "example": {
+        "title": "kompuktorni clases",
+        "description": "learn kompuktory",
+        "instructorIds": [
+          "0250ad05-8c3c-49c0-9fc9-c50caf6b415e"
+        ],
+        "generalInformation": [
+          "all information about kompuktory"
+        ],
+        "lessons": [
+          {
+            "title": "kompuktory",
+            "description": "learn firs kompuktor",
+            "information": [
+              "information about kompuktory"
+            ]
+          },
+          {
+            "title": "kompuktory 2",
+            "description": "learn second kompuktor",
+            "information": [
+              "information about kompuktory"
+            ]
+          },
+          {
+            "title": "kompuktory 3",
+            "description": "learn kompuktor of 3 gen",
+            "information": [
+              "information about kompuktory"
+            ]
+          },
+          {
+            "title": "kompuktory 4",
+            "description": "learn kompuktor of 4 gen",
+            "information": [
+              "information about kompuktory"
+            ]
+          },
+          {
+            "title": "kompuktory 5",
+            "description": "learn kompuktor of 5 gen",
+            "information": [
+              "information about kompuktory"
+            ]
+          }
+        ]
+      },
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "instructorIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "generalInformation": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "lessons": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Lesson"
+          }
+        }
+      },
+      "required": [
+        "title",
+        "description",
+        "instructorIds",
+        "generalInformation",
+        "lessons"
+      ]
+    },
+    "Lesson": {
+      "title": "Lesson",
+      "example": {
+        "title": "kompuktory",
+        "description": "learn firs kompuktor",
+        "information": [
+          "information about kompuktory"
+        ]
+      },
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "information": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "title",
+        "description",
+        "information"
+      ]
+    },
+    "{{BASE}}/public/course": {
+      "title": "{{BASE}}/public/course",
+      "example": {
+        "success": true
+      },
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "success"
+      ]
+    },
+    "getallcoursesrequest": {
+      "title": "getallcoursesrequest",
+      "example": {
+        "offset": 0,
+        "limit": 3,
+        "orderBy": "title",
+        "orderDirection": "asc"
+      },
+      "type": "object",
+      "properties": {
+        "offset": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "limit": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "orderBy": {
+          "type": "string"
+        },
+        "orderDirection": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "offset",
+        "limit",
+        "orderBy",
+        "orderDirection"
+      ]
+    },
+    "{{BASE}}/public/course/filtered": {
+      "title": "{{BASE}}/public/course/filtered",
+      "example": {
+        "success": true,
+        "result": {
+          "offset": 0,
+          "limit": 3,
+          "totalRecords": 2,
+          "records": [
+            {
+              "id": "d97d94d3-83fb-427d-8326-c0474bc0eec0",
+              "title": "kompuktorni clases",
+              "description": "learn kompuktory",
+              "generalInformation": [
+                "all information about kompuktory"
+              ],
+              "createdBy": "a05fb7a6-ef20-4240-ac40-0e33325458b2",
+              "updatedBy": null,
+              "createdAt": "2023-02-03T16:40:14.000Z",
+              "updatedAt": "2023-02-03T16:40:14.000Z"
+            },
+            {
+              "id": "9b9b26dc-8f3b-4b8b-a269-0586b07ad43d",
+              "title": "kompuktorni clases for dumps",
+              "description": "learn kompuktory",
+              "generalInformation": [
+                "all information about kompuktory"
+              ],
+              "createdBy": "a05fb7a6-ef20-4240-ac40-0e33325458b2",
+              "updatedBy": "a05fb7a6-ef20-4240-ac40-0e33325458b2",
+              "createdAt": "2023-02-03T15:26:14.000Z",
+              "updatedAt": "2023-02-03T15:43:04.000Z"
+            }
+          ]
+        }
+      },
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "result": {
+          "$ref": "#/definitions/Result9"
+        }
+      },
+      "required": [
+        "success",
+        "result"
+      ]
+    },
+    "Result9": {
+      "title": "Result9",
+      "example": {
+        "offset": 0,
+        "limit": 3,
+        "totalRecords": 2,
+        "records": [
+          {
+            "id": "d97d94d3-83fb-427d-8326-c0474bc0eec0",
+            "title": "kompuktorni clases",
+            "description": "learn kompuktory",
+            "generalInformation": [
+              "all information about kompuktory"
+            ],
+            "createdBy": "a05fb7a6-ef20-4240-ac40-0e33325458b2",
+            "updatedBy": null,
+            "createdAt": "2023-02-03T16:40:14.000Z",
+            "updatedAt": "2023-02-03T16:40:14.000Z"
+          },
+          {
+            "id": "9b9b26dc-8f3b-4b8b-a269-0586b07ad43d",
+            "title": "kompuktorni clases for dumps",
+            "description": "learn kompuktory",
+            "generalInformation": [
+              "all information about kompuktory"
+            ],
+            "createdBy": "a05fb7a6-ef20-4240-ac40-0e33325458b2",
+            "updatedBy": "a05fb7a6-ef20-4240-ac40-0e33325458b2",
+            "createdAt": "2023-02-03T15:26:14.000Z",
+            "updatedAt": "2023-02-03T15:43:04.000Z"
+          }
+        ]
+      },
+      "type": "object",
+      "properties": {
+        "offset": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "limit": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "totalRecords": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "records": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Record3"
+          }
+        }
+      },
+      "required": [
+        "offset",
+        "limit",
+        "totalRecords",
+        "records"
+      ]
+    },
+    "Record3": {
+      "title": "Record3",
+      "example": {
+        "id": "d97d94d3-83fb-427d-8326-c0474bc0eec0",
+        "title": "kompuktorni clases",
+        "description": "learn kompuktory",
+        "generalInformation": [
+          "all information about kompuktory"
+        ],
+        "createdBy": "a05fb7a6-ef20-4240-ac40-0e33325458b2",
+        "updatedBy": null,
+        "createdAt": "2023-02-03T16:40:14.000Z",
+        "updatedAt": "2023-02-03T16:40:14.000Z"
+      },
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "generalInformation": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "createdBy": {
+          "type": "string"
+        },
+        "updatedBy": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string"
+        },
+        "updatedAt": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "description",
+        "generalInformation",
+        "createdBy",
+        "updatedBy",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "{{BASE}}/public/course/:id": {
+      "title": "{{BASE}}/public/course/:id",
+      "example": {
+        "success": true,
+        "result": {
+          "id": "9b9b26dc-8f3b-4b8b-a269-0586b07ad43d",
+          "title": "kompuktorni clases for dumps",
+          "description": "learn kompuktory",
+          "generalInformation": [
+            "all information about kompuktory"
+          ],
+          "lessons": [
+            {
+              "id": "e5af4cc6-2da1-4339-a907-814142a2d399",
+              "courseId": "9b9b26dc-8f3b-4b8b-a269-0586b07ad43d",
+              "title": "kompuktory",
+              "lessonNumber": 1,
+              "description": "learn firs kompuktor",
+              "information": [
+                "information about kompuktory"
+              ]
+            },
+            {
+              "id": "664e7ff8-1fe7-4441-acd1-d7e8e38357c0",
+              "courseId": "9b9b26dc-8f3b-4b8b-a269-0586b07ad43d",
+              "title": "kompuktory 2",
+              "lessonNumber": 2,
+              "description": "learn second kompuktor",
+              "information": [
+                "information about kompuktory"
+              ]
+            },
+            {
+              "id": "f4ec7c43-db0a-46b6-ba2f-6e4d48c37eb0",
+              "courseId": "9b9b26dc-8f3b-4b8b-a269-0586b07ad43d",
+              "title": "kompuktory 3",
+              "lessonNumber": 3,
+              "description": "learn kompuktor of 3 gen",
+              "information": [
+                "information about kompuktory"
+              ]
+            },
+            {
+              "id": "bd979d42-762a-4d60-9ca6-ec490d72cf0d",
+              "courseId": "9b9b26dc-8f3b-4b8b-a269-0586b07ad43d",
+              "title": "kompuktory 4",
+              "lessonNumber": 4,
+              "description": "learn kompuktor of 4 gen",
+              "information": [
+                "information about kompuktory"
+              ]
+            },
+            {
+              "id": "5ebce9b7-c605-4fa7-b791-94043fa084d9",
+              "courseId": "9b9b26dc-8f3b-4b8b-a269-0586b07ad43d",
+              "title": "kompuktory 5",
+              "lessonNumber": 5,
+              "description": "learn kompuktor of 5 gen",
+              "information": [
+                "information about kompuktory"
+              ]
+            }
+          ]
+        }
+      },
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "result": {
+          "$ref": "#/definitions/Result10"
+        }
+      },
+      "required": [
+        "success",
+        "result"
+      ]
+    },
+    "Result10": {
+      "title": "Result10",
+      "example": {
+        "id": "9b9b26dc-8f3b-4b8b-a269-0586b07ad43d",
+        "title": "kompuktorni clases for dumps",
+        "description": "learn kompuktory",
+        "generalInformation": [
+          "all information about kompuktory"
+        ],
+        "lessons": [
+          {
+            "id": "e5af4cc6-2da1-4339-a907-814142a2d399",
+            "courseId": "9b9b26dc-8f3b-4b8b-a269-0586b07ad43d",
+            "title": "kompuktory",
+            "lessonNumber": 1,
+            "description": "learn firs kompuktor",
+            "information": [
+              "information about kompuktory"
+            ]
+          },
+          {
+            "id": "664e7ff8-1fe7-4441-acd1-d7e8e38357c0",
+            "courseId": "9b9b26dc-8f3b-4b8b-a269-0586b07ad43d",
+            "title": "kompuktory 2",
+            "lessonNumber": 2,
+            "description": "learn second kompuktor",
+            "information": [
+              "information about kompuktory"
+            ]
+          },
+          {
+            "id": "f4ec7c43-db0a-46b6-ba2f-6e4d48c37eb0",
+            "courseId": "9b9b26dc-8f3b-4b8b-a269-0586b07ad43d",
+            "title": "kompuktory 3",
+            "lessonNumber": 3,
+            "description": "learn kompuktor of 3 gen",
+            "information": [
+              "information about kompuktory"
+            ]
+          },
+          {
+            "id": "bd979d42-762a-4d60-9ca6-ec490d72cf0d",
+            "courseId": "9b9b26dc-8f3b-4b8b-a269-0586b07ad43d",
+            "title": "kompuktory 4",
+            "lessonNumber": 4,
+            "description": "learn kompuktor of 4 gen",
+            "information": [
+              "information about kompuktory"
+            ]
+          },
+          {
+            "id": "5ebce9b7-c605-4fa7-b791-94043fa084d9",
+            "courseId": "9b9b26dc-8f3b-4b8b-a269-0586b07ad43d",
+            "title": "kompuktory 5",
+            "lessonNumber": 5,
+            "description": "learn kompuktor of 5 gen",
+            "information": [
+              "information about kompuktory"
+            ]
+          }
+        ]
+      },
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "generalInformation": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "lessons": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Lesson1"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "description",
+        "generalInformation",
+        "lessons"
+      ]
+    },
+    "Lesson1": {
+      "title": "Lesson1",
+      "example": {
+        "id": "e5af4cc6-2da1-4339-a907-814142a2d399",
+        "courseId": "9b9b26dc-8f3b-4b8b-a269-0586b07ad43d",
+        "title": "kompuktory",
+        "lessonNumber": 1,
+        "description": "learn firs kompuktor",
+        "information": [
+          "information about kompuktory"
+        ]
+      },
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "courseId": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "lessonNumber": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "description": {
+          "type": "string"
+        },
+        "information": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "courseId",
+        "title",
+        "lessonNumber",
+        "description",
+        "information"
+      ]
+    },
+    "{{BASE}}/public/course/:courseId/student/:studentId": {
+      "title": "{{BASE}}/public/course/:courseId/student/:studentId",
+      "example": {
+        "success": true
+      },
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "success"
+      ]
+    },
+    "editcourserequest": {
+      "title": "editcourserequest",
+      "example": {
+        "title": "kompuktorni clases for dumps",
+        "description": "learn kompuktory",
+        "generalInformation": [
+          "all information about kompuktory"
+        ]
+      },
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "generalInformation": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "title",
+        "description",
+        "generalInformation"
+      ]
+    },
+    "{{BASE}}/public/course/:id1": {
+      "title": "{{BASE}}/public/course/:id1",
+      "example": {
+        "success": true
+      },
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "success"
+      ]
+    },
+    "createlessonrequest": {
+      "title": "createlessonrequest",
+      "example": {
+        "lessonNumber": 1,
+        "title": "kompuktory",
+        "description": "learn 6 kompuktor",
+        "information": [
+          "information about kompuktory"
+        ]
+      },
+      "type": "object",
+      "properties": {
+        "lessonNumber": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "information": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "lessonNumber",
+        "title",
+        "description",
+        "information"
+      ]
+    },
+    "createlesson": {
+      "title": "createlesson",
+      "example": {
+        "success": true
+      },
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "success"
+      ]
+    },
+    "getalllessonsbycourseid": {
+      "title": "getalllessonsbycourseid",
+      "example": {
+        "success": true,
+        "result": [
+          {
+            "id": "25fbc63c-55e3-40bb-8f5b-7bd7f8ef49a2",
+            "courseId": "9e10d09e-e757-4ab5-b991-aeabd3c0d4b8",
+            "title": "kompuktory",
+            "lessonNumber": 1,
+            "description": "learn firs kompuktor",
+            "information": [
+              "information about kompuktory"
+            ],
+            "createdBy": "a05fb7a6-ef20-4240-ac40-0e33325458b2",
+            "updatedBy": null,
+            "createdAt": "2023-02-04T17:50:09.000Z",
+            "updatedAt": "2023-02-04T17:50:09.000Z"
+          },
+          {
+            "id": "1bb84a91-c217-4646-8ce6-a491f0c501ea",
+            "courseId": "9e10d09e-e757-4ab5-b991-aeabd3c0d4b8",
+            "title": "kompuktory 2",
+            "lessonNumber": 2,
+            "description": "learn second kompuktor",
+            "information": [
+              "information about kompuktory"
+            ],
+            "createdBy": "a05fb7a6-ef20-4240-ac40-0e33325458b2",
+            "updatedBy": null,
+            "createdAt": "2023-02-04T17:50:09.000Z",
+            "updatedAt": "2023-02-04T17:50:09.000Z"
+          },
+          {
+            "id": "dafd076c-cd23-42d2-aa19-c1be0fb112f0",
+            "courseId": "9e10d09e-e757-4ab5-b991-aeabd3c0d4b8",
+            "title": "kompuktory 3",
+            "lessonNumber": 3,
+            "description": "learn kompuktor of 3 gen",
+            "information": [
+              "information about kompuktory"
+            ],
+            "createdBy": "a05fb7a6-ef20-4240-ac40-0e33325458b2",
+            "updatedBy": null,
+            "createdAt": "2023-02-04T17:50:09.000Z",
+            "updatedAt": "2023-02-04T17:50:09.000Z"
+          },
+          {
+            "id": "f1c4c340-3171-487c-ae4c-425247613457",
+            "courseId": "9e10d09e-e757-4ab5-b991-aeabd3c0d4b8",
+            "title": "kompuktory 4",
+            "lessonNumber": 4,
+            "description": "learn kompuktor of 4 gen",
+            "information": [
+              "information about kompuktory"
+            ],
+            "createdBy": "a05fb7a6-ef20-4240-ac40-0e33325458b2",
+            "updatedBy": null,
+            "createdAt": "2023-02-04T17:50:09.000Z",
+            "updatedAt": "2023-02-04T17:50:09.000Z"
+          },
+          {
+            "id": "15304177-d4c5-4dd5-8600-de1bc3376aa3",
+            "courseId": "9e10d09e-e757-4ab5-b991-aeabd3c0d4b8",
+            "title": "kompuktory 5",
+            "lessonNumber": 5,
+            "description": "learn kompuktor of 5 gen",
+            "information": [
+              "information about kompuktory"
+            ],
+            "createdBy": "a05fb7a6-ef20-4240-ac40-0e33325458b2",
+            "updatedBy": null,
+            "createdAt": "2023-02-04T17:50:09.000Z",
+            "updatedAt": "2023-02-04T17:50:09.000Z"
+          },
+          {
+            "id": "e434a0c7-2075-4be1-bead-ccff61dc5c17",
+            "courseId": "9e10d09e-e757-4ab5-b991-aeabd3c0d4b8",
+            "title": "kompuktory",
+            "lessonNumber": 6,
+            "description": "learn 6 kompuktor",
+            "information": [
+              "information about kompuktory"
+            ],
+            "createdBy": "a05fb7a6-ef20-4240-ac40-0e33325458b2",
+            "updatedBy": null,
+            "createdAt": "2023-02-04T18:39:57.000Z",
+            "updatedAt": "2023-02-04T18:39:57.000Z"
+          },
+          {
+            "id": "0aa46dcb-52ff-41e1-bf13-05dc9df044b6",
+            "courseId": "9e10d09e-e757-4ab5-b991-aeabd3c0d4b8",
+            "title": "kompuktory",
+            "lessonNumber": 7,
+            "description": "learn 6 kompuktor",
+            "information": [
+              "information about kompuktory"
+            ],
+            "createdBy": "a05fb7a6-ef20-4240-ac40-0e33325458b2",
+            "updatedBy": null,
+            "createdAt": "2023-02-04T18:40:22.000Z",
+            "updatedAt": "2023-02-04T18:40:22.000Z"
+          },
+          {
+            "id": "2709083e-85e2-41ba-aab6-c714a109ea0f",
+            "courseId": "9e10d09e-e757-4ab5-b991-aeabd3c0d4b8",
+            "title": "kompuktory",
+            "lessonNumber": 8,
+            "description": "learn 6 kompuktor",
+            "information": [
+              "information about kompuktory"
+            ],
+            "createdBy": "a05fb7a6-ef20-4240-ac40-0e33325458b2",
+            "updatedBy": null,
+            "createdAt": "2023-02-04T18:44:55.000Z",
+            "updatedAt": "2023-02-04T18:44:55.000Z"
+          }
+        ]
+      },
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "result": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Result11"
+          }
+        }
+      },
+      "required": [
+        "success",
+        "result"
+      ]
+    },
+    "Result11": {
+      "title": "Result11",
+      "example": {
+        "id": "25fbc63c-55e3-40bb-8f5b-7bd7f8ef49a2",
+        "courseId": "9e10d09e-e757-4ab5-b991-aeabd3c0d4b8",
+        "title": "kompuktory",
+        "lessonNumber": 1,
+        "description": "learn firs kompuktor",
+        "information": [
+          "information about kompuktory"
+        ],
+        "createdBy": "a05fb7a6-ef20-4240-ac40-0e33325458b2",
+        "updatedBy": null,
+        "createdAt": "2023-02-04T17:50:09.000Z",
+        "updatedAt": "2023-02-04T17:50:09.000Z"
+      },
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "courseId": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "lessonNumber": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "description": {
+          "type": "string"
+        },
+        "information": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "createdBy": {
+          "type": "string"
+        },
+        "updatedBy": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string"
+        },
+        "updatedAt": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "courseId",
+        "title",
+        "lessonNumber",
+        "description",
+        "information",
+        "createdBy",
+        "updatedBy",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "getlessonbyId": {
+      "title": "getlessonbyId",
+      "example": {
+        "success": true,
+        "result": {
+          "id": "25fbc63c-55e3-40bb-8f5b-7bd7f8ef49a2",
+          "courseId": "9e10d09e-e757-4ab5-b991-aeabd3c0d4b8",
+          "title": "kompuktory",
+          "lessonNumber": 1,
+          "description": "learn firs kompuktor",
+          "information": [
+            "information about kompuktory"
+          ],
+          "createdBy": "a05fb7a6-ef20-4240-ac40-0e33325458b2",
+          "updatedBy": null,
+          "createdAt": "2023-02-04T17:50:09.000Z",
+          "updatedAt": "2023-02-04T17:50:09.000Z"
+        }
+      },
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "result": {
+          "$ref": "#/definitions/Result11"
+        }
+      },
+      "required": [
+        "success",
+        "result"
+      ]
+    },
+    "updatelessonrequest": {
+      "title": "updatelessonrequest",
+      "example": {
+        "title": "kompuktory",
+        "description": "!!!!!!!!!!!!!!!",
+        "information": [
+          "information about kompuktory"
+        ]
+      },
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "information": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "title",
+        "description",
+        "information"
+      ]
+    },
+    "updatelesson": {
+      "title": "updatelesson",
+      "example": {
+        "success": true
+      },
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "success"
+      ]
+    },
+    "deletelesson": {
+      "title": "deletelesson",
+      "example": {
+        "success": true
+      },
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "success"
+      ]
     }
   },
   "tags": [
@@ -957,6 +5067,12 @@
     },
     {
       "name": "instructor"
+    },
+    {
+      "name": "course"
+    },
+    {
+      "name": "lesson"
     }
   ]
 }

@@ -209,26 +209,21 @@ const DB_CONTRACT = {
     },
   },
   homework: {
-    tableName: 'courses_lesson',
-    courseId: {
-      property: 'courseId',
-      column: 'course_id',
-    },
+    tableName: 'homework',
+    courseLessonReferenceName: 'homework-route-courses_lesson',
+    studentReferenceName: 'homework-route-student',
+    compositeIndexName: 'composite_index',
     studentId: {
       property: 'studentId',
       column: 'student_id',
     },
-    lessonId: {
-      property: 'lessonId',
-      column: 'lesson_id',
+    courseLessonId: {
+      property: 'courseLessonId',
+      column: 'course_lesson_id',
     },
-    answer: {
-      property: 'answer',
-      column: 'answer',
-    },
-    file: {
-      property: 'file',
-      column: 'file',
+    filePath: {
+      property: 'filePath',
+      column: 'file_path',
     },
     mark: {
       property: 'mark',
@@ -236,7 +231,10 @@ const DB_CONTRACT = {
     },
   },
   studentFeedback: {
-    tableName: 'courses_lesson',
+    courseLessonReferenceName: 'courses_lesson',
+    studentReferenceName: 'homework-route-student',
+    compositeIndexName: 'composite_index',
+    tableName: 'student_feedback',
     courseId: {
       property: 'courseId',
       column: 'course_id',
@@ -252,10 +250,6 @@ const DB_CONTRACT = {
     feedback: {
       property: 'feedback',
       column: 'feedback',
-    },
-    file: {
-      property: 'file',
-      column: 'file',
     },
   },
 };

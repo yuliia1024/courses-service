@@ -15,6 +15,10 @@ module.exports = {
   hash: {
     passwordHashRounds: Number(process.env.PASSWORD_HASH_ROUNDS),
   },
+  AWS_S3: {
+    region: process.env.REGION,
+    bucketName: process.env.BUCKET_NAME,
+  },
   passwordGeneratorOptions: {
     length: 10,
     numbers: true,
