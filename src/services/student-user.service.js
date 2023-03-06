@@ -1,6 +1,7 @@
 const generator = require('generate-password');
 const { v4: uuid } = require('uuid');
-const { isEmpty } = require('lodash');
+const { isEmpty, isArray } = require('lodash');
+const { Op } = require('sequelize');
 const nodemailer = require('../utils/nodemailer');
 const {
   USER_ROLE,
@@ -96,7 +97,7 @@ const inactiveStudentUser = async (req, id) => {
   }
 };
 
-const getAllStudentsUser = async (data, studentIds = []) => {
+const getAllStudentsUser = async (data, studentIds = null) => {
   try {
     const {
       offset,
@@ -110,11 +111,11 @@ const getAllStudentsUser = async (data, studentIds = []) => {
 
     let options = createPaginateOptions(offset, limit, order);
 
-    if (isActive !== undefined || !isEmpty(studentIds)) {
+    if (isActive !== undefined || isArray(studentIds)) {
       options = {
         ...options,
         where: {
-          ...(!isEmpty(studentIds) && { id: studentIds }),
+          ...(!isEmpty(studentIds) ? { id: studentIds } : { id: { [Op.is]: null } }),
           // transform isActive to boolean
           ...(isActive !== undefined && { [DB_CONTRACT.studentUser.isActive.property]: `${isActive}` === 'true' }),
         },

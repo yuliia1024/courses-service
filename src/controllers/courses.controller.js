@@ -1,4 +1,3 @@
-const { pick } = require('lodash');
 const { SuccessResponse } = require('../custom-response');
 const {
   removeCourseInstructor,
@@ -53,14 +52,18 @@ const getCoursesByInstructorIdController = async (req, res) => {
   const instructorId = req.userRole === USER_ROLE.admin ? req.params.id : req.userId;
   const courses = await getAllCoursesByInstructorsId(instructorId);
 
-  new SuccessResponse(res).send(pick(courses, [DB_CONTRACT.coursesInstructor.coursesReferenceName]));
+  new SuccessResponse(res).send(
+    courses.map(course => course[DB_CONTRACT.coursesInstructor.coursesReferenceName])
+  );
 };
 
 const getCoursesByStudentIdController = async (req, res) => {
   const studentId = req.userRole === USER_ROLE.admin ? req.params.id : req.userId;
   const courses = await getCoursesByStudentIdAndOptions(studentId);
 
-  new SuccessResponse(res).send(pick(courses, [DB_CONTRACT.coursesStudent.coursesReferenceName]));
+  new SuccessResponse(res).send(
+    courses.map(course => course[DB_CONTRACT.coursesStudent.coursesReferenceName])
+  );
 };
 
 const deleteCourseController = async (req, res) => {

@@ -31,7 +31,7 @@ module.exports = sequelizeInstance => CoursesStudentModel.init({
     allowNull: false,
     field: DB_CONTRACT.coursesStudent.status.column,
     validate: {
-      is: Object.values(STUDENT_COURSES_STATUS),
+      isIn: [Object.values(STUDENT_COURSES_STATUS)],
       notEmpty: true,
     },
   },

@@ -9,7 +9,7 @@ const multerMemoryStorage = multer({
   },
 });
 
-const parseSingleFile = multerMemoryStorage.single(UPLOADING_FILE.file);
+const parseSingleFile = multerMemoryStorage.single(UPLOADING_FILE.fieldName);
 
 module.exports = {
   parseSingleFile,

@@ -30,13 +30,12 @@ const { DB_CONTRACT } = require('../db/db.contract');
 const {
   checkDataFromDB,
   createCustomError,
-  parseBoolean,
 } = require('../utils');
 const { checkUserPermissionToAccessCourseInfo } = require('../services/courses.service');
 const { getFileS3 } = require('../services/s3.service');
 
 const createHomeworkController = async (req, res) => {
-  if (req.userRole !== USER_ROLE.admin && req.params.studentId !== req.userId) {
+  if (req.userRole !== USER_ROLE.admin && req.body.studentId !== req.userId) {
     throw new ForbiddenError('You can create homework only for yourself.');
   }
   await createHomework(req.body, req[UPLOADING_FILE.fieldName], req.userId);
@@ -45,7 +44,7 @@ const createHomeworkController = async (req, res) => {
 };
 
 const deleteHomeworkController = async (req, res) => {
-  if (req.userRole !== USER_ROLE.admin && req.params.studentId !== req.userId) {
+  if (req.userRole !== USER_ROLE.admin && req.body.studentId !== req.userId) {
     throw new ForbiddenError('You can delete only your homework.');
   }
 
@@ -125,7 +124,7 @@ const getHomeworkByIdController = async (req, res) => {
 const getHomeworkByOptionsController = async (req, res) => {
   const result = await getHomeworksByOptions({
     ...req.body,
-    ...(parseBoolean(req.body.mark) && {
+    ...(req.body.mark !== undefined && {
       mark: req.body.mark
         ? {
           [Op.not]: null,
@@ -153,10 +152,12 @@ const getHomeworksByLessonIdForStudentController = async (req, res) => {
 const getHomeworkByCourseIdForStudentController = async (req, res) => {
   const result = await getHomeworksByOptionsWithLessonInfo({
     studentId: req.userId,
-    [`$${DB_CONTRACT.homework.courseLessonReferenceName}.courseId$`]: req.params.id,
+    [`$${DB_CONTRACT.homework.courseLessonReferenceName}.${DB_CONTRACT.coursesLesson.courseId.column}$`]: req.params.id,
   });
 
-  new SuccessResponse(res).send(omit(result, [DB_CONTRACT.homework.courseLessonReferenceName]));
+  new SuccessResponse(res).send(
+    result.map(item => omit(item, [DB_CONTRACT.homework.courseLessonReferenceName]))
+  );
 };
 
 // for instructors
@@ -164,10 +165,12 @@ const getHomeworkByCourseIdForInstructorsController = async (req, res) => {
   await checkUserPermissionToAccessCourseInfo(req.userRole, req.userId, req.params.id);
 
   const result = await getHomeworksByOptionsWithLessonInfo({
-    [`$${DB_CONTRACT.homework.courseLessonReferenceName}.courseId$`]: req.params.id,
+    [`$${DB_CONTRACT.homework.courseLessonReferenceName}.${DB_CONTRACT.coursesLesson.courseId.column}$`]: req.params.id,
   });
 
-  new SuccessResponse(res).send(omit(result, [DB_CONTRACT.homework.courseLessonReferenceName]));
+  new SuccessResponse(res).send(
+    result.map(item => omit(item, [DB_CONTRACT.homework.courseLessonReferenceName]))
+  );
 };
 
 module.exports = {

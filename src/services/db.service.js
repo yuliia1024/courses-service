@@ -146,16 +146,13 @@ const getStudentUserByOptions = async options => studentUserModel.findOne({
 });
 
 const getStudentIdsByOption = async options => {
-  const result = await studentUserModel.findAll({
+  const result = await coursesStudentModel.findAll({
     raw: true,
     nest: true,
     where: options,
-    ...createExcludedObjectForDB([
-      DB_CONTRACT.studentUser.hashPassword.property,
-    ]),
   });
 
-  return result.map(student => student.id);
+  return result.map(student => student.studentId);
 };
 
 // eslint-disable-next-line require-await
@@ -338,7 +335,7 @@ const getCoursesByStudentIdAndOptions = async (studentId, options) => coursesStu
 
 // eslint-disable-next-line require-await
 const updateCoursesStudentStatus = async (studentId, courseId, status, transaction) => coursesStudentModel.update(
-  status,
+  { status },
   {
     where: { studentId, courseId },
   },
@@ -511,7 +508,7 @@ const getStudentFeedbacksByOptions = async options => feedbackModel.findAll({
   raw: true,
   nest: true,
   where: { ...options },
-  attributes: [DB_CONTRACT.studentFeedback.feedback.property],
+  attributes: [DB_CONTRACT.studentFeedback.feedback.property, DB_CONTRACT.studentFeedback.courseId.property],
 });
 
 module.exports = {

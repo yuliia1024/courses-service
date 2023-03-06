@@ -375,6 +375,220 @@
         "security": []
       }
     },
+    "/student/feedback": {
+      "post": {
+        "summary": "add feedback for student",
+        "tags": [
+          "student"
+        ],
+        "operationId": "addfeedbackforstudent",
+        "deprecated": false,
+        "produces": [
+          "application/json; charset=utf-8"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/addfeedbackforstudentrequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/addfeedbackforstudent"
+            },
+            "examples": {
+              "application/json; charset=utf-8": {
+                "success": true
+              }
+            },
+            "headers": {
+              "X-Powered-By": {
+                "type": "string",
+                "default": "Express"
+              },
+              "Content-Length": {
+                "type": "string",
+                "default": "16"
+              },
+              "ETag": {
+                "type": "string",
+                "default": "W/\"10-oV4hJxRVSENxc/wX8+mA4/Pe4tA\""
+              },
+              "Date": {
+                "type": "string",
+                "default": "Mon, 06 Mar 2023 15:17:06 GMT"
+              },
+              "Connection": {
+                "type": "string",
+                "default": "keep-alive"
+              },
+              "Keep-Alive": {
+                "type": "string",
+                "default": "timeout=5"
+              }
+            }
+          }
+        },
+        "security": []
+      },
+      "get": {
+        "summary": "get feedback for student",
+        "tags": [
+          "student"
+        ],
+        "operationId": "getfeedbackforstudent",
+        "deprecated": false,
+        "produces": [
+          "application/json; charset=utf-8"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/getfeedbackforstudent"
+            },
+            "examples": {
+              "application/json; charset=utf-8": {
+                "success": true,
+                "result": [
+                  {
+                    "feedback": "good soup",
+                    "courseId": "6f13c8c0-bd0d-4f35-8176-3209c61b770c"
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "X-Powered-By": {
+                "type": "string",
+                "default": "Express"
+              },
+              "Content-Length": {
+                "type": "string",
+                "default": "102"
+              },
+              "ETag": {
+                "type": "string",
+                "default": "W/\"66-jf7r6UzgNFITiB9SdETdWNidLFg\""
+              },
+              "Date": {
+                "type": "string",
+                "default": "Mon, 06 Mar 2023 15:28:40 GMT"
+              },
+              "Connection": {
+                "type": "string",
+                "default": "keep-alive"
+              },
+              "Keep-Alive": {
+                "type": "string",
+                "default": "timeout=5"
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/student/feedback/options": {
+      "post": {
+        "summary": "get feedback for student for admins and instructors",
+        "tags": [
+          "student"
+        ],
+        "operationId": "getfeedbackforstudentforadminsandinstructors",
+        "deprecated": false,
+        "produces": [
+          "application/json; charset=utf-8"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/getfeedbackforstudentforadminsandinstructorsrequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/getfeedbackforstudentforadminsandinstructors"
+            },
+            "examples": {
+              "application/json; charset=utf-8": {
+                "success": true,
+                "result": [
+                  {
+                    "feedback": "good soup",
+                    "courseId": "6f13c8c0-bd0d-4f35-8176-3209c61b770c"
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "X-Powered-By": {
+                "type": "string",
+                "default": "Express"
+              },
+              "Content-Length": {
+                "type": "string",
+                "default": "102"
+              },
+              "ETag": {
+                "type": "string",
+                "default": "W/\"66-jf7r6UzgNFITiB9SdETdWNidLFg\""
+              },
+              "Date": {
+                "type": "string",
+                "default": "Mon, 06 Mar 2023 15:25:52 GMT"
+              },
+              "Connection": {
+                "type": "string",
+                "default": "keep-alive"
+              },
+              "Keep-Alive": {
+                "type": "string",
+                "default": "timeout=5"
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
     "/student/active/{id}": {
       "get": {
         "summary": "get active student by ID",
@@ -494,26 +708,8 @@
                 "result": {
                   "offset": 0,
                   "limit": 3,
-                  "totalRecords": 5,
+                  "totalRecords": 1,
                   "records": [
-                    {
-                      "id": "1e3ba647-1eb1-495c-897b-0441a9d84e34",
-                      "firstName": "intsr",
-                      "lastName": "student",
-                      "email": "byjfufzoufxd1rgujlj@kvhrw.com",
-                      "phone": null,
-                      "role": "student",
-                      "isActive": 1
-                    },
-                    {
-                      "id": "6ec0b552-d911-4891-afdf-73845f51de3b",
-                      "firstName": "admin",
-                      "lastName": "admin",
-                      "email": "byjfufzoufxdrgujlj@kvhrw.com",
-                      "phone": null,
-                      "role": "student",
-                      "isActive": 0
-                    },
                     {
                       "id": "290d1f41-6a37-431b-93d6-f88b085a35ef",
                       "firstName": "student",
@@ -534,15 +730,15 @@
               },
               "Content-Length": {
                 "type": "string",
-                "default": "573"
+                "default": "236"
               },
               "ETag": {
                 "type": "string",
-                "default": "W/\"23d-/WIjFYYes/xCpMTUb8k0U5B6+5A\""
+                "default": "W/\"ec-neHlrKlO2TRDeNA00w2s8j3nfHw\""
               },
               "Date": {
                 "type": "string",
-                "default": "Mon, 16 Jan 2023 15:23:42 GMT"
+                "default": "Mon, 06 Mar 2023 13:25:47 GMT"
               },
               "Connection": {
                 "type": "string",
@@ -1554,6 +1750,408 @@
               "Date": {
                 "type": "string",
                 "default": "Fri, 03 Feb 2023 16:40:14 GMT"
+              },
+              "Connection": {
+                "type": "string",
+                "default": "keep-alive"
+              },
+              "Keep-Alive": {
+                "type": "string",
+                "default": "timeout=5"
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/course/instructor": {
+      "get": {
+        "summary": "get all instructor courses for instructor",
+        "tags": [
+          "course"
+        ],
+        "operationId": "getallinstructorcoursesforinstructor",
+        "deprecated": false,
+        "produces": [
+          "application/json; charset=utf-8"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/getallinstructorcoursesforinstructor"
+            },
+            "examples": {
+              "application/json; charset=utf-8": {
+                "success": true,
+                "result": [
+                  {
+                    "id": "38fe1e6e-a0c5-4875-9c17-094286891080",
+                    "title": "FL",
+                    "description": "learn kompuktory",
+                    "generalInformation": [
+                      "all information about kompuktory"
+                    ]
+                  },
+                  {
+                    "id": "a1d06d6c-59b6-4644-8c23-4b07a26f7194",
+                    "title": "FL",
+                    "description": "learn kompuktory",
+                    "generalInformation": [
+                      "all information about kompuktory"
+                    ]
+                  },
+                  {
+                    "id": "9e10d09e-e757-4ab5-b991-aeabd3c0d4b8",
+                    "title": "kompuktorni clases",
+                    "description": "learn kompuktory",
+                    "generalInformation": [
+                      "all information about kompuktory"
+                    ]
+                  },
+                  {
+                    "id": "68f08de7-6d5b-47fd-973b-cd557fb6216e",
+                    "title": "FL",
+                    "description": "learn kompuktory",
+                    "generalInformation": [
+                      "all information about kompuktory"
+                    ]
+                  },
+                  {
+                    "id": "6f13c8c0-bd0d-4f35-8176-3209c61b770c",
+                    "title": "FL",
+                    "description": "learn kompuktory",
+                    "generalInformation": [
+                      "all information about kompuktory"
+                    ]
+                  },
+                  {
+                    "id": "5b630dd2-688a-4e9d-a8af-1e266e9b4831",
+                    "title": "FL",
+                    "description": "learn kompuktory",
+                    "generalInformation": [
+                      "all information about kompuktory"
+                    ]
+                  },
+                  {
+                    "id": "c17bc376-2f87-4d0c-a523-10985a6a847f",
+                    "title": "FL",
+                    "description": "learn kompuktory",
+                    "generalInformation": [
+                      "all information about kompuktory"
+                    ]
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "X-Powered-By": {
+                "type": "string",
+                "default": "Express"
+              },
+              "Content-Length": {
+                "type": "string",
+                "default": "1093"
+              },
+              "ETag": {
+                "type": "string",
+                "default": "W/\"445-wPjq89mazBrMQlijTmWfGe/RKNs\""
+              },
+              "Date": {
+                "type": "string",
+                "default": "Mon, 06 Mar 2023 15:42:21 GMT"
+              },
+              "Connection": {
+                "type": "string",
+                "default": "keep-alive"
+              },
+              "Keep-Alive": {
+                "type": "string",
+                "default": "timeout=5"
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/course/student": {
+      "get": {
+        "summary": "get all student courses for student",
+        "tags": [
+          "course"
+        ],
+        "operationId": "getallstudentcoursesforstudent",
+        "deprecated": false,
+        "produces": [
+          "application/json; charset=utf-8"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/getallstudentcourses"
+            },
+            "examples": {
+              "application/json; charset=utf-8": {
+                "success": true,
+                "result": [
+                  {
+                    "courses_student-courses": {
+                      "id": "6f13c8c0-bd0d-4f35-8176-3209c61b770c",
+                      "title": "FL",
+                      "description": "learn kompuktory",
+                      "generalInformation": [
+                        "all information about kompuktory"
+                      ]
+                    }
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "X-Powered-By": {
+                "type": "string",
+                "default": "Express"
+              },
+              "Content-Length": {
+                "type": "string",
+                "default": "205"
+              },
+              "ETag": {
+                "type": "string",
+                "default": "W/\"cd-eUBMNkJRl32nKV+szjJDAqgHPxo\""
+              },
+              "Date": {
+                "type": "string",
+                "default": "Mon, 06 Mar 2023 15:34:16 GMT"
+              },
+              "Connection": {
+                "type": "string",
+                "default": "keep-alive"
+              },
+              "Keep-Alive": {
+                "type": "string",
+                "default": "timeout=5"
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/course/instructor/{id}": {
+      "get": {
+        "summary": "get all instructor courses by instructorId for admin",
+        "tags": [
+          "course"
+        ],
+        "operationId": "getallinstructorcoursesbyinstructorIdforadmin",
+        "deprecated": false,
+        "produces": [
+          "application/json; charset=utf-8"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/getallinstructorcoursesforinstructor"
+            },
+            "examples": {
+              "application/json; charset=utf-8": {
+                "success": true,
+                "result": [
+                  {
+                    "id": "38fe1e6e-a0c5-4875-9c17-094286891080",
+                    "title": "FL",
+                    "description": "learn kompuktory",
+                    "generalInformation": [
+                      "all information about kompuktory"
+                    ]
+                  },
+                  {
+                    "id": "a1d06d6c-59b6-4644-8c23-4b07a26f7194",
+                    "title": "FL",
+                    "description": "learn kompuktory",
+                    "generalInformation": [
+                      "all information about kompuktory"
+                    ]
+                  },
+                  {
+                    "id": "9e10d09e-e757-4ab5-b991-aeabd3c0d4b8",
+                    "title": "kompuktorni clases",
+                    "description": "learn kompuktory",
+                    "generalInformation": [
+                      "all information about kompuktory"
+                    ]
+                  },
+                  {
+                    "id": "68f08de7-6d5b-47fd-973b-cd557fb6216e",
+                    "title": "FL",
+                    "description": "learn kompuktory",
+                    "generalInformation": [
+                      "all information about kompuktory"
+                    ]
+                  },
+                  {
+                    "id": "6f13c8c0-bd0d-4f35-8176-3209c61b770c",
+                    "title": "FL",
+                    "description": "learn kompuktory",
+                    "generalInformation": [
+                      "all information about kompuktory"
+                    ]
+                  },
+                  {
+                    "id": "5b630dd2-688a-4e9d-a8af-1e266e9b4831",
+                    "title": "FL",
+                    "description": "learn kompuktory",
+                    "generalInformation": [
+                      "all information about kompuktory"
+                    ]
+                  },
+                  {
+                    "id": "c17bc376-2f87-4d0c-a523-10985a6a847f",
+                    "title": "FL",
+                    "description": "learn kompuktory",
+                    "generalInformation": [
+                      "all information about kompuktory"
+                    ]
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "X-Powered-By": {
+                "type": "string",
+                "default": "Express"
+              },
+              "Content-Length": {
+                "type": "string",
+                "default": "1093"
+              },
+              "ETag": {
+                "type": "string",
+                "default": "W/\"445-wPjq89mazBrMQlijTmWfGe/RKNs\""
+              },
+              "Date": {
+                "type": "string",
+                "default": "Mon, 06 Mar 2023 15:42:21 GMT"
+              },
+              "Connection": {
+                "type": "string",
+                "default": "keep-alive"
+              },
+              "Keep-Alive": {
+                "type": "string",
+                "default": "timeout=5"
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/course/student/{id}": {
+      "get": {
+        "summary": "get all student courses by studentId for admins",
+        "tags": [
+          "course"
+        ],
+        "operationId": "getallstudentcoursesbystudentIdforadmins",
+        "deprecated": false,
+        "produces": [
+          "application/json; charset=utf-8"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/getallstudentcourses"
+            },
+            "examples": {
+              "application/json; charset=utf-8": {
+                "success": true,
+                "result": [
+                  {
+                    "courses_student-courses": {
+                      "id": "6f13c8c0-bd0d-4f35-8176-3209c61b770c",
+                      "title": "FL",
+                      "description": "learn kompuktory",
+                      "generalInformation": [
+                        "all information about kompuktory"
+                      ]
+                    }
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "X-Powered-By": {
+                "type": "string",
+                "default": "Express"
+              },
+              "Content-Length": {
+                "type": "string",
+                "default": "205"
+              },
+              "ETag": {
+                "type": "string",
+                "default": "W/\"cd-eUBMNkJRl32nKV+szjJDAqgHPxo\""
+              },
+              "Date": {
+                "type": "string",
+                "default": "Mon, 06 Mar 2023 15:34:16 GMT"
               },
               "Connection": {
                 "type": "string",
@@ -2751,6 +3349,786 @@
         },
         "security": []
       }
+    },
+    "/homework": {
+      "post": {
+        "summary": "create homework",
+        "tags": [
+          "homework"
+        ],
+        "operationId": "createhomework",
+        "deprecated": false,
+        "produces": [
+          "application/json; charset=utf-8"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "studentId",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "lessonId",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "file",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/createhomework"
+            },
+            "examples": {
+              "application/json; charset=utf-8": {
+                "success": true
+              }
+            },
+            "headers": {
+              "X-Powered-By": {
+                "type": "string",
+                "default": "Express"
+              },
+              "Content-Length": {
+                "type": "string",
+                "default": "16"
+              },
+              "ETag": {
+                "type": "string",
+                "default": "W/\"10-oV4hJxRVSENxc/wX8+mA4/Pe4tA\""
+              },
+              "Date": {
+                "type": "string",
+                "default": "Thu, 02 Mar 2023 12:45:29 GMT"
+              },
+              "Connection": {
+                "type": "string",
+                "default": "keep-alive"
+              },
+              "Keep-Alive": {
+                "type": "string",
+                "default": "timeout=5"
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/homework/{id}/student": {
+      "get": {
+        "summary": "get homework by Id for student user",
+        "tags": [
+          "homework"
+        ],
+        "operationId": "gethomeworkbyIdforstudentuser",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "X-Powered-By": {
+                "type": "string",
+                "default": "Express"
+              },
+              "Content-Length": {
+                "type": "string",
+                "default": "33967"
+              },
+              "Date": {
+                "type": "string",
+                "default": "Thu, 02 Mar 2023 12:43:07 GMT"
+              },
+              "Connection": {
+                "type": "string",
+                "default": "keep-alive"
+              },
+              "Keep-Alive": {
+                "type": "string",
+                "default": "timeout=5"
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/homework/options": {
+      "post": {
+        "summary": "get homeworks by options for admin",
+        "tags": [
+          "homework"
+        ],
+        "operationId": "gethomeworksbyoptionsforadmin",
+        "deprecated": false,
+        "produces": [
+          "application/json; charset=utf-8"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/gethomeworksbyoptionsforadminrequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/gethomeworksbyoptionsforadmin"
+            },
+            "examples": {
+              "application/json; charset=utf-8": {
+                "success": true,
+                "result": [
+                  {
+                    "id": "fa640c9d-7b0e-48b5-a8f5-80ecbf9e2a6e",
+                    "filePath": "homework/290d1f41-6a37-431b-93d6-f88b085a35ef/fa640c9d-7b0e-48b5-a8f5-80ecbf9e2a6e",
+                    "studentId": "290d1f41-6a37-431b-93d6-f88b085a35ef",
+                    "courseLessonId": "0107ac93-029c-415e-afe7-2c4d3769f17b",
+                    "mark": null
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "X-Powered-By": {
+                "type": "string",
+                "default": "Express"
+              },
+              "Content-Length": {
+                "type": "string",
+                "default": "288"
+              },
+              "ETag": {
+                "type": "string",
+                "default": "W/\"120-8O7B9fbcAlCHOrLOxijVA8eaMCc\""
+              },
+              "Date": {
+                "type": "string",
+                "default": "Mon, 06 Mar 2023 13:36:15 GMT"
+              },
+              "Connection": {
+                "type": "string",
+                "default": "keep-alive"
+              },
+              "Keep-Alive": {
+                "type": "string",
+                "default": "timeout=5"
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/homework/course/{id}/student": {
+      "get": {
+        "summary": "get all homeworks by courseId for student",
+        "tags": [
+          "homework"
+        ],
+        "operationId": "getallhomeworksbycourseIdforstudent",
+        "deprecated": false,
+        "produces": [
+          "application/json; charset=utf-8"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/getallhomeworksbycourseIdforstudent"
+            },
+            "examples": {
+              "application/json; charset=utf-8": {
+                "success": true,
+                "result": [
+                  {
+                    "id": "540005b3-3871-493f-b17a-e6de7e240a6c",
+                    "filePath": "homework/290d1f41-6a37-431b-93d6-f88b085a35ef/540005b3-3871-493f-b17a-e6de7e240a6c",
+                    "studentId": "290d1f41-6a37-431b-93d6-f88b085a35ef",
+                    "courseLessonId": "86d5b4e2-7ee1-4524-a659-43d90385acbf",
+                    "mark": null
+                  },
+                  {
+                    "id": "657b7adb-b548-44b6-aa11-89296f789179",
+                    "filePath": "homework/290d1f41-6a37-431b-93d6-f88b085a35ef/657b7adb-b548-44b6-aa11-89296f789179",
+                    "studentId": "290d1f41-6a37-431b-93d6-f88b085a35ef",
+                    "courseLessonId": "b836d667-faeb-41fa-bd22-b8610befd727",
+                    "mark": null
+                  },
+                  {
+                    "id": "832d1071-e89f-4167-a3cd-864b473b71b1",
+                    "filePath": "homework/290d1f41-6a37-431b-93d6-f88b085a35ef/832d1071-e89f-4167-a3cd-864b473b71b1",
+                    "studentId": "290d1f41-6a37-431b-93d6-f88b085a35ef",
+                    "courseLessonId": "8d51dbb4-75f0-4abc-816c-3957d27e2fcb",
+                    "mark": null
+                  },
+                  {
+                    "id": "b1d44767-1b15-485b-95c0-ec77d47da220",
+                    "filePath": "homework/290d1f41-6a37-431b-93d6-f88b085a35ef/b1d44767-1b15-485b-95c0-ec77d47da220",
+                    "studentId": "290d1f41-6a37-431b-93d6-f88b085a35ef",
+                    "courseLessonId": "c4c27562-2d62-4efe-8fef-1c509d03313d",
+                    "mark": null
+                  },
+                  {
+                    "id": "fa640c9d-7b0e-48b5-a8f5-80ecbf9e2a6e",
+                    "filePath": "homework/290d1f41-6a37-431b-93d6-f88b085a35ef/fa640c9d-7b0e-48b5-a8f5-80ecbf9e2a6e",
+                    "studentId": "290d1f41-6a37-431b-93d6-f88b085a35ef",
+                    "courseLessonId": "0107ac93-029c-415e-afe7-2c4d3769f17b",
+                    "mark": null
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "X-Powered-By": {
+                "type": "string",
+                "default": "Express"
+              },
+              "Content-Length": {
+                "type": "string",
+                "default": "1332"
+              },
+              "ETag": {
+                "type": "string",
+                "default": "W/\"534-vJesMSbzid2n0fh5WBMOs5aAb/4\""
+              },
+              "Date": {
+                "type": "string",
+                "default": "Mon, 06 Mar 2023 14:01:50 GMT"
+              },
+              "Connection": {
+                "type": "string",
+                "default": "keep-alive"
+              },
+              "Keep-Alive": {
+                "type": "string",
+                "default": "timeout=5"
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/homework/course/{id}/instructor": {
+      "get": {
+        "summary": "get all homeworks by courseId for instructor",
+        "tags": [
+          "homework"
+        ],
+        "operationId": "getallhomeworksbycourseIdforinstructor",
+        "deprecated": false,
+        "produces": [
+          "application/json; charset=utf-8"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/getallhomeworksbycourseIdforinstructor"
+            },
+            "examples": {
+              "application/json; charset=utf-8": {
+                "success": true,
+                "result": [
+                  {
+                    "id": "540005b3-3871-493f-b17a-e6de7e240a6c",
+                    "filePath": "homework/290d1f41-6a37-431b-93d6-f88b085a35ef/540005b3-3871-493f-b17a-e6de7e240a6c",
+                    "studentId": "290d1f41-6a37-431b-93d6-f88b085a35ef",
+                    "courseLessonId": "86d5b4e2-7ee1-4524-a659-43d90385acbf",
+                    "mark": null
+                  },
+                  {
+                    "id": "657b7adb-b548-44b6-aa11-89296f789179",
+                    "filePath": "homework/290d1f41-6a37-431b-93d6-f88b085a35ef/657b7adb-b548-44b6-aa11-89296f789179",
+                    "studentId": "290d1f41-6a37-431b-93d6-f88b085a35ef",
+                    "courseLessonId": "b836d667-faeb-41fa-bd22-b8610befd727",
+                    "mark": null
+                  },
+                  {
+                    "id": "832d1071-e89f-4167-a3cd-864b473b71b1",
+                    "filePath": "homework/290d1f41-6a37-431b-93d6-f88b085a35ef/832d1071-e89f-4167-a3cd-864b473b71b1",
+                    "studentId": "290d1f41-6a37-431b-93d6-f88b085a35ef",
+                    "courseLessonId": "8d51dbb4-75f0-4abc-816c-3957d27e2fcb",
+                    "mark": null
+                  },
+                  {
+                    "id": "b1d44767-1b15-485b-95c0-ec77d47da220",
+                    "filePath": "homework/290d1f41-6a37-431b-93d6-f88b085a35ef/b1d44767-1b15-485b-95c0-ec77d47da220",
+                    "studentId": "290d1f41-6a37-431b-93d6-f88b085a35ef",
+                    "courseLessonId": "c4c27562-2d62-4efe-8fef-1c509d03313d",
+                    "mark": null
+                  },
+                  {
+                    "id": "fa640c9d-7b0e-48b5-a8f5-80ecbf9e2a6e",
+                    "filePath": "homework/290d1f41-6a37-431b-93d6-f88b085a35ef/fa640c9d-7b0e-48b5-a8f5-80ecbf9e2a6e",
+                    "studentId": "290d1f41-6a37-431b-93d6-f88b085a35ef",
+                    "courseLessonId": "0107ac93-029c-415e-afe7-2c4d3769f17b",
+                    "mark": null
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "X-Powered-By": {
+                "type": "string",
+                "default": "Express"
+              },
+              "Content-Length": {
+                "type": "string",
+                "default": "1332"
+              },
+              "ETag": {
+                "type": "string",
+                "default": "W/\"534-vJesMSbzid2n0fh5WBMOs5aAb/4\""
+              },
+              "Date": {
+                "type": "string",
+                "default": "Mon, 06 Mar 2023 14:05:51 GMT"
+              },
+              "Connection": {
+                "type": "string",
+                "default": "keep-alive"
+              },
+              "Keep-Alive": {
+                "type": "string",
+                "default": "timeout=5"
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/homework/lesson/{id}/student": {
+      "get": {
+        "summary": "get homework by lessonId  for student",
+        "tags": [
+          "homework"
+        ],
+        "operationId": "gethomeworkbylessonIdforstudent",
+        "deprecated": false,
+        "produces": [
+          "application/json; charset=utf-8"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/gethomeworkbylessonIdforstudent"
+            },
+            "examples": {
+              "application/json; charset=utf-8": {
+                "success": true,
+                "result": [
+                  {
+                    "id": "540005b3-3871-493f-b17a-e6de7e240a6c",
+                    "filePath": "homework/290d1f41-6a37-431b-93d6-f88b085a35ef/540005b3-3871-493f-b17a-e6de7e240a6c",
+                    "studentId": "290d1f41-6a37-431b-93d6-f88b085a35ef",
+                    "courseLessonId": "86d5b4e2-7ee1-4524-a659-43d90385acbf",
+                    "mark": null
+                  }
+                ]
+              }
+            },
+            "headers": {
+              "X-Powered-By": {
+                "type": "string",
+                "default": "Express"
+              },
+              "Content-Length": {
+                "type": "string",
+                "default": "288"
+              },
+              "ETag": {
+                "type": "string",
+                "default": "W/\"120-n0r8RWM6H3e1R+xiLyKMQffP+EQ\""
+              },
+              "Date": {
+                "type": "string",
+                "default": "Mon, 06 Mar 2023 14:08:13 GMT"
+              },
+              "Connection": {
+                "type": "string",
+                "default": "keep-alive"
+              },
+              "Keep-Alive": {
+                "type": "string",
+                "default": "timeout=5"
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/homework/{id}": {
+      "get": {
+        "summary": "get homework by id for instructors and admins",
+        "tags": [
+          "homework"
+        ],
+        "operationId": "gethomeworkbyidforinstructorsandadmins",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "",
+            "headers": {}
+          }
+        },
+        "security": []
+      },
+      "put": {
+        "summary": "update homework",
+        "tags": [
+          "homework"
+        ],
+        "operationId": "updatehomework",
+        "deprecated": false,
+        "produces": [
+          "application/json; charset=utf-8"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "file",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/updatehomework"
+            },
+            "examples": {
+              "application/json; charset=utf-8": {
+                "success": true
+              }
+            },
+            "headers": {
+              "X-Powered-By": {
+                "type": "string",
+                "default": "Express"
+              },
+              "Content-Length": {
+                "type": "string",
+                "default": "16"
+              },
+              "ETag": {
+                "type": "string",
+                "default": "W/\"10-oV4hJxRVSENxc/wX8+mA4/Pe4tA\""
+              },
+              "Date": {
+                "type": "string",
+                "default": "Mon, 06 Mar 2023 14:16:53 GMT"
+              },
+              "Connection": {
+                "type": "string",
+                "default": "keep-alive"
+              },
+              "Keep-Alive": {
+                "type": "string",
+                "default": "timeout=5"
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/homework/{id}/mark": {
+      "post": {
+        "summary": "mark homework",
+        "tags": [
+          "homework"
+        ],
+        "operationId": "markhomework",
+        "deprecated": false,
+        "produces": [
+          "application/json; charset=utf-8"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/markhomeworkrequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/markhomework"
+            },
+            "examples": {
+              "application/json; charset=utf-8": {
+                "success": true
+              }
+            },
+            "headers": {
+              "X-Powered-By": {
+                "type": "string",
+                "default": "Express"
+              },
+              "Content-Length": {
+                "type": "string",
+                "default": "16"
+              },
+              "ETag": {
+                "type": "string",
+                "default": "W/\"10-oV4hJxRVSENxc/wX8+mA4/Pe4tA\""
+              },
+              "Date": {
+                "type": "string",
+                "default": "Mon, 06 Mar 2023 14:22:32 GMT"
+              },
+              "Connection": {
+                "type": "string",
+                "default": "keep-alive"
+              },
+              "Keep-Alive": {
+                "type": "string",
+                "default": "timeout=5"
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/homework/{id}/student/{studentId}": {
+      "delete": {
+        "summary": "delete homework by id for students and admins",
+        "tags": [
+          "homework"
+        ],
+        "operationId": "deletehomeworkbyidforstudentsandadmins",
+        "deprecated": false,
+        "produces": [
+          "application/json; charset=utf-8"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "studentId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/deletehomeworkbyidforstudentsandadmins"
+            },
+            "examples": {
+              "application/json; charset=utf-8": {
+                "success": true
+              }
+            },
+            "headers": {
+              "X-Powered-By": {
+                "type": "string",
+                "default": "Express"
+              },
+              "Content-Length": {
+                "type": "string",
+                "default": "16"
+              },
+              "ETag": {
+                "type": "string",
+                "default": "W/\"10-oV4hJxRVSENxc/wX8+mA4/Pe4tA\""
+              },
+              "Date": {
+                "type": "string",
+                "default": "Mon, 06 Mar 2023 15:08:51 GMT"
+              },
+              "Connection": {
+                "type": "string",
+                "default": "keep-alive"
+              },
+              "Keep-Alive": {
+                "type": "string",
+                "default": "timeout=5"
+              }
+            }
+          }
+        },
+        "security": []
+      }
     }
   },
   "definitions": {
@@ -3077,6 +4455,119 @@
         "success"
       ]
     },
+    "addfeedbackforstudentrequest": {
+      "title": "addfeedbackforstudentrequest",
+      "example": {
+        "courseId": "6f13c8c0-bd0d-4f35-8176-3209c61b770c",
+        "studentId": "290d1f41-6a37-431b-93d6-f88b085a35ef",
+        "feedback": "good soup"
+      },
+      "type": "object",
+      "properties": {
+        "courseId": {
+          "type": "string"
+        },
+        "studentId": {
+          "type": "string"
+        },
+        "feedback": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "courseId",
+        "studentId",
+        "feedback"
+      ]
+    },
+    "addfeedbackforstudent": {
+      "title": "addfeedbackforstudent",
+      "example": {
+        "success": true
+      },
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "success"
+      ]
+    },
+    "getfeedbackforstudentforadminsandinstructorsrequest": {
+      "title": "getfeedbackforstudentforadminsandinstructorsrequest",
+      "example": {
+        "courseId": "6f13c8c0-bd0d-4f35-8176-3209c61b770c",
+        "studentId": "290d1f41-6a37-431b-93d6-f88b085a35ef",
+        "feedback": "good soup"
+      },
+      "type": "object",
+      "properties": {
+        "courseId": {
+          "type": "string"
+        },
+        "studentId": {
+          "type": "string"
+        },
+        "feedback": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "courseId",
+        "studentId",
+        "feedback"
+      ]
+    },
+    "getfeedbackforstudentforadminsandinstructors": {
+      "title": "getfeedbackforstudentforadminsandinstructors",
+      "example": {
+        "success": true,
+        "result": [
+          {
+            "feedback": "good soup",
+            "courseId": "6f13c8c0-bd0d-4f35-8176-3209c61b770c"
+          }
+        ]
+      },
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "result": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Result2"
+          }
+        }
+      },
+      "required": [
+        "success",
+        "result"
+      ]
+    },
+    "Result2": {
+      "title": "Result2",
+      "example": {
+        "feedback": "good soup",
+        "courseId": "6f13c8c0-bd0d-4f35-8176-3209c61b770c"
+      },
+      "type": "object",
+      "properties": {
+        "feedback": {
+          "type": "string"
+        },
+        "courseId": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "feedback",
+        "courseId"
+      ]
+    },
     "getactivestudentbyID": {
       "title": "getactivestudentbyID",
       "example": {
@@ -3111,7 +4602,10 @@
         "offset": 0,
         "limit": 3,
         "orderBy": "email",
-        "orderDirection": "asc"
+        "orderDirection": "asc",
+        "courseId": "6f13c8c0-bd0d-4f35-8176-3209c61b770c",
+        "isActive": true,
+        "courseStatus": "inProgress"
       },
       "type": "object",
       "properties": {
@@ -3128,13 +4622,25 @@
         },
         "orderDirection": {
           "type": "string"
+        },
+        "courseId": {
+          "type": "string"
+        },
+        "isActive": {
+          "type": "boolean"
+        },
+        "courseStatus": {
+          "type": "string"
         }
       },
       "required": [
         "offset",
         "limit",
         "orderBy",
-        "orderDirection"
+        "orderDirection",
+        "courseId",
+        "isActive",
+        "courseStatus"
       ]
     },
     "getallstudentwithpagination": {
@@ -3144,26 +4650,8 @@
         "result": {
           "offset": 0,
           "limit": 3,
-          "totalRecords": 5,
+          "totalRecords": 1,
           "records": [
-            {
-              "id": "1e3ba647-1eb1-495c-897b-0441a9d84e34",
-              "firstName": "intsr",
-              "lastName": "student",
-              "email": "byjfufzoufxd1rgujlj@kvhrw.com",
-              "phone": null,
-              "role": "student",
-              "isActive": 1
-            },
-            {
-              "id": "6ec0b552-d911-4891-afdf-73845f51de3b",
-              "firstName": "admin",
-              "lastName": "admin",
-              "email": "byjfufzoufxdrgujlj@kvhrw.com",
-              "phone": null,
-              "role": "student",
-              "isActive": 0
-            },
             {
               "id": "290d1f41-6a37-431b-93d6-f88b085a35ef",
               "firstName": "student",
@@ -3182,7 +4670,7 @@
           "type": "boolean"
         },
         "result": {
-          "$ref": "#/definitions/Result3"
+          "$ref": "#/definitions/Result4"
         }
       },
       "required": [
@@ -3190,31 +4678,13 @@
         "result"
       ]
     },
-    "Result3": {
-      "title": "Result3",
+    "Result4": {
+      "title": "Result4",
       "example": {
         "offset": 0,
         "limit": 3,
-        "totalRecords": 5,
+        "totalRecords": 1,
         "records": [
-          {
-            "id": "1e3ba647-1eb1-495c-897b-0441a9d84e34",
-            "firstName": "intsr",
-            "lastName": "student",
-            "email": "byjfufzoufxd1rgujlj@kvhrw.com",
-            "phone": null,
-            "role": "student",
-            "isActive": 1
-          },
-          {
-            "id": "6ec0b552-d911-4891-afdf-73845f51de3b",
-            "firstName": "admin",
-            "lastName": "admin",
-            "email": "byjfufzoufxdrgujlj@kvhrw.com",
-            "phone": null,
-            "role": "student",
-            "isActive": 0
-          },
           {
             "id": "290d1f41-6a37-431b-93d6-f88b085a35ef",
             "firstName": "student",
@@ -3257,10 +4727,10 @@
     "Record": {
       "title": "Record",
       "example": {
-        "id": "1e3ba647-1eb1-495c-897b-0441a9d84e34",
-        "firstName": "intsr",
+        "id": "290d1f41-6a37-431b-93d6-f88b085a35ef",
+        "firstName": "student",
         "lastName": "student",
-        "email": "byjfufzoufxd1rgujlj@kvhrw.com",
+        "email": "m9mt@mikfarm.com",
         "phone": null,
         "role": "student",
         "isActive": 1
@@ -3340,6 +4810,34 @@
         "success"
       ]
     },
+    "getfeedbackforstudent": {
+      "title": "getfeedbackforstudent",
+      "example": {
+        "success": true,
+        "result": [
+          {
+            "feedback": "good soup",
+            "courseId": "6f13c8c0-bd0d-4f35-8176-3209c61b770c"
+          }
+        ]
+      },
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "result": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Result2"
+          }
+        }
+      },
+      "required": [
+        "success",
+        "result"
+      ]
+    },
     "createadminrequest": {
       "title": "createadminrequest",
       "example": {
@@ -3399,7 +4897,7 @@
           "type": "boolean"
         },
         "result": {
-          "$ref": "#/definitions/Result4"
+          "$ref": "#/definitions/Result6"
         }
       },
       "required": [
@@ -3407,8 +4905,8 @@
         "result"
       ]
     },
-    "Result4": {
-      "title": "Result4",
+    "Result6": {
+      "title": "Result6",
       "example": {
         "id": "efc5ea3e-b401-411e-9b7e-6648271d4bf3",
         "firstName": "admin",
@@ -3537,7 +5035,7 @@
           "type": "boolean"
         },
         "result": {
-          "$ref": "#/definitions/Result5"
+          "$ref": "#/definitions/Result7"
         }
       },
       "required": [
@@ -3545,8 +5043,8 @@
         "result"
       ]
     },
-    "Result5": {
-      "title": "Result5",
+    "Result7": {
+      "title": "Result7",
       "example": {
         "offset": 0,
         "limit": 3,
@@ -3827,7 +5325,7 @@
           "type": "boolean"
         },
         "result": {
-          "$ref": "#/definitions/Result6"
+          "$ref": "#/definitions/Result8"
         }
       },
       "required": [
@@ -3835,8 +5333,8 @@
         "result"
       ]
     },
-    "Result6": {
-      "title": "Result6",
+    "Result8": {
+      "title": "Result8",
       "example": {
         "offset": 0,
         "limit": 3,
@@ -4014,7 +5512,7 @@
           "type": "boolean"
         },
         "result": {
-          "$ref": "#/definitions/Result7"
+          "$ref": "#/definitions/Result9"
         }
       },
       "required": [
@@ -4022,8 +5520,8 @@
         "result"
       ]
     },
-    "Result7": {
-      "title": "Result7",
+    "Result9": {
+      "title": "Result9",
       "example": {
         "id": "eb5fce62-da43-4964-b486-23fd4989d67c",
         "firstName": "instructor",
@@ -4094,7 +5592,7 @@
           "type": "boolean"
         },
         "result": {
-          "$ref": "#/definitions/Result7"
+          "$ref": "#/definitions/Result9"
         }
       },
       "required": [
@@ -4231,6 +5729,212 @@
         "success"
       ]
     },
+    "getallinstructorcoursesforinstructor": {
+      "title": "getallinstructorcoursesforinstructor",
+      "example": {
+        "success": true,
+        "result": [
+          {
+            "id": "38fe1e6e-a0c5-4875-9c17-094286891080",
+            "title": "FL",
+            "description": "learn kompuktory",
+            "generalInformation": [
+              "all information about kompuktory"
+            ]
+          },
+          {
+            "id": "a1d06d6c-59b6-4644-8c23-4b07a26f7194",
+            "title": "FL",
+            "description": "learn kompuktory",
+            "generalInformation": [
+              "all information about kompuktory"
+            ]
+          },
+          {
+            "id": "9e10d09e-e757-4ab5-b991-aeabd3c0d4b8",
+            "title": "kompuktorni clases",
+            "description": "learn kompuktory",
+            "generalInformation": [
+              "all information about kompuktory"
+            ]
+          },
+          {
+            "id": "68f08de7-6d5b-47fd-973b-cd557fb6216e",
+            "title": "FL",
+            "description": "learn kompuktory",
+            "generalInformation": [
+              "all information about kompuktory"
+            ]
+          },
+          {
+            "id": "6f13c8c0-bd0d-4f35-8176-3209c61b770c",
+            "title": "FL",
+            "description": "learn kompuktory",
+            "generalInformation": [
+              "all information about kompuktory"
+            ]
+          },
+          {
+            "id": "5b630dd2-688a-4e9d-a8af-1e266e9b4831",
+            "title": "FL",
+            "description": "learn kompuktory",
+            "generalInformation": [
+              "all information about kompuktory"
+            ]
+          },
+          {
+            "id": "c17bc376-2f87-4d0c-a523-10985a6a847f",
+            "title": "FL",
+            "description": "learn kompuktory",
+            "generalInformation": [
+              "all information about kompuktory"
+            ]
+          }
+        ]
+      },
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "result": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Result11"
+          }
+        }
+      },
+      "required": [
+        "success",
+        "result"
+      ]
+    },
+    "Result11": {
+      "title": "Result11",
+      "example": {
+        "id": "38fe1e6e-a0c5-4875-9c17-094286891080",
+        "title": "FL",
+        "description": "learn kompuktory",
+        "generalInformation": [
+          "all information about kompuktory"
+        ]
+      },
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "generalInformation": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "description",
+        "generalInformation"
+      ]
+    },
+    "getallstudentcourses": {
+      "title": "getallstudentcourses",
+      "example": {
+        "success": true,
+        "result": [
+          {
+            "courses_student-courses": {
+              "id": "6f13c8c0-bd0d-4f35-8176-3209c61b770c",
+              "title": "FL",
+              "description": "learn kompuktory",
+              "generalInformation": [
+                "all information about kompuktory"
+              ]
+            }
+          }
+        ]
+      },
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "result": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Result12"
+          }
+        }
+      },
+      "required": [
+        "success",
+        "result"
+      ]
+    },
+    "Result12": {
+      "title": "Result12",
+      "example": {
+        "courses_student-courses": {
+          "id": "6f13c8c0-bd0d-4f35-8176-3209c61b770c",
+          "title": "FL",
+          "description": "learn kompuktory",
+          "generalInformation": [
+            "all information about kompuktory"
+          ]
+        }
+      },
+      "type": "object",
+      "properties": {
+        "courses_student-courses": {
+          "$ref": "#/definitions/CoursesStudentCourses"
+        }
+      },
+      "required": [
+        "courses_student-courses"
+      ]
+    },
+    "CoursesStudentCourses": {
+      "title": "CoursesStudentCourses",
+      "example": {
+        "id": "6f13c8c0-bd0d-4f35-8176-3209c61b770c",
+        "title": "FL",
+        "description": "learn kompuktory",
+        "generalInformation": [
+          "all information about kompuktory"
+        ]
+      },
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "generalInformation": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "description",
+        "generalInformation"
+      ]
+    },
     "getallcoursesrequest": {
       "title": "getallcoursesrequest",
       "example": {
@@ -4305,7 +6009,7 @@
           "type": "boolean"
         },
         "result": {
-          "$ref": "#/definitions/Result9"
+          "$ref": "#/definitions/Result15"
         }
       },
       "required": [
@@ -4313,8 +6017,8 @@
         "result"
       ]
     },
-    "Result9": {
-      "title": "Result9",
+    "Result15": {
+      "title": "Result15",
       "example": {
         "offset": 0,
         "limit": 3,
@@ -4500,7 +6204,7 @@
           "type": "boolean"
         },
         "result": {
-          "$ref": "#/definitions/Result10"
+          "$ref": "#/definitions/Result16"
         }
       },
       "required": [
@@ -4508,8 +6212,8 @@
         "result"
       ]
     },
-    "Result10": {
-      "title": "Result10",
+    "Result16": {
+      "title": "Result16",
       "example": {
         "id": "9b9b26dc-8f3b-4b8b-a269-0586b07ad43d",
         "title": "kompuktorni clases for dumps",
@@ -4886,7 +6590,7 @@
         "result": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Result11"
+            "$ref": "#/definitions/Result17"
           }
         }
       },
@@ -4895,8 +6599,8 @@
         "result"
       ]
     },
-    "Result11": {
-      "title": "Result11",
+    "Result17": {
+      "title": "Result17",
       "example": {
         "id": "25fbc63c-55e3-40bb-8f5b-7bd7f8ef49a2",
         "courseId": "9e10d09e-e757-4ab5-b991-aeabd3c0d4b8",
@@ -4986,7 +6690,7 @@
           "type": "boolean"
         },
         "result": {
-          "$ref": "#/definitions/Result11"
+          "$ref": "#/definitions/Result17"
         }
       },
       "required": [
@@ -5053,6 +6757,332 @@
       "required": [
         "success"
       ]
+    },
+    "createhomework": {
+      "title": "createhomework",
+      "example": {
+        "success": true
+      },
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "success"
+      ]
+    },
+    "gethomeworksbyoptionsforadminrequest": {
+      "title": "gethomeworksbyoptionsforadminrequest",
+      "example": {
+        "studentId": "290d1f41-6a37-431b-93d6-f88b085a35ef",
+        "courseLessonId": "0107ac93-029c-415e-afe7-2c4d3769f17b",
+        "mark": false
+      },
+      "type": "object",
+      "properties": {
+        "studentId": {
+          "type": "string"
+        },
+        "courseLessonId": {
+          "type": "string"
+        },
+        "mark": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "studentId",
+        "courseLessonId",
+        "mark"
+      ]
+    },
+    "gethomeworksbyoptionsforadmin": {
+      "title": "gethomeworksbyoptionsforadmin",
+      "example": {
+        "success": true,
+        "result": [
+          {
+            "id": "fa640c9d-7b0e-48b5-a8f5-80ecbf9e2a6e",
+            "filePath": "homework/290d1f41-6a37-431b-93d6-f88b085a35ef/fa640c9d-7b0e-48b5-a8f5-80ecbf9e2a6e",
+            "studentId": "290d1f41-6a37-431b-93d6-f88b085a35ef",
+            "courseLessonId": "0107ac93-029c-415e-afe7-2c4d3769f17b",
+            "mark": null
+          }
+        ]
+      },
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "result": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Result19"
+          }
+        }
+      },
+      "required": [
+        "success",
+        "result"
+      ]
+    },
+    "Result19": {
+      "title": "Result19",
+      "example": {
+        "id": "fa640c9d-7b0e-48b5-a8f5-80ecbf9e2a6e",
+        "filePath": "homework/290d1f41-6a37-431b-93d6-f88b085a35ef/fa640c9d-7b0e-48b5-a8f5-80ecbf9e2a6e",
+        "studentId": "290d1f41-6a37-431b-93d6-f88b085a35ef",
+        "courseLessonId": "0107ac93-029c-415e-afe7-2c4d3769f17b",
+        "mark": null
+      },
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "filePath": {
+          "type": "string"
+        },
+        "studentId": {
+          "type": "string"
+        },
+        "courseLessonId": {
+          "type": "string"
+        },
+        "mark": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "filePath",
+        "studentId",
+        "courseLessonId",
+        "mark"
+      ]
+    },
+    "getallhomeworksbycourseIdforstudent": {
+      "title": "getallhomeworksbycourseIdforstudent",
+      "example": {
+        "success": true,
+        "result": [
+          {
+            "id": "540005b3-3871-493f-b17a-e6de7e240a6c",
+            "filePath": "homework/290d1f41-6a37-431b-93d6-f88b085a35ef/540005b3-3871-493f-b17a-e6de7e240a6c",
+            "studentId": "290d1f41-6a37-431b-93d6-f88b085a35ef",
+            "courseLessonId": "86d5b4e2-7ee1-4524-a659-43d90385acbf",
+            "mark": null
+          },
+          {
+            "id": "657b7adb-b548-44b6-aa11-89296f789179",
+            "filePath": "homework/290d1f41-6a37-431b-93d6-f88b085a35ef/657b7adb-b548-44b6-aa11-89296f789179",
+            "studentId": "290d1f41-6a37-431b-93d6-f88b085a35ef",
+            "courseLessonId": "b836d667-faeb-41fa-bd22-b8610befd727",
+            "mark": null
+          },
+          {
+            "id": "832d1071-e89f-4167-a3cd-864b473b71b1",
+            "filePath": "homework/290d1f41-6a37-431b-93d6-f88b085a35ef/832d1071-e89f-4167-a3cd-864b473b71b1",
+            "studentId": "290d1f41-6a37-431b-93d6-f88b085a35ef",
+            "courseLessonId": "8d51dbb4-75f0-4abc-816c-3957d27e2fcb",
+            "mark": null
+          },
+          {
+            "id": "b1d44767-1b15-485b-95c0-ec77d47da220",
+            "filePath": "homework/290d1f41-6a37-431b-93d6-f88b085a35ef/b1d44767-1b15-485b-95c0-ec77d47da220",
+            "studentId": "290d1f41-6a37-431b-93d6-f88b085a35ef",
+            "courseLessonId": "c4c27562-2d62-4efe-8fef-1c509d03313d",
+            "mark": null
+          },
+          {
+            "id": "fa640c9d-7b0e-48b5-a8f5-80ecbf9e2a6e",
+            "filePath": "homework/290d1f41-6a37-431b-93d6-f88b085a35ef/fa640c9d-7b0e-48b5-a8f5-80ecbf9e2a6e",
+            "studentId": "290d1f41-6a37-431b-93d6-f88b085a35ef",
+            "courseLessonId": "0107ac93-029c-415e-afe7-2c4d3769f17b",
+            "mark": null
+          }
+        ]
+      },
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "result": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Result19"
+          }
+        }
+      },
+      "required": [
+        "success",
+        "result"
+      ]
+    },
+    "getallhomeworksbycourseIdforinstructor": {
+      "title": "getallhomeworksbycourseIdforinstructor",
+      "example": {
+        "success": true,
+        "result": [
+          {
+            "id": "540005b3-3871-493f-b17a-e6de7e240a6c",
+            "filePath": "homework/290d1f41-6a37-431b-93d6-f88b085a35ef/540005b3-3871-493f-b17a-e6de7e240a6c",
+            "studentId": "290d1f41-6a37-431b-93d6-f88b085a35ef",
+            "courseLessonId": "86d5b4e2-7ee1-4524-a659-43d90385acbf",
+            "mark": null
+          },
+          {
+            "id": "657b7adb-b548-44b6-aa11-89296f789179",
+            "filePath": "homework/290d1f41-6a37-431b-93d6-f88b085a35ef/657b7adb-b548-44b6-aa11-89296f789179",
+            "studentId": "290d1f41-6a37-431b-93d6-f88b085a35ef",
+            "courseLessonId": "b836d667-faeb-41fa-bd22-b8610befd727",
+            "mark": null
+          },
+          {
+            "id": "832d1071-e89f-4167-a3cd-864b473b71b1",
+            "filePath": "homework/290d1f41-6a37-431b-93d6-f88b085a35ef/832d1071-e89f-4167-a3cd-864b473b71b1",
+            "studentId": "290d1f41-6a37-431b-93d6-f88b085a35ef",
+            "courseLessonId": "8d51dbb4-75f0-4abc-816c-3957d27e2fcb",
+            "mark": null
+          },
+          {
+            "id": "b1d44767-1b15-485b-95c0-ec77d47da220",
+            "filePath": "homework/290d1f41-6a37-431b-93d6-f88b085a35ef/b1d44767-1b15-485b-95c0-ec77d47da220",
+            "studentId": "290d1f41-6a37-431b-93d6-f88b085a35ef",
+            "courseLessonId": "c4c27562-2d62-4efe-8fef-1c509d03313d",
+            "mark": null
+          },
+          {
+            "id": "fa640c9d-7b0e-48b5-a8f5-80ecbf9e2a6e",
+            "filePath": "homework/290d1f41-6a37-431b-93d6-f88b085a35ef/fa640c9d-7b0e-48b5-a8f5-80ecbf9e2a6e",
+            "studentId": "290d1f41-6a37-431b-93d6-f88b085a35ef",
+            "courseLessonId": "0107ac93-029c-415e-afe7-2c4d3769f17b",
+            "mark": null
+          }
+        ]
+      },
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "result": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Result19"
+          }
+        }
+      },
+      "required": [
+        "success",
+        "result"
+      ]
+    },
+    "gethomeworkbylessonIdforstudent": {
+      "title": "gethomeworkbylessonIdforstudent",
+      "example": {
+        "success": true,
+        "result": [
+          {
+            "id": "540005b3-3871-493f-b17a-e6de7e240a6c",
+            "filePath": "homework/290d1f41-6a37-431b-93d6-f88b085a35ef/540005b3-3871-493f-b17a-e6de7e240a6c",
+            "studentId": "290d1f41-6a37-431b-93d6-f88b085a35ef",
+            "courseLessonId": "86d5b4e2-7ee1-4524-a659-43d90385acbf",
+            "mark": null
+          }
+        ]
+      },
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "result": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Result19"
+          }
+        }
+      },
+      "required": [
+        "success",
+        "result"
+      ]
+    },
+    "updatehomework": {
+      "title": "updatehomework",
+      "example": {
+        "success": true
+      },
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "success"
+      ]
+    },
+    "markhomeworkrequest": {
+      "title": "markhomeworkrequest",
+      "example": {
+        "mark": 80,
+        "courseLessonId": "86d5b4e2-7ee1-4524-a659-43d90385acbf",
+        "studentId": "290d1f41-6a37-431b-93d6-f88b085a35ef"
+      },
+      "type": "object",
+      "properties": {
+        "mark": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "courseLessonId": {
+          "type": "string"
+        },
+        "studentId": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "mark",
+        "courseLessonId",
+        "studentId"
+      ]
+    },
+    "markhomework": {
+      "title": "markhomework",
+      "example": {
+        "success": true
+      },
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "success"
+      ]
+    },
+    "deletehomeworkbyidforstudentsandadmins": {
+      "title": "deletehomeworkbyidforstudentsandadmins",
+      "example": {
+        "success": true
+      },
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "success"
+      ]
     }
   },
   "tags": [
@@ -5073,6 +7103,9 @@
     },
     {
       "name": "lesson"
+    },
+    {
+      "name": "homework"
     }
   ]
 }
