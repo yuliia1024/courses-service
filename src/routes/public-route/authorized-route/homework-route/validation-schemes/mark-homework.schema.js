@@ -10,6 +10,9 @@ const homeworkMarkSchema = Joi.object({
   courseLessonId: Joi.string()
     .uuid()
     .required(),
+  studentId: Joi.string()
+    .uuid()
+    .required(),
 });
 
 module.exports = {

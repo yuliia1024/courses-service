@@ -60,7 +60,7 @@ const getAllStudentsController = async (req, res) => {
 
     studentIds = await getStudentIdsByOption({
       courseId: req.body.courseId,
-      ...(req.body.isActiveStudent && { [DB_CONTRACT.studentUser.isActive.property]: req.body.isActiveStudent }),
+      ...(req.body.courseStatus && { [DB_CONTRACT.coursesStudent.status.property]: req.body.courseStatus }),
     });
   }
 
@@ -76,17 +76,17 @@ const getStudentFeedbackController = async (req, res) => {
 };
 
 const getStudentFeedbacksByOptionsController = async (req, res) => {
-  await getStudentFeedbacksByOptions(req.body);
+  const result = await getStudentFeedbacksByOptions(req.body);
 
-  new SuccessResponse(res).send();
+  new SuccessResponse(res).send(result);
 };
 
 const getStudentFeedbacksForStudentController = async (req, res) => {
-  await getStudentFeedbacksByOptions({
+  const result = await getStudentFeedbacksByOptions({
     studentId: req.userId,
   });
 
-  new SuccessResponse(res).send();
+  new SuccessResponse(res).send(result);
 };
 
 module.exports = {

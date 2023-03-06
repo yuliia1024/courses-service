@@ -17,6 +17,7 @@ const {
   getStudentByOptionsController,
   getStudentFeedbackController,
   getStudentFeedbacksForStudentController,
+  getStudentFeedbacksByOptionsController,
 } = require('../../../../controllers/student-user.controller');
 const { checkRole } = require('../../../../services/role.service');
 const { studentSchema } = require('./validation-schemes/student.schema');
@@ -49,33 +50,6 @@ router.get(
   routerHandler(getActiveStudentByIdController),
 );
 
-router.put(
-  '/:id',
-  checkRole([
-    USER_ROLE.admin,
-    USER_ROLE.student,
-  ]),
-  validateValues(updateStudentSchema, REQUEST_DATA_SOURCE.body),
-  routerHandler(updateStudentController),
-);
-
-router.get(
-  '/:id',
-  checkRole([
-    USER_ROLE.admin,
-  ]),
-  routerHandler(getStudentByOptionsController),
-);
-
-router.delete(
-  '/:id',
-  checkRole([
-    USER_ROLE.admin,
-    USER_ROLE.student,
-  ]),
-  routerHandler(deleteStudentController),
-);
-
 router.get(
   `/${ROUTE.student.feedback}`,
   checkRole([
@@ -101,7 +75,34 @@ router.post(
     USER_ROLE.instructor,
   ]),
   validateValues(getStudentFeedbackSchema, REQUEST_DATA_SOURCE.body),
-  routerHandler(getStudentFeedbackController),
+  routerHandler(getStudentFeedbacksByOptionsController),
+);
+
+router.put(
+  '/:id',
+  checkRole([
+    USER_ROLE.admin,
+    USER_ROLE.student,
+  ]),
+  validateValues(updateStudentSchema, REQUEST_DATA_SOURCE.body),
+  routerHandler(updateStudentController),
+);
+
+router.get(
+  '/:id',
+  checkRole([
+    USER_ROLE.admin,
+  ]),
+  routerHandler(getStudentByOptionsController),
+);
+
+router.delete(
+  '/:id',
+  checkRole([
+    USER_ROLE.admin,
+    USER_ROLE.student,
+  ]),
+  routerHandler(deleteStudentController),
 );
 
 module.exports = router;

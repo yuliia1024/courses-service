@@ -1,4 +1,5 @@
 const Joi = require('joi');
+const { STUDENT_COURSES_STATUS } = require('../../../../../constants');
 
 const studentFilteredSchema = Joi.object({
   offset: Joi.number()
@@ -11,8 +12,13 @@ const studentFilteredSchema = Joi.object({
   orderDirection: Joi.string(),
   courseId: Joi.string()
     .uuid(),
+  courseStatus: Joi.when('courseId', {
+    is: Joi.exist(),
+    then: Joi.string()
+      .valid(...Object.values(STUDENT_COURSES_STATUS)),
+    otherwise: Joi.forbidden(),
+  }),
   isActive: Joi.boolean(),
-  isActiveStudent: Joi.boolean(),
 });
 
 module.exports = {

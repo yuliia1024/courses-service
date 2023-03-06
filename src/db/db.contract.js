@@ -210,8 +210,8 @@ const DB_CONTRACT = {
   },
   homework: {
     tableName: 'homework',
-    courseLessonReferenceName: 'homework-route-courses_lesson',
-    studentReferenceName: 'homework-route-student',
+    courseLessonReferenceName: 'courses_lesson',
+    studentReferenceName: 'student',
     compositeIndexName: 'composite_index',
     studentId: {
       property: 'studentId',

@@ -5,13 +5,13 @@ const { BadRequestError } = require('../error-handler');
 const {
   saveHomework,
   deleteHomework,
-  getHomeworksByOptions,
   getLessonById,
   getCoursesByStudentIdAndOptions,
   updateHomeworkById,
   getHomeworksByOptionsWithLessonInfo,
   getAllLessonsByCourseId,
   updateCoursesStudentStatus,
+  getOneHomeworkByOptions,
 } = require('./db.service');
 const { DB_CONTRACT } = require('../db/db.contract');
 const {
@@ -71,7 +71,7 @@ const createHomework = async (data, file, loggedUserId) => {
 
 const removeHomework = async (id, studentId) => {
   const transaction = await sequelizeInstance.transaction();
-  const homework = getHomeworksByOptions({
+  const homework = await getOneHomeworkByOptions({
     id,
     studentId,
   });
@@ -109,15 +109,16 @@ const markHomework = async (id, data, loggedInUserId, userRole) => {
       [DB_CONTRACT.homework.mark.property]: {
         [Op.not]: null,
       },
-      [`$${DB_CONTRACT.homework.courseLessonReferenceName}.courseId$`]: lesson.courseId,
+      [`$${DB_CONTRACT.homework.courseLessonReferenceName}.${DB_CONTRACT.coursesLesson.courseId.column}$`]: lesson.courseId,
     });
 
     const lessons = await getAllLessonsByCourseId(lesson.courseId);
 
     if (homework.length === lessons.length) {
-      const totalMark = 0;
+      let totalMark = 0;
 
-      homework.map(item => totalMark + item.mark);
+      // eslint-disable-next-line no-return-assign
+      homework.map(item => totalMark += item.mark);
 
       const status = totalMark / homework.length >= COURSE_PASS_MIN_MARK ? STUDENT_COURSES_STATUS.passed : STUDENT_COURSES_STATUS.rejected;
 
@@ -133,10 +134,10 @@ const markHomework = async (id, data, loggedInUserId, userRole) => {
 };
 
 const updateHomework = async req => {
-  const homework = await getHomeworksByOptions({
+  const homework = await getOneHomeworkByOptions({
     ...(req.userRole === USER_ROLE.student && { studentId: req.userId }),
     [DB_CONTRACT.homework.mark.property]: {
-      [Op.not]: null,
+      [Op.is]: null,
     },
     id: req.params.id,
   });
