@@ -9,7 +9,7 @@ services:
       MYSQL_PASSWORD: ${DB_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
     ports:
-      - 3306:3306
+      - ${DB_PORT}:${DB_PORT}
     volumes:
       - ${DB_VOLUME}:/var/lib/mysql
   redis:
@@ -18,7 +18,7 @@ services:
       - ALLOW_EMPTY_PASSWORD=yes
     restart: always
     ports:
-      - '${REDIS_PORT}:${REDIS_PORT}'
+      - ${REDIS_PORT}:${REDIS_PORT}
     command: redis-server --save 20 1 --loglevel warning
     volumes:
       - ${REDIS_VOLUME}:/var/lib/redis

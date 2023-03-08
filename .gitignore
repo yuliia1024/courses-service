@@ -104,3 +104,12 @@ dist
 
 # TernJS port file
 .tern-port
+
+#Terraform
+.terraform
+*.tfstate*
+*.tfvars
+
+#Keys
+*.key
+*.pem
