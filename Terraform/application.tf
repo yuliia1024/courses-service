@@ -8,5 +8,5 @@ module "application-server" {
   name = "Course API"
   device-index = 0
   network-interface-id = aws_network_interface.course-api.id
-  repository-url = "repo URL"
+  repository-url = aws_ecr_repository.course-api.repository_url
 }

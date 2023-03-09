@@ -7,5 +7,19 @@ module "jenkins" {
   name = "jenkins"
   device-index = 0
   network-interface-id = aws_network_interface.jenkins.id
-  repository-url = "repo URL"
+  repository-url = aws_ecr_repository.course-api.repository_url
+  repository-test-url = aws_ecr_repository.course-api-test.repository_url
+  repository-staging-url = aws_ecr_repository.course-api-staging.repository_url
+  instance-id = module.application-server.instance-id
+  public-dns = aws_eip.jenkins.public_dns
+  admin-username = var.admin-username
+  admin-password = var.admin-password
+  admin-fullname = var.admin-fullname
+  admin-email = var.admin-email
+  bucket-logs-name = aws_s3_bucket.course-api-logs.id
+  bucket-config-name = aws_s3_bucket.jenkins-config.id
+  bucket-homework-name = aws_s3_bucket.course-homework-prod.id
+  remote-repo = var.remote-repo
+  job-name = var.job-name
+  job-id = random_id.job-id.id
 }
