@@ -146,3 +146,25 @@ resource "aws_iam_policy" "secrets-access" {
 }
 EOF
 }
+# Policy: Redis Access
+resource "aws_iam_policy" "redis-access" {
+  name = "redis-access"
+
+  policy = <<EOF
+{
+   "Version": "2012-10-17",
+   "Statement":[{
+      "Sid": "SecGrpAllows",
+      "Effect":"Allow",
+      "Action":[
+          "elasticache:CreateCacheSecurityGroup",
+          "elasticache:DeleteCacheSecurityGroup",
+          "elasticache:DescribeCacheSecurityGroup",
+          "elasticache:AuthorizeCacheSecurityGroupIngress",
+          "elasticache:RevokeCacheSecurityGroupIngress"],
+      "Resource":"*"
+      }
+   ]
+}
+EOF
+}

@@ -1,7 +1,7 @@
 # Production Repository
 
 resource "aws_ecr_repository" "course-api" {
-  name = "course-api"
+  name                 = "course-api"
   image_tag_mutability = "MUTABLE"
 
   image_scanning_configuration {
@@ -16,7 +16,7 @@ resource "aws_ecr_repository" "course-api" {
 # Staging Repository
 
 resource "aws_ecr_repository" "course-api-staging" {
-  name = "course-api-staging"
+  name                 = "course-api-staging"
   image_tag_mutability = "MUTABLE"
 
   image_scanning_configuration {
@@ -31,7 +31,7 @@ resource "aws_ecr_repository" "course-api-staging" {
 # Test Repository
 
 resource "aws_ecr_repository" "course-api-test" {
-  name = "course-api-test"
+  name                 = "course-api-test"
   image_tag_mutability = "MUTABLE"
 
   image_scanning_configuration {

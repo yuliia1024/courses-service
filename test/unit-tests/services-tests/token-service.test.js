@@ -225,7 +225,7 @@ describe('tokens.service.js', () => {
       redisClientMock.verify();
     });
 
-    it('should throw an error if redis does not return a token', async () => {
+    it('should throw an error if ec-redis does not return a token', async () => {
       const { verifyAccessToken } = mockExportedFunction(
         '../../src/services/token.service',
       );
@@ -259,7 +259,7 @@ describe('tokens.service.js', () => {
       redisClientMock.verify();
     });
 
-    it('should throw an error if redis returns another token', async () => {
+    it('should throw an error if ec-redis returns another token', async () => {
       const { verifyAccessToken } = mockExportedFunction(
         '../../src/services/token.service',
         [

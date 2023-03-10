@@ -4,11 +4,11 @@ variable "ami-id" {
 
 variable "iam-instance-profile" {
   default = ""
-  type = string
+  type    = string
 }
 
 variable "instance-type" {
-  type = string
+  type    = string
   default = "t2.micro"
 }
 
