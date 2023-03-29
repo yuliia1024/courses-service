@@ -4,8 +4,10 @@ const {
   includes,
   omit,
 } = require('lodash');
-const { BadRequestError,
-  ForbiddenError } = require('../error-handler');
+const {
+  BadRequestError,
+  ForbiddenError,
+} = require('../error-handler');
 const {
   saveCourse,
   updateCourseById,
