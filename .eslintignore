@@ -1,5 +1,6 @@
 **/.nyc_output/*.*
 **/nyc-reports/*.*
+**/Terraform/*.*
 **/coverage/*.*
 **/node_modules/*.*
 *.yaml

@@ -65,19 +65,56 @@ resource "aws_elasticache_subnet_group" "subnet_group-redis" {
   name       = "tf-test-cache-subnet"
   subnet_ids = [aws_subnet.subnet-redis.id]
 }
+
+# 4.4 Create Subnet - MySQL
+resource "aws_subnet" "subnet-mysql-1a" {
+  cidr_block        = "10.0.7.0/24"
+  vpc_id            = aws_vpc.course-api.id
+  availability_zone = "us-east-1a"
+
+  tags = {
+    Name = "MySQL Subnet"
+  }
+}
+
+resource "aws_subnet" "subnet-mysql-1b" {
+  cidr_block        = "10.0.9.0/24"
+  vpc_id            = aws_vpc.course-api.id
+  availability_zone = "us-east-1b"
+
+  tags = {
+    Name = "MySQL Subnet"
+  }
+}
+# 4.3.2 Create Subnet Group - MySQL
+
+resource "aws_db_subnet_group" "rds_mysql_subnet_group" {
+  name       = "rds-mysql-subnet-group"
+  subnet_ids = [aws_subnet.subnet-mysql-1a.id, aws_subnet.subnet-mysql-1b.id]
+}
 # 5.1 Create a Route Table Association --> associate Jenkins subnet to route table
 
 resource "aws_route_table_association" "jenkins-subnet" {
   subnet_id      = aws_subnet.subnet-public-jenkins.id
   route_table_id = aws_route_table.allow-outgoing-access.id
 }
-# 5.2 Create a Route Table Association --> associate Course API subnet to route table
+# 5.2 Create a Route Table Association --> associate Redis subnet to route table
 
 resource "aws_route_table_association" "redis-subnet" {
   subnet_id      = aws_subnet.subnet-redis.id
   route_table_id = aws_route_table.allow-outgoing-access.id
 }
-# 5.3 Create a Route Table Association --> associate Redis subnet to route table
+# 5.5 Create a Route Table Association --> associate MySQL subnet to route table
+
+resource "aws_route_table_association" "mysql-subnet-1a" {
+  subnet_id     = aws_subnet.subnet-mysql-1a.id
+  route_table_id = aws_route_table.allow-outgoing-access.id
+}
+resource "aws_route_table_association" "mysql-subnet-1b" {
+  subnet_id      = aws_subnet.subnet-mysql-1b.id
+  route_table_id = aws_route_table.allow-outgoing-access.id
+}
+# 5.4 Create a Route Table Association --> associate Course API subnet to route table
 
 resource "aws_route_table_association" "api-subnet" {
   subnet_id      = aws_subnet.subnet-public-api.id
@@ -165,7 +202,7 @@ resource "aws_security_group" "allow-all-outbound" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
-# 6.5 Create a Security Group for outbound traffic
+# 6.5 Create a Security Group for inbound traffic to Redis
 resource "aws_security_group" "allow-redis-traffic" {
   name        = "allow-redis-traffic"
   description = "Security group for the Redis instance"
@@ -174,6 +211,19 @@ resource "aws_security_group" "allow-redis-traffic" {
   ingress {
     from_port   = 6379
     to_port     = 6379
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+#6.6 Create a Security Group for inbound traffic to MySQL
+resource "aws_security_group" "allow-mysql-traffic" {
+  name        = "allow-mysql-traffic"
+  description = "Security group for the MySQL RDS instance"
+  vpc_id      = aws_vpc.course-api.id
+
+  ingress {
+    from_port   = 3306
+    to_port     = 3306
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -188,7 +238,8 @@ resource "aws_network_interface" "jenkins" {
     aws_security_group.allow-ssh-traffic.id,
     aws_security_group.allow-jenkins-traffic.id,
     aws_security_group.allow-staging-traffic.id,
-    aws_security_group.allow-redis-traffic.id
+#    aws_security_group.allow-redis-traffic.id
+#    aws_security_group.allow-mysql-traffic.id
   ]
 }
 # 7.2 Create a Network Interface for Redis
@@ -202,7 +253,27 @@ resource "aws_network_interface" "redis" {
     aws_security_group.allow-staging-traffic.id
   ]
 }
-# 7.3 Create a Network Interface for Course API
+# 7.3 Create a Network Interface for MySQL
+
+resource "aws_network_interface" "mysql-1a" {
+  subnet_id       = aws_subnet.subnet-mysql-1a.id
+  private_ips     = ["10.0.7.50"]
+  security_groups = [
+    aws_security_group.allow-all-outbound.id,
+    aws_security_group.allow-ssh-traffic.id,
+    aws_security_group.allow-staging-traffic.id
+  ]
+}
+resource "aws_network_interface" "mysql-1b" {
+  subnet_id       = aws_subnet.subnet-mysql-1b.id
+  private_ips     = ["10.0.9.50"]
+  security_groups = [
+    aws_security_group.allow-all-outbound.id,
+    aws_security_group.allow-ssh-traffic.id,
+    aws_security_group.allow-staging-traffic.id
+  ]
+}
+# 7.4 Create a Network Interface for Course API
 
 resource "aws_network_interface" "course-api" {
   subnet_id       = aws_subnet.subnet-public-api.id
@@ -211,7 +282,8 @@ resource "aws_network_interface" "course-api" {
     aws_security_group.allow-all-outbound.id,
     aws_security_group.allow-ssh-traffic.id,
     aws_security_group.allow-web-traffic.id,
-    aws_security_group.allow-redis-traffic.id
+    aws_security_group.allow-redis-traffic.id,
+    aws_security_group.allow-mysql-traffic.id
   ]
 }
 # 8.1 Assign an Elastic IP to the Network Interface of Jenkins
@@ -224,7 +296,7 @@ resource "aws_eip" "jenkins" {
     aws_internet_gateway.course-api
   ]
 }
-# 8.3 Assign an Elastic IP to the Network Interface of Redis
+# 8.2 Assign an Elastic IP to the Network Interface of Redis
 
 resource "aws_eip" "redis" {
   vpc                       = true
@@ -234,7 +306,25 @@ resource "aws_eip" "redis" {
     aws_internet_gateway.course-api
   ]
 }
-# 8.2 Assign an Elastic IP to the Network Interface of Course API
+# 8.3 Assign an Elastic IP to the Network Interface of MySQL
+
+resource "aws_eip" "mysql-1a" {
+  vpc                       = true
+  network_interface         = aws_network_interface.mysql-1a.id
+  associate_with_private_ip = "10.0.7.50"
+  depends_on                = [
+    aws_internet_gateway.course-api
+  ]
+}
+resource "aws_eip" "mysql-1b" {
+  vpc                       = true
+  network_interface         = aws_network_interface.mysql-1b.id
+  associate_with_private_ip = "10.0.9.50"
+  depends_on                = [
+    aws_internet_gateway.course-api
+  ]
+}
+# 8.4 Assign an Elastic IP to the Network Interface of Course API
 
 resource "aws_eip" "course-api" {
   vpc                       = true
