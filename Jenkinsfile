@@ -1,3 +1,39 @@
+def testImage
+def stagingImage
+def productionImage
+def REPOSITORY
+def REPOSITORY_TEST
+def RESPOSITORY_STAGING
+def GIT_COMMIT_HASH
+def INSTANCE_ID
+def ACCOUNT_REGISTRY_PREFIX
+def S3_LOGS
+def DATE_NOW
+
+script{
+  // Set environment variables
+  GIT_COMMIT_HASH = sh (script: "git log -n 1 --pretty=format:'%H'", returnStdout: true)
+  REPOSITORY = sh (script: "cat \$HOME/opt/repository_url", returnStdout: true)
+  REPOSITORY_TEST = sh (script: "cat \$HOME/opt/repository_test_url", returnStdout: true)
+  REPOSITORY_STAGING = sh (script: "cat \$HOME/opt/repository_staging_url", returnStdout: true)
+  INSTANCE_ID = sh (script: "cat \$HOME/opt/instance_id", returnStdout: true)
+  S3_LOGS = sh (script: "cat \$HOME/opt/bucket_name", returnStdout: true)
+  DATE_NOW = sh (script: "date +%Y%m%d", returnStdout: true)
+}
+
+REPOSITORY = REPOSITORY.trim()
+REPOSITORY_TEST = REPOSITORY_TEST.trim()
+REPOSITORY_STAGING = REPOSITORY_STAGING.trim()
+S3_LOGS = S3_LOGS.trim()
+DATE_NOW = DATE_NOW.trim()
+
+ACCOUNT_REGISTRY_PREFIX = (REPOSITORY.split("/"))[0]
+
+// Log into ECR
+sh """
+/bin/sh -e -c 'echo \$(aws ecr get-login-password --region us-east-1)  | docker login -u AWS --password-stdin $ACCOUNT_REGISTRY_PREFIX'
+"""
+
 pipeline {
   agent any
   stages {
@@ -5,8 +41,26 @@ pipeline {
       steps {
         echo "Logging into the private AWS Elastic Container Registry"
         script {
+          // Set environment variables
+          GIT_COMMIT_HASH = sh (script: "git log -n 1 --pretty=format:'%H'", returnStdout: true)
+          REPOSITORY = sh (script: "cat \$HOME/opt/repository_url", returnStdout: true)
+          REPOSITORY_TEST = sh (script: "cat \$HOME/opt/repository_test_url", returnStdout: true)
+          REPOSITORY_STAGING = sh (script: "cat \$HOME/opt/repository_staging_url", returnStdout: true)
+          INSTANCE_ID = sh (script: "cat \$HOME/opt/instance_id", returnStdout: true)
+          S3_LOGS = sh (script: "cat \$HOME/opt/bucket_name", returnStdout: true)
+          DATE_NOW = sh (script: "date +%Y%m%d", returnStdout: true)
+
+          REPOSITORY = REPOSITORY.trim()
+          REPOSITORY_TEST = REPOSITORY_TEST.trim()
+          REPOSITORY_STAGING = REPOSITORY_STAGING.trim()
+          S3_LOGS = S3_LOGS.trim()
+          DATE_NOW = DATE_NOW.trim()
+
+          ACCOUNT_REGISTRY_PREFIX = (REPOSITORY.split("/"))[0]
+
+          // Log into ECR
           sh """
-          echo "Hello World"
+          /bin/sh -e -c 'echo \$(aws ecr get-login-password --region us-east-1)  | docker login -u AWS --password-stdin $ACCOUNT_REGISTRY_PREFIX'
           """
         }
       }
