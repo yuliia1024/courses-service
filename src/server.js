@@ -52,7 +52,7 @@ const startServer = () => {
     });
 
     await createTables();
-    await runSeedAll();
+    // await runSeedAll();
   });
 };
 
