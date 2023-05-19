@@ -6,7 +6,7 @@ ARG PORT
 
 # copying all files to run scripts
 COPY . .
-COPY .env.sample .env
+#COPY .env.sample .env
 
 # installing dependencies from the package-lock.json file
 RUN npm ci
