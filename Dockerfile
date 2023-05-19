@@ -15,7 +15,7 @@ RUN npm ci
 #RUN npm run test:coverage
 
 # removing unnecessary files
-#RUN rm -rf coverage .npmrc .env
+RUN rm -rf coverage .npmrc .env
 
 # removing devDependensices libraries
 RUN npm prune --production

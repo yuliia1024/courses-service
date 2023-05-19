@@ -1,4 +1,6 @@
 version: '3.3'
+networks:
+  main:
 services:
   db:
     build:
@@ -12,6 +14,8 @@ services:
       - ${DB_PORT}:${DB_PORT}
     volumes:
       - ${DB_VOLUME}:/var/lib/mysql
+    networks:
+      main:
   redis:
     image: redis:6.2-alpine
     environment:
@@ -22,3 +26,50 @@ services:
     command: redis-server --save 20 1 --loglevel warning
     volumes:
       - ${REDIS_VOLUME}:/var/lib/redis
+    networks:
+      main:
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: server
+    container_name: server
+    restart: always
+    env_file: .env
+    environment:
+      - NODE_ENV=$NODE_ENV
+      - PORT=$PORT
+      - PREFIX_PATH=$PREFIX_PATH
+      - REQUEST_LIMIT_TIME=$REQUEST_LIMIT_TIME
+      - HTTP_TIMEOUT=$HTTP_TIMEOUT
+      - RESET_TIMEOUT=$RESET_TIMEOUT
+      - ERROR_THRESHOLD_PERCENTAGE=$ERROR_THRESHOLD_PERCENTAGE
+      - SECRET_KEY_TOKEN=$SECRET_KEY_TOKEN
+      - EXPIRE_ACCESS_TOKEN=$EXPIRE_ACCESS_TOKEN
+      - PROJECT_SENDER_EMAIL=$PROJECT_SENDER_EMAIL
+      - PROJECT_MAIL_PASSWORD=$PROJECT_MAIL_PASSWORD
+      - PASSWORD_HASH_ROUNDS=$PASSWORD_HASH_ROUNDS
+      - REDIS_PREFIX=$REDIS_PREFIX
+      - REDIS_HOST=redis
+      - REDIS_PORT=$REDIS_PORT
+      - REDIS_CLUSTER_MODE=$REDIS_CLUSTER_MODE
+      - DB_VOLUME=$DB_VOLUME
+      - DB_NAME=$DB_NAME
+      - DB_HOST=db
+      - DB_USER=$DB_USER
+      - DB_PASSWORD=$DB_PASSWORD
+      - DB_MAX_CONNECTION=$DB_MAX_CONNECTION
+      - DB_PORT=$DB_PORT
+      - REGION=$REGION
+    ports:
+      - ${PORT}:${PORT}
+    links:
+      - db
+      - redis
+    depends_on:
+      - db
+      - redis
+    networks:
+      main:
+    command: npm run start
+
