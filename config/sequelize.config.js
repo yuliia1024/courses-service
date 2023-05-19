@@ -18,5 +18,6 @@ module.exports = {
     dialect: db.dialect,
     seederStorage: 'sequelize',
     seederStorageTableName: 'SequelizeData',
+    timeout: 60000,
   },
 };

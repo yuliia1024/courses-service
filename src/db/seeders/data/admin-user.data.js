@@ -16,7 +16,7 @@ module.exports = {
   [DB_CONTRACT.adminUser.lastName.column]: 'Admin',
   [DB_CONTRACT.adminUser.email.column]: 'admin@courses.com',
   [DB_CONTRACT.adminUser.isActive.column]: true,
-  [DB_CONTRACT.adminUser.hashPassword.column]: '$2a$10$c0KniDIUgGWJ.Uwoa3C/kOf.9j1k8Va2k8.ZIyPrFx3gXldSKeQbq',
+  [DB_CONTRACT.adminUser.hashPassword.column]: '$2b$10$ocQ3iMhstEwKPG1Fru6PS.wQ5/xmO4WWHQysXvQvR6D52VXVAHpWC',
   [DB_CONTRACT.adminUser.role.column]: USER_ROLE.admin,
   ...defaultColumns,
 };
