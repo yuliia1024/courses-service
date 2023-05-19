@@ -24,4 +24,4 @@ RUN npm prune --production
 EXPOSE ${PORT}
 
 # runnnig the service
-CMD [ "npm", "start" ]
+#CMD [ "npm", "start" ]
