@@ -34,7 +34,7 @@ services:
       dockerfile: Dockerfile
     image: server
     container_name: server
-    restart: always
+    restart: on-failure
     env_file: .env
     environment:
       - NODE_ENV=$NODE_ENV

@@ -9,30 +9,33 @@ const { mockExportedFunction } = require('../../test-utils');
 const {
   HTTP_STATUS,
   USER_ROLE,
+  STUDENT_COURSES_STATUS,
 } = require('../../../src/constants');
 
 let reqMock;
 let resMock;
 
-const getAdminUserByIdStub = sinon.stub();
-const createAdminUserStub = sinon.stub();
-const updateAdminUserStub = sinon.stub();
-const inactiveAdminUserStub = sinon.stub();
-const getAllAdminsUserStub = sinon.stub();
+const createStudentUserStub = sinon.stub();
+const checkUserPermissionToAccessCourseInfoStub = sinon.stub();
+const getAllStudentsUserStub = sinon.stub();
+const addStudentFeedbackStub = sinon.stub();
+const getStudentIdsByOptionStub = sinon.stub();
 
+const createStudentBody = {
+  firstName: 'intsr',
+  lastName: 'student',
+  email: 'byjfufzoufxdrgujlj@kvhrw.com',
+};
 const userMock = {
+  ...createStudentBody,
   id: 'id-mock',
-  firstName: 'user',
-  lastName: 'test',
-  email: 'email.mock@n.com',
   role: USER_ROLE.admin,
 };
-
 const optionsMock = {
   offset: 1,
   limit: 2,
 };
-const adminsResultMock = {
+const studentsResultMock = {
   offset: 0,
   limit: 2,
   total: 1,
@@ -41,11 +44,12 @@ const adminsResultMock = {
   ],
 };
 const userIdMock = 'id_Mock_';
+const idMock = 'some_id_Mock';
 
-describe('token.controller.js', () => {
+describe('student-user.controller.js', () => {
   beforeEach(() => {
     reqMock = httpMocks.createRequest({
-      body: userMock,
+      body: createStudentBody,
       params: {
         id: userMock.id,
       },
@@ -54,30 +58,30 @@ describe('token.controller.js', () => {
     resMock = httpMocks.createResponse();
   });
   afterEach(() => {
-    getAdminUserByIdStub.resetHistory();
-    createAdminUserStub.resetHistory();
-    updateAdminUserStub.resetHistory();
-    inactiveAdminUserStub.resetHistory();
-    getAllAdminsUserStub.resetHistory();
+    createStudentUserStub.resetHistory();
+    checkUserPermissionToAccessCourseInfoStub.resetHistory();
+    getAllStudentsUserStub.resetHistory();
+    addStudentFeedbackStub.resetHistory();
+    getStudentIdsByOptionStub.resetHistory();
   });
 
-  describe('createAdminController', () => {
-    it('should create admin user', async () => {
-      const { createAdminController } = mockExportedFunction(
-        '../../src/controllers/admin-user.controller.js',
+  describe('createStudentController', () => {
+    it('should create student user', async () => {
+      const { createStudentController } = mockExportedFunction(
+        '../../src/controllers/student-user.controller.js',
         [
           {
-            dependencyPath: '../../src/services/admin-user.service',
+            dependencyPath: '../../src/services/student-user.service',
             stubs: {
-              createAdminUser: createAdminUserStub.resolves(),
+              createStudentUser: createStudentUserStub.resolves(),
             },
           },
         ],
       );
 
-      await createAdminController(reqMock, resMock);
+      await createStudentController(reqMock, resMock);
 
-      expect(createAdminUserStub.calledOnceWithExactly(reqMock))
+      expect(createStudentUserStub.calledOnceWithExactly(reqMock))
         .to.be.true;
       expect(resMock)
         .to.be.an('object')
@@ -89,23 +93,33 @@ describe('token.controller.js', () => {
     });
   });
 
-  describe('updateAdminController', () => {
-    it('should update admin user', async () => {
-      const { updateAdminController } = mockExportedFunction(
-        '../../src/controllers/admin-user.controller.js',
+  describe('addStudentFeedbackController', () => {
+    const feedbackReqMock = httpMocks.createRequest({
+      body: {
+        courseId: 'course-Id',
+        studentId: userIdMock,
+        feedback: 'good soup',
+      },
+      userRole: USER_ROLE.instructor,
+      userId: userIdMock,
+    });
+
+    it('should create feedback for student user', async () => {
+      const { addStudentFeedbackController } = mockExportedFunction(
+        '../../src/controllers/student-user.controller.js',
         [
           {
-            dependencyPath: '../../src/services/admin-user.service',
+            dependencyPath: '../../src/services/student-user.service',
             stubs: {
-              updateAdminUser: updateAdminUserStub.resolves(),
+              addStudentFeedback: addStudentFeedbackStub.resolves(),
             },
           },
         ],
       );
 
-      await updateAdminController(reqMock, resMock);
+      await addStudentFeedbackController(feedbackReqMock, resMock);
 
-      expect(updateAdminUserStub.calledOnceWithExactly(userMock.id, userIdMock, userMock))
+      expect(addStudentFeedbackStub.calledOnceWithExactly(feedbackReqMock.body, USER_ROLE.instructor, userIdMock))
         .to.be.true;
       expect(resMock)
         .to.be.an('object')
@@ -117,51 +131,45 @@ describe('token.controller.js', () => {
     });
   });
 
-  describe('getAdminByIdController', () => {
-    it('should get admin user by id', async () => {
-      const { getAdminByIdController } = mockExportedFunction(
-        '../../src/controllers/admin-user.controller.js',
+  describe('getAllStudentsController', () => {
+    it('should get student users', async () => {
+      const coursesReqMock = httpMocks.createRequest({
+        body: {
+          ...optionsMock,
+        },
+        userRole: USER_ROLE.instructor,
+        userId: userIdMock,
+      });
+
+      const { getAllStudentsController } = mockExportedFunction(
+        '../../src/controllers/student-user.controller.js',
         [
+          {
+            dependencyPath: '../../src/services/student-user.service',
+            stubs: {
+              getAllStudentsUser: getAllStudentsUserStub.resolves(studentsResultMock),
+            },
+          },
           {
             dependencyPath: '../../src/services/db.service',
             stubs: {
-              getAdminUserById: getAdminUserByIdStub.resolves(userMock),
+              getStudentIdsByOption: getStudentIdsByOptionStub.resolves(),
             },
           },
-        ],
-      );
-
-      await getAdminByIdController(reqMock, resMock);
-
-      expect(getAdminUserByIdStub.calledOnceWithExactly(userMock.id))
-        .to.be.true;
-      expect(resMock)
-        .to.be.an('object')
-        .have.property('statusCode')
-        .be.equal(HTTP_STATUS.ok.code);
-      expect(resMock._getData())
-        .to.be.an('object')
-        .be.deep.equal(successResultDataMock(userMock));
-    });
-  });
-
-  describe('deleteAdminController', () => {
-    it('should delete admin user by id', async () => {
-      const { deleteAdminController } = mockExportedFunction(
-        '../../src/controllers/admin-user.controller.js',
-        [
           {
-            dependencyPath: '../../src/services/admin-user.service',
+            dependencyPath: '../../src/services/courses.service',
             stubs: {
-              inactiveAdminUser: inactiveAdminUserStub.resolves(),
+              checkUserPermissionToAccessCourseInfo: checkUserPermissionToAccessCourseInfoStub.resolves(),
             },
           },
         ],
       );
 
-      await deleteAdminController(reqMock, resMock);
+      await getAllStudentsController(coursesReqMock, resMock);
 
-      expect(inactiveAdminUserStub.calledOnceWithExactly(reqMock, userMock.id))
+      expect(checkUserPermissionToAccessCourseInfoStub.notCalled);
+      expect(getStudentIdsByOptionStub.notCalled);
+      expect(getAllStudentsUserStub.calledOnceWithExactly(optionsMock, undefined))
         .to.be.true;
       expect(resMock)
         .to.be.an('object')
@@ -169,30 +177,58 @@ describe('token.controller.js', () => {
         .be.equal(HTTP_STATUS.ok.code);
       expect(resMock._getData())
         .to.be.an('object')
-        .be.deep.equal(successResultDataMock());
+        .be.deep.equal(successResultDataMock(studentsResultMock));
     });
-  });
 
-  describe('getAllAdminsController', () => {
-    it('should get admin users by options', async () => {
-      const reqOptionsMock = httpMocks.createRequest({
-        body: optionsMock,
+    it('should get student users by courses id', async () => {
+      const coursesReqMock = httpMocks.createRequest({
+        body: {
+          ...optionsMock,
+          courseId: idMock,
+          courseStatus: STUDENT_COURSES_STATUS.inProgress,
+        },
+        userRole: USER_ROLE.instructor,
+        userId: userIdMock,
       });
-      const { getAllAdminsController } = mockExportedFunction(
-        '../../src/controllers/admin-user.controller.js',
+
+      const { getAllStudentsController } = mockExportedFunction(
+        '../../src/controllers/student-user.controller.js',
         [
           {
-            dependencyPath: '../../src/services/admin-user.service',
+            dependencyPath: '../../src/services/student-user.service',
             stubs: {
-              getAllAdminsUser: getAllAdminsUserStub.resolves(adminsResultMock),
+              getAllStudentsUser: getAllStudentsUserStub.resolves(studentsResultMock),
+            },
+          },
+          {
+            dependencyPath: '../../src/services/db.service',
+            stubs: {
+              getStudentIdsByOption: getStudentIdsByOptionStub.resolves([userIdMock]),
+            },
+          },
+          {
+            dependencyPath: '../../src/services/courses.service',
+            stubs: {
+              checkUserPermissionToAccessCourseInfo: checkUserPermissionToAccessCourseInfoStub.resolves(),
             },
           },
         ],
       );
 
-      await getAllAdminsController(reqOptionsMock, resMock);
+      await getAllStudentsController(coursesReqMock, resMock);
 
-      expect(getAllAdminsUserStub.calledOnceWithExactly(optionsMock))
+      expect(checkUserPermissionToAccessCourseInfoStub.calledOnceWithExactly(USER_ROLE.instructor, userIdMock, idMock))
+        .to.be.true;
+      expect(getStudentIdsByOptionStub.calledOnceWithExactly({
+        courseId: idMock,
+        status: STUDENT_COURSES_STATUS.inProgress,
+      }))
+        .to.be.true;
+      expect(getAllStudentsUserStub.calledOnceWithExactly({
+        ...optionsMock,
+        courseId: idMock,
+        courseStatus: STUDENT_COURSES_STATUS.inProgress,
+      }, [userIdMock]))
         .to.be.true;
       expect(resMock)
         .to.be.an('object')
@@ -200,7 +236,7 @@ describe('token.controller.js', () => {
         .be.equal(HTTP_STATUS.ok.code);
       expect(resMock._getData())
         .to.be.an('object')
-        .be.deep.equal(successResultDataMock(adminsResultMock));
+        .be.deep.equal(successResultDataMock(studentsResultMock));
     });
   });
 });

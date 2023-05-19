@@ -12,7 +12,7 @@ COPY .env.sample .env
 RUN npm ci
 
 # running scripts
-#RUN npm run test:coverage
+RUN npm run test
 
 # removing unnecessary files
 RUN rm -rf coverage .npmrc .env

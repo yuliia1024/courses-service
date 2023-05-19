@@ -16,6 +16,7 @@ const { checkPossibilityToUpdateOrDelete } = require('../utils');
 const { DB_CONTRACT } = require('../db/db.contract');
 const { checkUserPermissionToAccessCourseInfo } = require('../services/courses.service');
 
+// TODO: test
 const createStudentController = async (req, res) => {
   await createStudentUser(req);
 
@@ -52,6 +53,7 @@ const deleteStudentController = async (req, res) => {
   new SuccessResponse(res).send();
 };
 
+// TODO: test
 const getAllStudentsController = async (req, res) => {
   let studentIds;
 
@@ -69,7 +71,8 @@ const getAllStudentsController = async (req, res) => {
   new SuccessResponse(res).send(result);
 };
 
-const getStudentFeedbackController = async (req, res) => {
+// TODO: test
+const addStudentFeedbackController = async (req, res) => {
   await addStudentFeedback(req.body, req.userRole, req.userId);
 
   new SuccessResponse(res).send();
@@ -96,7 +99,7 @@ module.exports = {
   getActiveStudentByIdController,
   getStudentByOptionsController,
   deleteStudentController,
-  getStudentFeedbackController,
+  addStudentFeedbackController,
   getStudentFeedbacksByOptionsController,
   getStudentFeedbacksForStudentController,
 };

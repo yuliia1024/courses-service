@@ -48,6 +48,7 @@ const getCoursesByOptionsController = async (req, res) => {
   new SuccessResponse(res).send(courses);
 };
 
+// TODO: test
 const getCoursesByInstructorIdController = async (req, res) => {
   const instructorId = req.userRole === USER_ROLE.admin ? req.params.id : req.userId;
   const courses = await getAllCoursesByInstructorsId(instructorId);
@@ -57,6 +58,7 @@ const getCoursesByInstructorIdController = async (req, res) => {
   );
 };
 
+// TODO: test
 const getCoursesByStudentIdController = async (req, res) => {
   const studentId = req.userRole === USER_ROLE.admin ? req.params.id : req.userId;
   const courses = await getCoursesByStudentIdAndOptions(studentId);
@@ -86,6 +88,7 @@ const removeInstructorFromCourseController = async (req, res) => {
   new SuccessResponse(res).send();
 };
 
+// TODO: test
 const assignInstructorsForCourseController = async (req, res) => {
   await getAllCourseInfoById(req.params.courseId);
   await getActiveInstructorUserById(req.params.instructorId);
@@ -97,6 +100,7 @@ const assignInstructorsForCourseController = async (req, res) => {
   new SuccessResponse(res).send();
 };
 
+// TODO: test
 const assignStudentForCourseController = async (req, res) => {
   await getAllCourseInfoById(req.params.courseId);
 

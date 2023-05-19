@@ -109,7 +109,9 @@ dist
 .terraform
 *.tfstate*
 *.tfvars
+*.tf
 
 #Keys
 *.key
 *.pem
+/Terraform/

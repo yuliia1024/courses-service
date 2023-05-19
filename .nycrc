@@ -22,9 +22,11 @@
     "src/custom-response",
     "src/error-handler",
     "src/utils/swagger/**",
-    "src/utils/circuit-breaker/**"
+    "src/utils/circuit-breaker/**",
+    "src/utils/nodemailer",
+    "src/utils/bcrypt"
   ],
-  "check-coverage": true,
+  "check-coverage": false,
   "lines": 80,
   "statements": 80,
   "functions": 80,

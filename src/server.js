@@ -20,13 +20,8 @@ const router = express.Router();
 app.use(bodyParser.json());
 app.use(globalPrefix, router);
 
-if (server.env !== 'production') {
-  app.use(
-    '/docs',
-    swaggerUi.serve,
-    swaggerUi.setup(swaggerDocument),
-  );
-}
+router.use('/api-docs', swaggerUi.serve);
+router.get('/api-docs', swaggerUi.setup(swaggerDocument));
 
 routes(router);
 

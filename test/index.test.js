@@ -7,6 +7,7 @@ describe('Tests:', () => {
   require('./unit-tests/controllers-tests/token-controller.test');
   require('./unit-tests/controllers-tests/auth-controller.test');
   require('./unit-tests/controllers-tests/admin-user-controller.test');
+  require('./unit-tests/controllers-tests/student-user-controller.test');
 
   // Services
   require('./unit-tests/services-tests/token-service.test');

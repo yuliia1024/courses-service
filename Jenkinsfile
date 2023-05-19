@@ -9,13 +9,15 @@ def INSTANCE_ID
 def ACCOUNT_REGISTRY_PREFIX
 def S3_LOGS
 def DATE_NOW
+def CREDENTIAL_ID
+def EC2_INSTANCE
 
 pipeline {
   agent any
   stages {
-    stage('Set Up') {
+    stage("Set Up") {
       steps {
-        echo 'Logging into the private AWS Elastic Container Registry'
+        echo "Logging into the private AWS Elastic Container Registry"
         script {
           // Set environment variables
           GIT_COMMIT_HASH = sh (script: "git log -n 1 --pretty=format:'%H'", returnStdout: true)
@@ -25,6 +27,8 @@ pipeline {
           INSTANCE_ID = sh (script: "cat \$HOME/opt/instance_id", returnStdout: true)
           S3_LOGS = sh (script: "cat \$HOME/opt/bucket_name", returnStdout: true)
           DATE_NOW = sh (script: "date +%Y%m%d", returnStdout: true)
+          EC2_INSTANCE = sh (script: "cat \$HOME/opt/ec2-instance-ip-address", returnStdout: true)
+          CREDENTIAL_ID = sh (script: "cat \$HOME/opt/credential-id", returnStdout: true)
 
           REPOSITORY = REPOSITORY.trim()
           REPOSITORY_TEST = REPOSITORY_TEST.trim()
@@ -39,176 +43,65 @@ pipeline {
           /bin/sh -e -c 'echo \$(aws ecr get-login-password --region us-east-1)  | docker login -u AWS --password-stdin $ACCOUNT_REGISTRY_PREFIX'
           """
         }
-
       }
     }
-
-    stage('Build Test Image') {
+    stage("Build Test Image") {
       steps {
         echo 'Start building the project docker image for tests'
         script {
-          testImage = docker.build("$REPOSITORY_TEST:$GIT_COMMIT_HASH", "-f ./Dockerfile.test .")
+          testImage = docker.build("$REPOSITORY_TEST:$GIT_COMMIT_HASH", "-f ./Dockerfile .")
           testImage.push()
         }
-
       }
     }
-
-    stage('Run Unit Tests') {
+    stage("Build Production Image") {
       steps {
-        echo 'Run unit tests in the docker image'
-        script {
-          def textMessage
-          def inError
-          try {
-            testImage.inside('-v $WORKSPACE:/output -u root') {
-              sh """
-                cd /opt/app/server
-                npm run test:coverage
-                # Save reports to be uploaded afterwards
-                if test -d /output/unit ; then
-                  rm -R /output/unit
-                fi
-                mv mochawesome-report /output/unit
-              """
-            }
-
-            // Fill the slack message with the success message
-            textMessage = "Commit hash: $GIT_COMMIT_HASH -- Has passed unit tests"
-            inError = false
-
-          } catch(e) {
-
-            echo "$e"
-            // Fill the slack message with the failure message
-            textMessage = "Commit hash: $GIT_COMMIT_HASH -- Has failed on unit tests"
-            inError = true
-
-          } finally {
-
-            // Upload the unit tests results to S3
-            sh "aws s3 cp ./unit/ s3://$S3_LOGS/$DATE_NOW/$GIT_COMMIT_HASH/unit/ --recursive"
-
-            if(inError) {
-              // Send an error signal to stop the pipeline
-              error("Failed unit tests")
-            }
-          }
-        }
-
-      }
-    }
-
-    stage('Run Integration Tests') {
-      steps {
-        echo 'Run Integration tests in the docker image'
-        script {
-          def textMessage
-          def inError
-          try {
-            testImage.inside('-v $WORKSPACE:/output -u root') {
-              sh """
-                cd /opt/app/server
-                npm run test:integration
-                # Save reports to be uploaded afterwards
-                if test -d /output/integration ; then
-                  rm -R /output/integration
-                fi
-                mv mochawesome-report /output/integration
-              """
-            }
-
-            // Fill the slack message with the success message
-            textMessage = "Commit hash: $GIT_COMMIT_HASH -- Has passed integration tests"
-            inError = false
-
-          } catch(e) {
-
-            echo "$e"
-            // Fill the slack message with the failure message
-            textMessage = "Commit hash: $GIT_COMMIT_HASH -- Has failed on integration tests"
-            inError = true
-
-          } finally {
-
-            // Upload the unit tests results to S3
-            sh "aws s3 cp ./integration/ s3://$S3_LOGS/$DATE_NOW/$GIT_COMMIT_HASH/integration/ --recursive"
-
-            if(inError) {
-              // Send an error signal to stop the pipeline
-              error("Failed integration tests")
-            }
-          }
-        }
-
-      }
-    }
-
-    stage('Build Staging Image') {
-      steps {
-        echo 'Build the staging image for more tests'
-        script {
-          stagingImage = docker.build("$REPOSITORY_STAGING:$GIT_COMMIT_HASH")
-          stagingImage.push()
-        }
-
-      }
-    }
-
-    stage('Run Load Balancing tests / Security Checks') {
-      steps {
-        echo 'Run load balancing tests and security checks'
-        script {
-          stagingImage.inside('-v $WORKSPACE:/output -u root') {
-            sh """
-            cd /opt/app/server
-            npm rm loadtest
-            npm i loadtest
-            npm run test:load > /output/load_test.txt
-            """
-          }
-          // Upload the load test results to S3
-          sh "aws s3 cp ./load_test.txt s3://$S3_LOGS/$DATE_NOW/$GIT_COMMIT_HASH/"
-
-          stagingImage.withRun('-p 8000:8000 -u root'){
-            sh """
-            # run arachni to check for common vulnerabilities
-            \$HOME/opt/arachni-1.5.1-0.5.12/bin/arachni http://\$(hostname):8000 --check=xss,code_injection --report-save-path=simple-web-app.com.afr
-            # Save report in html (zipped)
-            \$HOME/opt/arachni-1.5.1-0.5.12/bin/arachni_reporter simple-web-app.com.afr --reporter=html:outfile=arachni_report.html.zip
-            """
-          }
-          // Upload the Arachni tests' results to S3
-          sh "aws s3 cp ./arachni_report.html.zip s3://$S3_LOGS/$DATE_NOW/$GIT_COMMIT_HASH/"
-        }
-
-      }
-    }
-
-    stage('Deploy to Fixed Server') {
-      steps {
-        echo 'Deploy release to production'
+        echo 'Start building the project docker image for production'
         script {
           productionImage = docker.build("$REPOSITORY:release")
           productionImage.push()
-          sh "aws ec2 reboot-instances --region us-east-1 --instance-ids $INSTANCE_ID"
         }
-
       }
     }
+    stage("Deploy to Fixed Server") {
+//       environment {
+//           rds_hostname   = '$(aws ssm get-parameter --name /dev/database/endpoint --query "Parameter.Value" --with-decryption --output text)'
+//           rds_username   = '$(aws ssm get-parameter --name /dev/database/username --query "Parameter.Value" --with-decryption --output text)'
+//           rds_password   = '$(aws ssm get-parameter --name /dev/database/password --query "Parameter.Value" --with-decryption --output text)'
+//           rds_port       = 3306
+//
+//           redis_hostname = '$(aws ssm get-parameter --name /dev/redis/endpoint --query "Parameter.Value" --with-decryption --output text)'
+//           redis_port = 6379
+//
+//       }
+      steps {
+        echo 'Deploy release to production'
+        script {
+          sshagent(credentials: ['$CREDENTIAL_ID']) {
+            sh """
+            ssh -o StrictHostKeyChecking=no $EC2_INSTANCE << 'ENDSSH'
+              # Pull the latest ECR image
+              sudo docker pull \${repository_url}:release
 
-    stage('Clean Up') {
+              sudo docker stop \$(docker ps -a -q)
+              sudo docker rm \$(docker ps -a -q)
+
+              # Run the new container
+              sudo docker run -d -p 80:8000 \${repository_url}:release
+            ENDSSH
+            """
+          }
+        }
+      }
+    }
+    stage("Clean Up") {
       steps {
         echo 'Clean up local docker images'
         script {
           sh """
           # Change the :latest with the current ones
-          docker tag $REPOSITORY_TEST:$GIT_COMMIT_HASH  $REPOSITORY_TEST:latest
-          docker tag $REPOSITORY_STAGING:$GIT_COMMIT_HASH  $REPOSITORY_STAGING:latest
           docker tag $REPOSITORY:release  $REPOSITORY:latest
-          # Remove the images
-          docker image rm $REPOSITORY_TEST:$GIT_COMMIT_HASH
-          docker image rm $REPOSITORY_STAGING:$GIT_COMMIT_HASH
+          # Remove the image
           docker image rm $REPOSITORY:release
           # Remove dangling images
           docker image prune -f
@@ -220,9 +113,7 @@ pipeline {
           rm $HOME/.docker/config.json
           """
         }
-
       }
     }
-
   }
 }

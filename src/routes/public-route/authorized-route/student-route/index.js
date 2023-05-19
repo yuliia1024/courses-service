@@ -15,7 +15,7 @@ const {
   deleteStudentController,
   getActiveStudentByIdController,
   getStudentByOptionsController,
-  getStudentFeedbackController,
+  addStudentFeedbackController,
   getStudentFeedbacksForStudentController,
   getStudentFeedbacksByOptionsController,
 } = require('../../../../controllers/student-user.controller');
@@ -65,7 +65,7 @@ router.post(
     USER_ROLE.instructor,
   ]),
   validateValues(studentFeedbackSchema, REQUEST_DATA_SOURCE.body),
-  routerHandler(getStudentFeedbackController),
+  routerHandler(addStudentFeedbackController),
 );
 
 router.post(
