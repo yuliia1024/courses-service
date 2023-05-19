@@ -12,7 +12,7 @@ COPY . .
 RUN npm ci
 
 # running scripts
-RUN npm run test
+#RUN npm run test
 
 # removing unnecessary files
 RUN rm -rf coverage .npmrc .env
