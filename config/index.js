@@ -48,6 +48,9 @@ module.exports = {
   },
   redisConfig: {
     prefix: process.env.REDIS_PREFIX, // prefix that will be added to keys name
+    cCert: process.env.SSL_CA, // prefix that will be added to keys name
+    username: process.env.REDIS_USER_NAME, // prefix that will be added to keys name
+    password: process.env.REDIS_PASSWORD, // prefix that will be added to keys name
     host: process.env.REDIS_HOST,
     port: Number(process.env.REDIS_PORT),
     isClusterMode: parseBoolean(process.env.REDIS_CLUSTER_MODE),

@@ -5,6 +5,8 @@ let redisClient;
 const redisOptions = {
   host: redisConfig.host,
   port: redisConfig.port,
+  username: redisConfig.username,
+  password: redisConfig.password,
   keyPrefix: redisConfig.prefix,
 };
 

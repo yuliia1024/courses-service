@@ -27,11 +27,17 @@ const sequelizeInstance = new Sequelize(
     dialect: db.dialect,
     dialectOptions: {
       multipleStatements: true,
+      options: {
+        requestTimeout: 3000,
+      },
     },
     logging: false,
     define: {
       timestamps: true,
       charset: db.charset,
+      ssl: {
+        cert: db.cCert,
+      },
     },
     pool: {
       max: Number(db.connectionLimitMax),
