@@ -1,5 +1,6 @@
 require('dotenv').config();
-
+const path = require('path');
+const fs = require('fs');
 const { parseBoolean } = require('../src/utils');
 
 module.exports = {
@@ -48,7 +49,7 @@ module.exports = {
   },
   redisConfig: {
     prefix: process.env.REDIS_PREFIX, // prefix that will be added to keys name
-    cCert: process.env.SSL_CA, // prefix that will be added to keys name
+    cCert: fs.readFileSync(path.resolve(__dirname, process.env.SSL_CA)),
     username: process.env.REDIS_USER_NAME, // prefix that will be added to keys name
     password: process.env.REDIS_PASSWORD, // prefix that will be added to keys name
     host: process.env.REDIS_HOST,
