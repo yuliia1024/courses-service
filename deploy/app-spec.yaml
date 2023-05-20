@@ -1,0 +1,34 @@
+
+databases:
+- engine: MYSQL
+  num_nodes: 1
+  size: db-s-dev-database
+  db_name: courses-db
+  name: courses
+  version: "8.0"
+- cluster_name: courses-redis
+  engine: REDIS
+  name: courses-redis
+  production: true
+  version: "7"
+name: courses
+region: fra
+services:
+- dockerfile_path: Dockerfile
+  envs:
+  - key: DATABASE_URL
+    scope: RUN_TIME
+    value: ${courses-db.DATABASE_URL}
+  - key: REDIS_URL
+    scope: RUN_TIME
+    value: ${courses-redis.DATABASE_URL}
+  github:
+    branch: main
+    deploy_on_push: true
+    repo: yuliia1024/courses-service.
+  http_port: 3000
+  instance_count: 1
+  instance_size_slug: basic-xxs
+  name: courses
+  routes:
+  - path: /
