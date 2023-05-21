@@ -52,9 +52,9 @@ module.exports = {
   },
   redisConfig: {
     prefix: process.env.REDIS_PREFIX, // prefix that will be added to keys name
-    cCert: fs.readFileSync(path.resolve(__dirname, process.env.SSL_CA)),
-    username: process.env.REDIS_USER_NAME, // prefix that will be added to keys name
-    password: process.env.REDIS_PASSWORD, // prefix that will be added to keys name
+    url: process.env.REDIS_URL,
+    username: process.env.REDIS_USER_NAME,
+    password: process.env.REDIS_PASSWORD,
     host: process.env.REDIS_HOST,
     port: Number(process.env.REDIS_PORT),
     isClusterMode: parseBoolean(process.env.REDIS_CLUSTER_MODE),
@@ -63,6 +63,7 @@ module.exports = {
     name: process.env.DB_NAME,
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
+    caFile: fs.readFileSync(path.resolve(__dirname, process.env.SSL_CA)),
     password: process.env.DB_PASSWORD,
     port: process.env.DB_PORT,
     connectionLimitMax: process.env.DB_MAX_CONNECTION,

@@ -27,14 +27,10 @@ const sequelizeInstance = new Sequelize(
     port: db.port,
     dialect: db.dialect,
     dialectOptions: {
-      multipleStatements: true,
-      options: {
-        requestTimeout: 3000,
-      },
       ssl: {
         require: true,
         rejectUnauthorized: false,
-        ca: db.cCert,
+        ca: db.caFile,
       },
     },
     logging: false,

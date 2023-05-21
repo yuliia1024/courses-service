@@ -2,7 +2,7 @@ const Redis = require('ioredis');
 const { redisConfig } = require('../../config');
 
 let redisClient;
-const redisOptions = {
+const redisOptions = process.env.NODE_ENV === 'production' ? redisConfig.url : {
   host: redisConfig.host,
   port: redisConfig.port,
   username: redisConfig.username,
