@@ -20,7 +20,8 @@
   },
   "homepage": "https://github.com/yuliia1024/courses-service#readme",
   "scripts": {
-    "start": "node index.js && npx sequelize-cli db:seed:all",
+    "start": "node index.js",
+    "seed": "npx sequelize-cli db:seed:all",
     "dev": "nodemon",
     "test": "mocha",
     "test:coverage": "nyc mocha",
