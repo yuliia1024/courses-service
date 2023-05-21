@@ -24,20 +24,23 @@ const sequelizeInstance = new Sequelize(
   db.password,
   {
     host: db.host,
+    port: db.port,
     dialect: db.dialect,
     dialectOptions: {
       multipleStatements: true,
       options: {
         requestTimeout: 3000,
       },
+      ssl: {
+        require: true,
+        rejectUnauthorized: false,
+        ca: db.cCert,
+      },
     },
     logging: false,
     define: {
       timestamps: true,
       charset: db.charset,
-      ssl: {
-        cert: db.cCert,
-      },
     },
     pool: {
       max: Number(db.connectionLimitMax),
@@ -82,6 +85,8 @@ if (process.env.NODE_ENV === 'test') {
   sequelizeInstance.authenticate()
     .then(() => {
       console.info(`Successfully connected to the database '${db.name}'`);
+    }).catch(error => {
+      console.error('Unable to connect to the database: ', error);
     });
 }
 

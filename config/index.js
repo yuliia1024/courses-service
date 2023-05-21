@@ -19,6 +19,9 @@ module.exports = {
   AWS_S3: {
     region: process.env.REGION,
     bucketName: process.env.BUCKET_NAME,
+    endpoint: process.env.ENDPOINT,
+    accessKeyId: process.env.ACCESS_KEY_ID,
+    secretAccessKey: process.env.SECRET_ACCESS_KEY,
   },
   passwordGeneratorOptions: {
     length: 10,
@@ -61,6 +64,7 @@ module.exports = {
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
+    port: process.env.DB_PORT,
     connectionLimitMax: process.env.DB_MAX_CONNECTION,
     dialect: 'mysql',
     charset: 'utf8mb4',

@@ -7,7 +7,13 @@ const {
 const { AWS_S3 } = require('../../config');
 
 const s3Client = new S3Client({
+  endpoint: AWS_S3.endpoint,
+  forcePathStyle: false,
   region: AWS_S3.region,
+  credentials: {
+    accessKeyId: AWS_S3.accessKeyId,
+    secretAccessKey: AWS_S3.secretAccessKey,
+  },
 });
 
 const uploadFileS3 = async (path, data, contentType) => {
