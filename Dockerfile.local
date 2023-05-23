@@ -21,3 +21,6 @@ RUN npm prune --production
 
 # setting service port
 EXPOSE ${PORT}
+
+# runnnig the service
+CMD [ "npm", "start" ]

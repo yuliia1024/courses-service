@@ -24,14 +24,14 @@ $ npm install
 
 ```bash
 # development first run
-$ docker-compose up
+$ docker-compose up deps
 $ npm run start
 
 # next runs
-$ npm run start:dev
+$ npm run start
 
 # watch mode
-$ npm run start:dev
+$ npm run dev
 ```
 
 ## Test
@@ -44,7 +44,7 @@ $ npm run test
 $ npm run test:e2e
 
 # test coverage
-$ npm run test:cov
+$ npm run test:coverage
 ```
 
 

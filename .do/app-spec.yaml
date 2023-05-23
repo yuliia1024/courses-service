@@ -1,18 +1,30 @@
-
+alerts:
+- rule: DEPLOYMENT_FAILED
+- rule: DOMAIN_FAILED
 databases:
-- engine: MYSQL
-  num_nodes: 1
-  size: db-s-dev-database
-  db_name: courses-db
+- cluster_name: courses-db
+  db_name: defaultdb
+  db_user: doadmin
+  engine: MYSQL
   name: courses-db
+  production: true
+  size: basic-xs
   version: "8"
 - cluster_name: courses-redis
   engine: REDIS
   name: courses-redis
   production: true
+  size: basic-xs
   version: "7"
-name: courses
-region: nyc1
+ingress:
+  rules:
+  - component:
+      name: courses-service
+    match:
+      path:
+        prefix: /
+name: walrus-app
+region: fra
 services:
 - dockerfile_path: Dockerfile
   envs:
@@ -29,6 +41,6 @@ services:
   http_port: 3000
   instance_count: 1
   instance_size_slug: basic-xxs
-  name: courses
-  routes:
-  - path: /
+  name: courses-service
+  run_command: npm run start
+  source_dir: /

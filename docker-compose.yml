@@ -28,10 +28,16 @@ services:
       - ${REDIS_VOLUME}:/var/lib/redis
     networks:
       main:
+  deps:
+    image: busybox
+    links:
+      - db
+      - redis
+    command: "true"
   server:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.local
     image: server
     container_name: server
     restart: on-failure
