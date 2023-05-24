@@ -60,7 +60,7 @@ module.exports = {
     isClusterMode: parseBoolean(process.env.REDIS_CLUSTER_MODE),
   },
   db: {
-    name: process.env.DB_NAME,
+    name: process.env.NODE_ENV !== 'e2e-test' ? process.env.DB_NAME : process.env.TEST_DB_NAME,
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
     caFile: fs.readFileSync(path.resolve(__dirname, process.env.SSL_CA)),

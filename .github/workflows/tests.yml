@@ -7,38 +7,34 @@ on:
 jobs:
   code-style:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [ 14.17.3 ]
     steps:
-    # прогуглити сетап ноди
       - uses: actions/checkout@v3
-      - name: Set up Python 3.11
-        uses: actions/setup-python@v4
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
         with:
-          python-version: 3.11
-#      - name: Run pre-commit hooks
-#        uses: pre-commit/action@v3.0.0
+          node-version: ${{ matrix.node-version }}
   tests:
     runs-on: ubuntu-latest
     timeout-minutes: 60
     strategy:
       max-parallel: 4
       matrix:
-#      node version
-        python-version:
-          - '3.11'
+        node-version:
+          - '14.17.3'
     services:
-#    прогугл musql
       postgres:
         image: mysql:latest
         env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres_password
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+          MYSQL_USER: user
+          MYSQL_PASSWORD: password
+          MYSQL_ROOT_PASSWORD: rootpassword
+          MYSQL_DATABASE: courses-test
         ports:
           - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
       redis:
         image: redis
         options: >-
@@ -49,19 +45,50 @@ jobs:
         ports:
           - 6379:6379
     steps:
-#
       - uses: actions/checkout@v3
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v4
+      - name: Use Node.js ${{ matrix.node-version }}
         with:
-          python-version: ${{ matrix.python-version }}
+          node-version: ${{ matrix.node-version }}
       - name: Install Dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r dev-requirements.txt
-      - name: Run Tests
+        run: npm ci
+      - name: Run Unit Tests
         env:
-          DJANGO_DATABASE_USER: postgres
-          DJANGO_DATABASE_PASSWORD: postgres_password
-        run: |
-          python manage.py test
+          NODE_ENV: unit-test
+          REDIS_HOST: localhost
+          REDIS_PORT: 6379
+          PORT: 3000
+          PREFIX_PATH: courses
+          REQUEST_LIMIT_TIME: 1
+          HTTP_TIMEOUT: 50
+          RESET_TIMEOUT: 10
+          ERROR_THRESHOLD_PERCENTAGE: 10
+          SECRET_KEY_TOKEN: test
+          EXPIRE_ACCESS_TOKEN: 7d
+          PASSWORD_HASH_ROUNDS: 10
+          REDIS_PREFIX: 'dev-acc-token-'
+        run: npm run test:unit
+      - name: Run E2E Tests
+        env:
+          NODE_ENV: e2e-test
+          REDIS_HOST: localhost
+          REDIS_PORT: 6379
+          PORT: 3000
+          PREFIX_PATH: courses
+          REQUEST_LIMIT_TIME: 1
+          HTTP_TIMEOUT: 50
+          RESET_TIMEOUT: 10
+          ERROR_THRESHOLD_PERCENTAGE: 10
+          SECRET_KEY_TOKEN: test
+          EXPIRE_ACCESS_TOKEN: 7d
+          PROJECT_SENDER_EMAIL: ${{ secrets.PROJECT_SENDER_EMAIL }}
+          PROJECT_MAIL_PASSWORD:  ${{ secrets.PROJECT_MAIL_PASSWORD }}
+          PASSWORD_HASH_ROUNDS: 10
+          REDIS_PREFIX: 'dev-acc-token-'
+          REDIS_CLUSTER_MODE: false
+          DB_NAME: courses-test
+          DB_HOST: 127.0.0.1
+          DB_USER: user
+          DB_PASSWORD: password
+          DB_MAX_CONNECTION: 300
+          DB_PORT: 3306
+        run: npm run test:e2e

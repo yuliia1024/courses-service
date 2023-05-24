@@ -1,4 +1,3 @@
-file: "./test/index.test"
 color: true
 diff: true
 recursive: false

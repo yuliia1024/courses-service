@@ -1,8 +1,8 @@
 require('dotenv').config();
 
-process.env.NODE_ENV = 'test';
+process.env.NODE_ENV = 'unit-test';
 
-describe('Tests:', () => {
+describe('Unit Tests:', () => {
   // Controllers
   require('./unit-tests/controllers-tests/token-controller.test');
   require('./unit-tests/controllers-tests/auth-controller.test');

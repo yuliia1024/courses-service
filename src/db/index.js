@@ -75,7 +75,7 @@ const models = [
   feedbackModel,
 ];
 
-if (process.env.NODE_ENV === 'test') {
+if (process.env.NODE_ENV === 'unit-test') {
   sequelizeInstance.close();
 } else {
   sequelizeInstance.authenticate()

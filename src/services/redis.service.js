@@ -10,7 +10,7 @@ const redisOptions = process.env.NODE_ENV === 'production' ? redisConfig.url : {
   keyPrefix: redisConfig.prefix,
 };
 
-if (process.env.NODE_ENV === 'test') {
+if (process.env.NODE_ENV === 'unit-test') {
   redisClient = {
     get: () => {},
     set: () => {},

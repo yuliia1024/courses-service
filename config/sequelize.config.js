@@ -21,4 +21,14 @@ module.exports = {
     seederStorage: 'sequelize',
     seederStorageTableName: 'SequelizeData',
   },
+  'e2e-test': {
+    username: db.user,
+    password: db.password,
+    database: db.name,
+    port: db.port,
+    host: db.host,
+    dialect: db.dialect,
+    seederStorage: 'sequelize',
+    seederStorageTableName: 'SequelizeData',
+  },
 };

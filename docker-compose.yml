@@ -16,6 +16,18 @@ services:
       - ${DB_VOLUME}:/var/lib/mysql
     networks:
       main:
+  test-db:
+    build:
+      context: .local/mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: ${TEST_DB_NAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - ${DB_PORT}:${DB_PORT}
+    networks:
+      main:
   redis:
     image: redis:6.2-alpine
     environment:
@@ -32,6 +44,12 @@ services:
     image: busybox
     links:
       - db
+      - redis
+    command: "true"
+  end2end:
+    image: busybox
+    links:
+      - test-db
       - redis
     command: "true"
   server:
