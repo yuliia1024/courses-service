@@ -52,6 +52,7 @@ jobs:
       - name: Install Dependencies
         run: npm ci
       - name: Run Unit Tests
+        run: npm run test:unit
         env:
           NODE_ENV: unit-test
           REDIS_HOST: localhost
@@ -66,8 +67,8 @@ jobs:
           EXPIRE_ACCESS_TOKEN: 7d
           PASSWORD_HASH_ROUNDS: 10
           REDIS_PREFIX: 'dev-acc-token-'
-        run: npm run test:unit
       - name: Run E2E Tests
+        run: npm run test:e2e
         env:
           NODE_ENV: e2e-test
           REDIS_HOST: localhost
@@ -91,4 +92,3 @@ jobs:
           DB_PASSWORD: password
           DB_MAX_CONNECTION: 300
           DB_PORT: 3306
-        run: npm run test:e2e
