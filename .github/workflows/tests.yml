@@ -103,3 +103,8 @@ jobs:
           DB_MAX_CONNECTION: 300
           SSL_CA: '../ca-certificate.crt'
           DB_PORT: 3306
+          REGION: nyc3
+          ENDPOINT: https://nyc3.digitaloceanspaces.com
+          BUCKET_NAME: 'homework'
+          ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY_ID }}
+          SECRET_ACCESS_KEY: ${{ secrets.SECRET_ACCESS_KEY }}
