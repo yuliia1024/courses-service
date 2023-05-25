@@ -25,7 +25,7 @@ jobs:
         node-version:
           - '14.17.3'
     services:
-      postgres:
+      mysql:
         image: mysql:latest
         env:
           MYSQL_USER: user
@@ -46,16 +46,13 @@ jobs:
           - 6379:6379
     steps:
       - uses: actions/checkout@v3
-#      - name: Use Node.js ${{ matrix.node-version }}
-#        with:
-#          node-version: ${{ matrix.node-version }}
       - name: Install Dependencies
         run: npm ci
       - name: Run Unit Tests
         run: npm run test:unit
         env:
           NODE_ENV: unit-test
-          REDIS_HOST: localhost
+          REDIS_HOST: redis
           REDIS_PORT: 6379
           PORT: 3000
           PREFIX_PATH: courses
@@ -71,7 +68,7 @@ jobs:
           REDIS_PREFIX: 'dev-acc-token-'
           REDIS_CLUSTER_MODE: false
           DB_NAME: courses-test
-          DB_HOST: 127.0.0.1
+          DB_HOST: mysql
           DB_USER: user
           DB_PASSWORD: password
           DB_MAX_CONNECTION: 300
