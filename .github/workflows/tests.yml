@@ -75,8 +75,8 @@ jobs:
           DB_USER: user
           DB_PASSWORD: password
           DB_MAX_CONNECTION: 300
-          SSL_CA: 'dev-acc-token-'
-          DB_PORT: '../ca-certificate.crt'
+          SSL_CA: '../ca-certificate.crt'
+          DB_PORT: 3306
       - name: Run E2E Tests
         run: npm run test:e2e
         env:
