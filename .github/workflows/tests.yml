@@ -82,9 +82,10 @@ jobs:
           PORT: 3000
           PREFIX_PATH: courses
           REQUEST_LIMIT_TIME: 1
-          HTTP_TIMEOUT: 50
+          REQUEST_MAX_AMOUNT: 50
+          HTTP_TIMEOUT: 5
           RESET_TIMEOUT: 10
-          ERROR_THRESHOLD_PERCENTAGE: 10
+          ERROR_THRESHOLD_PERCENTAGE: 50
           SECRET_KEY_TOKEN: test
           EXPIRE_ACCESS_TOKEN: 60
           EXPIRE_REFRESH_TOKEN: 7d
@@ -108,10 +109,10 @@ jobs:
           ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY_ID }}
           SECRET_ACCESS_KEY: ${{ secrets.SECRET_ACCESS_KEY }}
         run: npm run test:e2e
-#      - name: Set up doctl
-#        uses: digitalocean/action-doctl@v2
-#        with:
-#          token: ${{secrets.DIGITALOCEAN_API_TOKEN }}
-#      - name: Deploy to DigitalOcean
-#        run: |
-#          doctl apps create --spec .do/spec.yaml
+      - name: Set up doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{secrets.DIGITALOCEAN_API_TOKEN }}
+      - name: Deploy to DigitalOcean
+        run: |
+          doctl apps update --spec .do/spec.yaml
