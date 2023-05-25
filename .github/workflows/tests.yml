@@ -116,4 +116,4 @@ jobs:
           token: ${{secrets.DIGITALOCEAN_API_TOKEN }}
       - name: Deploy to DigitalOcean
         run: |
-          doctl apps update --spec .do/spec.yaml
+          doctl apps update ${{secrets.DIGITALOCEAN_APP_ID }} --spec .do/spec.yaml

@@ -27,9 +27,111 @@ name: walrus-app
 region: fra
 services:
 - dockerfile_path: Dockerfile
+  envs:
+  - key: DATABASE_URL
+    scope: RUN_AND_BUILD_TIME
+    value: ${courses-db.DATABASE_URL}
+  - key: NODE_ENV
+    scope: RUN_AND_BUILD_TIME
+    value: ${NODE_ENV}
+  - key: PORT
+    scope: RUN_AND_BUILD_TIME
+    value: ${PORT}
+  - key: PREFIX_PATH
+    scope: RUN_AND_BUILD_TIME
+    value: ${PREFIX_PATH}
+  - key: REQUEST_LIMIT_TIME
+    scope: RUN_AND_BUILD_TIME
+    value: ${REQUEST_LIMIT_TIME}
+  - key: REQUEST_MAX_AMOUNT
+    scope: RUN_AND_BUILD_TIME
+    value: ${REQUEST_MAX_AMOUNT}
+  - key: HTTP_TIMEOUT
+    scope: RUN_AND_BUILD_TIME
+    value: ${HTTP_TIMEOUT}
+  - key: RESET_TIMEOUT
+    scope: RUN_AND_BUILD_TIME
+    value: ${RESET_TIMEOUT}
+  - key: ERROR_THRESHOLD_PERCENTAGE
+    scope: RUN_AND_BUILD_TIME
+    value: ${ERROR_THRESHOLD_PERCENTAGE}
+  - key: SECRET_KEY_TOKEN
+    scope: RUN_AND_BUILD_TIME
+    value: ${SECRET_KEY_TOKEN}
+  - key: EXPIRE_REFRESH_TOKEN
+    scope: RUN_AND_BUILD_TIME
+    value: ${EXPIRE_REFRESH_TOKEN}
+  - key: EXPIRE_ACCESS_TOKEN
+    scope: RUN_AND_BUILD_TIME
+    value: ${EXPIRE_ACCESS_TOKEN}
+  - key: PROJECT_SENDER_EMAIL
+    scope: RUN_AND_BUILD_TIME
+    value: ${PROJECT_SENDER_EMAIL}
+  - key: PROJECT_MAIL_PASSWORD
+    scope: RUN_AND_BUILD_TIME
+    value: ${PROJECT_MAIL_PASSWORD}
+  - key: PASSWORD_HASH_ROUNDS
+    scope: RUN_AND_BUILD_TIME
+    value: ${PASSWORD_HASH_ROUNDS}
+  - key: REDIS_PREFIX
+    scope: RUN_AND_BUILD_TIME
+    value: ${REDIS_PREFIX}
+  - key: REDIS_HOST
+    scope: RUN_AND_BUILD_TIME
+    value: ${REDIS_HOST}
+  - key: REDIS_PORT
+    scope: RUN_AND_BUILD_TIME
+    value: ${REDIS_PORT}
+  - key: REDIS_CLUSTER_MODE
+    scope: RUN_AND_BUILD_TIME
+    value: ${REDIS_CLUSTER_MODE}
+  - key: REDIS_USER_NAME
+    scope: RUN_AND_BUILD_TIME
+    value: ${REDIS_USER_NAME}
+  - key: REDIS_PASSWORD
+    scope: RUN_AND_BUILD_TIME
+    value: ${REDIS_PASSWORD}
+  - key: DB_NAME
+    scope: RUN_AND_BUILD_TIME
+    value: ${DB_NAME}
+  - key: DB_HOST
+    scope: RUN_AND_BUILD_TIME
+    value: ${DB_HOST}
+  - key: DB_USER
+    scope: RUN_AND_BUILD_TIME
+    value: ${DB_USER}
+  - key: DB_PASSWORD
+    scope: RUN_AND_BUILD_TIME
+    value: ${DB_PASSWORD}
+  - key: DB_MAX_CONNECTION
+    scope: RUN_AND_BUILD_TIME
+    value: ${DB_MAX_CONNECTION}
+  - key: DB_PORT
+    scope: RUN_AND_BUILD_TIME
+    value: ${DB_PORT}
+  - key: REGION
+    scope: RUN_AND_BUILD_TIME
+    value: ${REGION}
+  - key: BUCKET_NAME
+    scope: RUN_AND_BUILD_TIME
+    value: ${BUCKET_NAME}
+  - key: SSL_CA
+    scope: RUN_AND_BUILD_TIME
+    value: ${SSL_CA}
+  - key: ENDPOINT
+    scope: RUN_AND_BUILD_TIME
+    value: ${ENDPOINT}
+  - key: ACCESS_KEY_ID
+    scope: RUN_AND_BUILD_TIME
+    value: ${ACCESS_KEY_ID}
+  - key: SECRET_ACCESS_KEY
+    scope: RUN_AND_BUILD_TIME
+    value: ${SECRET_ACCESS_KEY}
+  - key: REDIS_URL
+    scope: RUN_AND_BUILD_TIME
+    value: ${REDIS_URL}
   github:
     branch: main
-    deploy_on_push: true
     repo: yuliia1024/courses-service
   http_port: 3000
   instance_count: 1
