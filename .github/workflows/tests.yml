@@ -65,8 +65,17 @@ jobs:
           ERROR_THRESHOLD_PERCENTAGE: 10
           SECRET_KEY_TOKEN: test
           EXPIRE_ACCESS_TOKEN: 7d
+          PROJECT_SENDER_EMAIL: ${{ secrets.PROJECT_SENDER_EMAIL }}
+          PROJECT_MAIL_PASSWORD:  ${{ secrets.PROJECT_MAIL_PASSWORD }}
           PASSWORD_HASH_ROUNDS: 10
           REDIS_PREFIX: 'dev-acc-token-'
+          REDIS_CLUSTER_MODE: false
+          DB_NAME: courses-test
+          DB_HOST: 127.0.0.1
+          DB_USER: user
+          DB_PASSWORD: password
+          DB_MAX_CONNECTION: 300
+          DB_PORT: 3306
       - name: Run E2E Tests
         run: npm run test:e2e
         env:
