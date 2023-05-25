@@ -29,7 +29,7 @@ jobs:
         image: mysql:latest
         env:
           MYSQL_ROOT_PASSWORD: password
-          MYSQL_DATABASE: courses-test
+          MYSQL_DATABASE: courses
         ports:
           - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
@@ -65,7 +65,7 @@ jobs:
           PASSWORD_HASH_ROUNDS: 10
           REDIS_PREFIX: 'dev-acc-token-'
           REDIS_CLUSTER_MODE: false
-          DB_NAME: courses-test
+          DB_NAME: courses
           DB_HOST: localhost
           DB_USER: user
           DB_PASSWORD: password
@@ -90,7 +90,7 @@ jobs:
           REDIS_PORT: 6379
           REDIS_PREFIX: 'dev-acc-token-'
           REDIS_CLUSTER_MODE: false
-          DB_NAME: 'courses-test'
+          DB_NAME: courses
           DB_HOST: 127.0.0.1
           DB_USER: root
           DB_PASSWORD: password
@@ -103,10 +103,10 @@ jobs:
           ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY_ID }}
           SECRET_ACCESS_KEY: ${{ secrets.SECRET_ACCESS_KEY }}
         run: npm run test:e2e
-      - name: Set up doctl
-        uses: digitalocean/action-doctl@v2
-        with:
-          token: ${{secrets.DIGITALOCEAN_API_TOKEN }}
-      - name: Deploy to DigitalOcean
-        run: |
-          doctl apps create --spec .do/spec.yaml
+#      - name: Set up doctl
+#        uses: digitalocean/action-doctl@v2
+#        with:
+#          token: ${{secrets.DIGITALOCEAN_API_TOKEN }}
+#      - name: Deploy to DigitalOcean
+#        run: |
+#          doctl apps create --spec .do/spec.yaml
