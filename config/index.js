@@ -63,7 +63,7 @@ module.exports = {
     name: process.env.NODE_ENV !== 'e2e-test' ? process.env.DB_NAME : process.env.TEST_DB_NAME,
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
-    caFile: fs.readFileSync(path.resolve(__dirname, process.env.SSL_CA)),
+    caFile: process.env.NODE_ENV !== 'production' ? fs.readFileSync(path.resolve(__dirname, process.env.SSL_CA)) : null,
     password: process.env.DB_PASSWORD,
     port: process.env.DB_PORT,
     connectionLimitMax: process.env.DB_MAX_CONNECTION,
