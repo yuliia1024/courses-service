@@ -73,7 +73,6 @@ jobs:
           SSL_CA: '../ca-certificate.crt'
           DB_PORT: 3306
       - name: Run E2E Tests
-#        run: npm run test:e2e
         env:
           NODE_ENV: e2e-test
           PORT: 3000
@@ -103,5 +102,11 @@ jobs:
           BUCKET_NAME: 'homework'
           ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY_ID }}
           SECRET_ACCESS_KEY: ${{ secrets.SECRET_ACCESS_KEY }}
+        run: npm run test:e2e
+      - name: Set up doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{secrets.DIGITALOCEAN_API_TOKEN }}
+      - name: Deploy to DigitalOcean
         run: |
-          npm run test:e2e
+          doctl apps create --spec .do/spec.yaml

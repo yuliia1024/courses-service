@@ -27,13 +27,6 @@ name: walrus-app
 region: fra
 services:
 - dockerfile_path: Dockerfile
-  envs:
-  - key: DATABASE_URL
-    scope: RUN_TIME
-    value: ${courses-db.DATABASE_URL}
-  - key: REDIS_URL
-    scope: RUN_TIME
-    value: ${courses-redis.DATABASE_URL}
   github:
     branch: main
     deploy_on_push: true
