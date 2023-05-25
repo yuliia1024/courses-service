@@ -112,7 +112,7 @@ jobs:
       - name: Set up doctl
         uses: digitalocean/action-doctl@v2
         with:
-          token: ${{secrets.DIGITALOCEAN_API_TOKEN }}
+          id: ${{ secrets.DIGITALOCEAN_APP_ID }}
+          token: ${{ secrets.DIGITALOCEAN_API_TOKEN }}
       - name: Deploy to DigitalOcean
-        run: |
-          doctl apps update --spec .do/spec.yaml
+        run: doctl apps update
