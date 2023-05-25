@@ -52,7 +52,7 @@ jobs:
         run: npm run test:unit
         env:
           NODE_ENV: unit-test
-          REDIS_HOST: redis
+          REDIS_HOST: 0.0.0.0
           REDIS_PORT: 6379
           PORT: 3000
           PREFIX_PATH: courses
@@ -68,7 +68,7 @@ jobs:
           REDIS_PREFIX: 'dev-acc-token-'
           REDIS_CLUSTER_MODE: false
           DB_NAME: courses-test
-          DB_HOST: mysql
+          DB_HOST: 0.0.0.0
           DB_USER: user
           DB_PASSWORD: password
           DB_MAX_CONNECTION: 300
@@ -78,7 +78,7 @@ jobs:
         run: npm run test:e2e
         env:
           NODE_ENV: e2e-test
-          REDIS_HOST: localhost
+          REDIS_HOST: 0.0.0.0
           REDIS_PORT: 6379
           PORT: 3000
           PREFIX_PATH: courses
@@ -94,7 +94,7 @@ jobs:
           REDIS_PREFIX: 'dev-acc-token-'
           REDIS_CLUSTER_MODE: false
           DB_NAME: courses-test
-          DB_HOST: localhost
+          DB_HOST: 0.0.0.0
           DB_USER: user
           DB_PASSWORD: password
           DB_MAX_CONNECTION: 300
