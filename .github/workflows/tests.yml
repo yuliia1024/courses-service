@@ -109,7 +109,9 @@ jobs:
         uses: digitalocean/action-doctl@v2
         with:
           token: ${{secrets.DIGITALOCEAN_API_TOKEN }}
-      - name: Deploy to DigitalOcean
+      - name: Get spec from DigitalOcean
         run: |
           doctl apps spec get ${{secrets.DIGITALOCEAN_APP_ID }} > spec.yaml
+      - name: Deploy to DigitalOcean
+        run: |
           doctl apps update ${{secrets.DIGITALOCEAN_APP_ID }} --spec spec.yaml
