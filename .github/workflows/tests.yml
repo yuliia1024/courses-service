@@ -94,7 +94,7 @@ jobs:
           REDIS_PORT: 6379
           REDIS_PREFIX: 'dev-acc-token-'
           REDIS_CLUSTER_MODE: false
-          DB_NAME: courses
+          TEST_DB_NAME: courses
           DB_HOST: 127.0.0.1
           DB_USER: root
           DB_PASSWORD: password
