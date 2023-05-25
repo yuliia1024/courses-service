@@ -28,9 +28,9 @@ jobs:
       mysql:
         image: mysql:latest
         env:
-          MYSQL_USER: user
+          MYSQL_USER: root
           MYSQL_PASSWORD: password
-          MYSQL_ROOT_PASSWORD: rootpassword
+          MYSQL_ROOT_PASSWORD: password
           MYSQL_DATABASE: courses-test
         ports:
           - 3306:3306
@@ -95,7 +95,7 @@ jobs:
           REDIS_CLUSTER_MODE: false
           DB_NAME: courses-test
           DB_HOST: mysql
-          DB_USER: user
+          DB_USER: root
           DB_PASSWORD: password
           DB_MAX_CONNECTION: 300
           SSL_CA: '../ca-certificate.crt'
