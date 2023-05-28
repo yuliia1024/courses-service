@@ -5,6 +5,7 @@ const {
   HTTP_STATUS,
   USER_ROLE,
   HEADER_PARAMS,
+  STUDENT_COURSES_STATUS,
 } = require('../../src/constants');
 const { generateTokens } = require('../../src/services/token.service');
 
@@ -12,6 +13,7 @@ chai.use(chaiHttp);
 const expect = chai.expect;
 
 const adminIdMock = 'a05fb7a6-ef20-4240-ac40-0e33325458b2';
+let instructors;
 
 describe('Server E2E Tests', () => {
   let server;
@@ -40,8 +42,8 @@ describe('Server E2E Tests', () => {
         server
           .post('/public/login')
           .send(reqMock)
-          .end((err, res) => {
-            expect(err).to.be.null;
+          .end((error, res) => {
+            expect(error).to.be.null;
             expect(res)
               .to
               .have
@@ -60,7 +62,7 @@ describe('Server E2E Tests', () => {
         server
           .post('/public/login')
           .send(reqMock)
-          .end((err, res) => {
+          .end((error, res) => {
             expect(res)
               .to
               .have
@@ -84,8 +86,8 @@ describe('Server E2E Tests', () => {
         server
           .post('/public/registration')
           .send(reqMock)
-          .end((err, res) => {
-            expect(err).to.be.null;
+          .end((error, res) => {
+            expect(error).to.be.null;
             expect(res)
               .to
               .have
@@ -107,7 +109,7 @@ describe('Server E2E Tests', () => {
         server
           .post('/public/registration')
           .send(reqMock)
-          .end((err, res) => {
+          .end((error, res) => {
             expect(res)
               .to
               .have
@@ -143,13 +145,65 @@ describe('Server E2E Tests', () => {
           .post('/public/student')
           .set(HEADER_PARAMS.authorization, accessToken)
           .send(reqMock)
-          .end((err, res) => {
-            expect(err).to.be.null;
+          .end((error, res) => {
+            expect(error).to.be.null;
             expect(res)
               .to
               .have
               .property('status')
               .equal(HTTP_STATUS.ok.code);
+            done();
+          });
+      });
+    });
+
+    describe('POST /api/courses/student/filtered', () => {
+      it('should return a successful response of getting student', done => {
+        const reqMock = {
+          offset: 0,
+          limit: 3,
+          orderBy: 'email',
+          orderDirection: 'asc',
+          isActive: true,
+        };
+
+        server
+          .post('/public/student/filtered')
+          .set(HEADER_PARAMS.authorization, accessToken)
+          .send(reqMock)
+          .end((error, res) => {
+            expect(error).to.be.null;
+            expect(res)
+              .to
+              .have
+              .property('body');
+            done();
+          });
+      });
+
+      it('should return a validation error response of getting student', done => {
+        const reqMock = {
+          offset: 0,
+          limit: 3,
+          orderBy: 'email',
+          orderDirection: 'asc',
+          isActive: true,
+          courseStatus: STUDENT_COURSES_STATUS.inProgress,
+        };
+
+        server
+          .post('/public/student/filtered')
+          .set(HEADER_PARAMS.authorization, accessToken)
+          .send(reqMock)
+          .end((error, res) => {
+            expect(res)
+              .to
+              .have
+              .property('status')
+              .equal(HTTP_STATUS.badRequest.code);
+            expect(res.body.error.message)
+              .is
+              .equal('"courseStatus" is not allowed');
             done();
           });
       });
@@ -167,13 +221,256 @@ describe('Server E2E Tests', () => {
           .post('/public/instructor')
           .set(HEADER_PARAMS.authorization, accessToken)
           .send(reqMock)
-          .end((err, res) => {
-            expect(err).to.be.null;
+          .end((error, res) => {
+            expect(error).to.be.null;
             expect(res)
               .to
               .have
               .property('status')
               .equal(HTTP_STATUS.ok.code);
+            done();
+          });
+      });
+    });
+
+    describe('POST /api/courses/instructor/filtered', () => {
+      it('should return a successful response of getting instructors', done => {
+        const reqMock = {
+          offset: 0,
+          limit: 3,
+          orderBy: 'email',
+          orderDirection: 'asc',
+        };
+
+        server
+          .post('/public/instructor/filtered')
+          .set(HEADER_PARAMS.authorization, accessToken)
+          .send(reqMock)
+          .end((error, res) => {
+            expect(res)
+              .to
+              .have
+              .property('status')
+              .equal(HTTP_STATUS.ok.code);
+            expect(res)
+              .to
+              .have
+              .property('body');
+            expect(res.body.result.records.length)
+              .to
+              .be
+              .equal(2);
+
+            instructors = res.body.result.records;
+            done();
+          });
+      });
+    });
+
+    describe('POST /api/public/course', () => {
+      it('should return a successful response of creating courses', done => {
+        const reqMock = {
+          title: 'kompuktorni clases',
+          description: 'learn kompuktory',
+          instructorIds: instructors.map(item => item.id),
+          generalInformation: [
+            'all information about kompuktory',
+          ],
+          lessons: [
+            {
+              title: 'kompuktory 1',
+              description: 'learn firs kompuktor',
+              information: [
+                'information about kompuktory',
+              ],
+            },
+            {
+              title: 'kompuktory 2',
+              description: 'learn second kompuktor',
+              information: [
+                'information about kompuktory',
+              ],
+            },
+            {
+              title: 'kompuktory 3',
+              description: 'learn kompuktor of 3 gen',
+              information: [
+                'information about kompuktory',
+              ],
+            },
+            {
+              title: 'kompuktory 4',
+              description: 'learn kompuktor of 4 gen',
+              information: [
+                'information about kompuktory',
+              ],
+            },
+            {
+              title: 'kompuktory 5',
+              description: 'learn kompuktor of 5 gen',
+              information: [
+                'information about kompuktory',
+              ],
+            },
+          ],
+        };
+
+        server
+          .post('/public/course')
+          .set(HEADER_PARAMS.authorization, accessToken)
+          .send(reqMock)
+          .end((error, res) => {
+            expect(error).to.be.null;
+            expect(res)
+              .to
+              .have
+              .property('status')
+              .equal(HTTP_STATUS.ok.code);
+            expect(res)
+              .to
+              .have
+              .property('body');
+            expect(res.body.success)
+              .to
+              .be
+              .equal(true);
+            done();
+          });
+      });
+
+      it('should return a validation error response of creating courses', done => {
+        const reqMock = {
+          title: 'kompuktorni clases',
+          description: 'learn kompuktory',
+          instructorIds: instructors.map(item => item.id),
+          generalInformation: [
+            'all information about kompuktory',
+          ],
+          lessons: [
+            {
+              title: 'kompuktory',
+              description: 'learn firs kompuktor',
+              information: [
+                'information about kompuktory',
+              ],
+            },
+            {
+              title: 'kompuktory 2',
+              description: 'learn second kompuktor',
+              information: [
+                'information about kompuktory',
+              ],
+            },
+            {
+              title: 'kompuktory 3',
+              description: 'learn kompuktor of 3 gen',
+              information: [
+                'information about kompuktory',
+              ],
+            },
+            {
+              title: 'kompuktory 4',
+              description: 'learn kompuktor of 4 gen',
+              information: [
+                'information about kompuktory',
+              ],
+            },
+          ],
+        };
+
+        server
+          .post('/public/course')
+          .set(HEADER_PARAMS.authorization, accessToken)
+          .send(reqMock)
+          .end((error, res) => {
+            expect(res)
+              .to
+              .have
+              .property('status')
+              .equal(HTTP_STATUS.badRequest.code);
+            expect(res)
+              .to
+              .have
+              .property('body');
+            expect(res.body.success)
+              .to
+              .be
+              .equal(false);
+            expect(res.body.error.message)
+              .is
+              .equal('"lessons" must contain at least 5 items');
+            done();
+          });
+      });
+
+      it('should return a validation error response of creating courses', done => {
+        const reqMock = {
+          title: 'kompuktorni clases',
+          description: 'learn kompuktory',
+          instructorIds: [],
+          generalInformation: [
+            'all information about kompuktory',
+          ],
+          lessons: [
+            {
+              title: 'kompuktory',
+              description: 'learn firs kompuktor',
+              information: [
+                'information about kompuktory',
+              ],
+            },
+            {
+              title: 'kompuktory 2',
+              description: 'learn second kompuktor',
+              information: [
+                'information about kompuktory',
+              ],
+            },
+            {
+              title: 'kompuktory 3',
+              description: 'learn kompuktor of 3 gen',
+              information: [
+                'information about kompuktory',
+              ],
+            },
+            {
+              title: 'kompuktory 4',
+              description: 'learn kompuktor of 4 gen',
+              information: [
+                'information about kompuktory',
+              ],
+            },
+            {
+              title: 'kompuktory 5',
+              description: 'learn kompuktor of 5 gen',
+              information: [
+                'information about kompuktory',
+              ],
+            },
+          ],
+        };
+
+        server
+          .post('/public/course')
+          .set(HEADER_PARAMS.authorization, accessToken)
+          .send(reqMock)
+          .end((error, res) => {
+            expect(res)
+              .to
+              .have
+              .property('status')
+              .equal(HTTP_STATUS.badRequest.code);
+            expect(res)
+              .to
+              .have
+              .property('body');
+            expect(res.body.success)
+              .to
+              .be
+              .equal(false);
+            expect(res.body.error.message)
+              .is
+              .equal('"instructorIds" must contain at least 1 items');
             done();
           });
       });

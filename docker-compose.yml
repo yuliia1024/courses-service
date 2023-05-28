@@ -40,18 +40,6 @@ services:
       - ${REDIS_VOLUME}:/var/lib/redis
     networks:
       main:
-  deps:
-    image: busybox
-    links:
-      - db
-      - redis
-    command: "true"
-  end2end:
-    image: busybox
-    links:
-      - test-db
-      - redis
-    command: "true"
   server:
     build:
       context: .
@@ -96,4 +84,15 @@ services:
     networks:
       main:
     command: npm run start
-
+  end2end:
+    image: busybox
+    links:
+      - test-db
+      - redis
+    command: "true"
+  deps:
+    image: busybox
+    links:
+      - db
+      - redis
+    command: "true"

@@ -37,14 +37,12 @@ $ npm run dev
 ## Test
 
 ```bash
-# unit tests
+# run unit tests
 $ npm run test
 
-# e2e tests
+# run e2e tests
+$ docker-compose up end2end
 $ npm run test:e2e
-
-# test coverage
-$ npm run test:coverage
 ```
 
 
