@@ -324,6 +324,8 @@ const getCoursesByStudentIdAndOptions = async (studentId, options) => coursesStu
     ...options,
     studentId,
   },
+  raw: true,
+  nest: true,
   include: [{
     model: coursesModel,
     required: true,

@@ -34,7 +34,6 @@ const {
 const { checkUserPermissionToAccessCourseInfo } = require('../services/courses.service');
 const { getFileS3 } = require('../services/s3.service');
 
-// TODO: test
 const createHomeworkController = async (req, res) => {
   if (req.userRole !== USER_ROLE.admin && req.body.studentId !== req.userId) {
     throw new ForbiddenError('You can create homework only for yourself.');
@@ -54,7 +53,6 @@ const deleteHomeworkController = async (req, res) => {
   new SuccessResponse(res).send();
 };
 
-// TODO: test
 const markHomeworkController = async (req, res) => {
   await markHomework(req.params.id, req.body, req.userId, req.userRole);
 

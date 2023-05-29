@@ -8,7 +8,6 @@ const {
 } = require('../services/instructor-user.service');
 const { checkPossibilityToUpdateOrDelete } = require('../utils');
 
-// TODO: test
 const createInstructorController = async (req, res) => {
   await createInstructorUser(req);
 
