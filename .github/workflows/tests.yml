@@ -71,6 +71,7 @@ jobs:
           DB_PASSWORD: password
           DB_MAX_CONNECTION: 300
           SSL_CA: '../ca-certificate.crt'
+          REGION: ${{ secrets.REGION }}
           DB_PORT: 3306
       - name: Run E2E Tests
         env:
@@ -99,9 +100,9 @@ jobs:
           DB_MAX_CONNECTION: 300
           SSL_CA: '../ca-certificate.crt'
           DB_PORT: 3306
-          REGION: nyc3
-          ENDPOINT: https://nyc3.digitaloceanspaces.com
-          BUCKET_NAME: 'homework'
+          REGION: ${{ secrets.REGION }}
+          ENDPOINT: ${{ secrets.ENDPOINT }}
+          BUCKET_NAME: ${{ secrets.BUCKET_NAME }}
           ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY_ID }}
           SECRET_ACCESS_KEY: ${{ secrets.SECRET_ACCESS_KEY }}
         run: npm run test:e2e
