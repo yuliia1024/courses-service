@@ -24,6 +24,8 @@ $ npm install
 
 ```bash
 # development first run
+set NODE_ENV=development
+
 $ docker-compose up deps
 $ npm run start
 
@@ -38,9 +40,11 @@ $ npm run dev
 
 ```bash
 # run unit tests
+set NODE_ENV=unit-test
 $ npm run test
 
 # run e2e tests
+set NODE_ENV=e2e-test
 $ docker-compose up end2end
 $ npm run test:e2e
 ```

@@ -11,10 +11,10 @@ COPY . .
 RUN npm ci
 
 # running scripts
-#RUN npm run test
+RUN npm run test:unit
 
 # removing unnecessary files
-RUN rm -rf coverage .npmrc .env
+RUN rm -rf .env
 
 # removing devDependensices libraries
 RUN npm prune --production

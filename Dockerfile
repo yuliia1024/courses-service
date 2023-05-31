@@ -10,11 +10,8 @@ COPY . .
 # installing dependencies from the package-lock.json file
 RUN npm ci
 
-# running scripts
-#RUN npm run test
-
 # removing unnecessary files
-RUN rm -rf coverage .npmrc .env
+RUN rm -rf .env
 
 # removing devDependensices libraries
 RUN npm prune --production
