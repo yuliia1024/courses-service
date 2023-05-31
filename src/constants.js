@@ -67,6 +67,7 @@ const REGEX = {
   // eslint-disable-next-line
   token: /^(?:Bearer)\s([\w-]+?\.[\w-]+?\.[\w-]+?)$/,
 };
+// TODO: you already have the EMAIL_PATTERN in the REGEX constant
 // eslint-disable-next-line
 const EMAIL_PATTERN = /(?=^.{0,50}$)(^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$)/;
 /*

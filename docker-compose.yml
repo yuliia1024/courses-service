@@ -11,7 +11,7 @@ services:
       MYSQL_PASSWORD: ${DB_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
     ports:
-      - ${DB_PORT}:${DB_PORT}
+      - ${DB_PORT}:3306
     volumes:
       - ${DB_VOLUME}:/var/lib/mysql
     networks:
@@ -25,7 +25,7 @@ services:
       MYSQL_PASSWORD: ${DB_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
     ports:
-      - ${DB_PORT}:${DB_PORT}
+      - ${DB_PORT}:3306
     networks:
       main:
   redis:
@@ -69,6 +69,7 @@ services:
       - DB_NAME=$DB_NAME
       - DB_HOST=db
       - DB_USER=$DB_USER
+#      TODO: do you need to add TEST_DB_NAME variable?
       - DB_PASSWORD=$DB_PASSWORD
       - DB_MAX_CONNECTION=$DB_MAX_CONNECTION
       - DB_PORT=$DB_PORT

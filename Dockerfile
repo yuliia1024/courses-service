@@ -11,9 +11,11 @@ COPY . .
 RUN npm ci
 
 # running scripts
+# TODO: you should uncomment the running tests and rename the script name to test:unit
 #RUN npm run test
 
 # removing unnecessary files
+# TODO: you don't have the files coverage, .npmrc
 RUN rm -rf coverage .npmrc .env
 
 # removing devDependensices libraries

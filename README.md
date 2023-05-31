@@ -13,7 +13,7 @@ API for online management application. Its main purpose is to make efficient int
 ```sh
 cp .env.sample .env
 ```
-
+// TODO: add step to configure NODE_ENV variable (development, production, etc.)
 - Install dependencies
 
 ```bash

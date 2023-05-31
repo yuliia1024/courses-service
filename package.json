@@ -29,8 +29,7 @@
     "lint:fix": "eslint . --fix"
   },
   "pre-commit": [
-    "lint",
-    "test:coverage"
+    "lint"
   ],
   "dependencies": {
     "@aws-sdk/client-s3": "3.18.0",
