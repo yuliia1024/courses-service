@@ -61,14 +61,15 @@ const DB_REFERENTIAL_ACTIONS = {
 };
 const PATH_DB_SCHEMES = './db/schemes';
 
+// eslint-disable-next-line
+const EMAIL_PATTERN = /(?=^.{0,50}$)(^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$)/;
+
 const REGEX = {
   // eslint-disable-next-line
-  email: /(?=^.{0,50}$)(^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$)/,
+  email: EMAIL_PATTERN,
   // eslint-disable-next-line
   token: /^(?:Bearer)\s([\w-]+?\.[\w-]+?\.[\w-]+?)$/,
 };
-// eslint-disable-next-line
-const EMAIL_PATTERN = /(?=^.{0,50}$)(^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$)/;
 /*
 At least one upper case English letter, (?=.*?[A-Z])
 At least one lower case English letter, (?=.*?[a-z])
