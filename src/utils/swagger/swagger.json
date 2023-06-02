@@ -20,8 +20,8 @@
   "paths": {
     "/login": {
       "post": {
-        "description": "login",
-        "summary": "login",
+        "description": "login API",
+        "summary": "login API",
         "tags": [
           "auth/login"
         ],
